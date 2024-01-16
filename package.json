@@ -1,0 +1,31 @@
+{
+  "name": "bokeadminkoa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev ./src/app.ts --mode dev ",
+    "start": "tsc && node ./dist/app.js",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/koa": "^2.14.0",
+    "@types/koa-mount": "^4.0.5",
+    "@types/koa-session": "^6.4.5",
+    "@types/koa-static": "^4.0.4",
+    "@types/mysql": "^2.15.25",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dayjs": "^1.11.10",
+    "koa": "^2.15.0",
+    "koa-mount": "^4.0.0",
+    "koa-session": "^6.4.0",
+    "koa-static": "^5.0.0",
+    "mysql": "^2.18.1",
+    "routing-controllers": "^0.10.4",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  }
+}
