@@ -15,5 +15,11 @@ export default {
         user: 'root',
         password: '123456',
         database: 'lzy_admin'
-    }
+    },
+    //拦截器白名单
+    interceptorWhiteList: [
+        '/api/login',
+        '/api/getRandHeadImg',
+
+    ],
 }
