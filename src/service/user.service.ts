@@ -156,7 +156,33 @@ class UserService {
                 return apiConfig.fail(e.code + "->修改用户信息失败:" + errCn);
             }
         }
+    }
 
+    //删除用户 逻辑层
+    public async deleteUser(ctx: any): Promise<ApiConfig<string>> {
+        // 创建一个 ApiConfig 对象
+        const apiConfig: ApiConfig<string> = new ApiConfig<string>();
+        //检查参数是否包含 id
+        if (checkObj(ctx.request.body, ["uid"])) {
+            // 返回一个失败的 ApiConfig 对象，包含提示信息
+            return apiConfig.fail("请传入要删除的用户id");
+        } else {
+            try {
+                // 调用 userMapper.deleteUser 方法获取用户信息
+                const deleteIfOk: OkPacket = await userMapper.deleteUser(ctx.request.body.uid);
+                if (deleteIfOk.affectedRows >= 0) {
+                    // 返回一个成功的 ApiConfig 对象，包含提示信息
+                    return apiConfig.success("删除用户成功");
+                } else {
+                    // 返回一个失败的 ApiConfig 对象，包含提示信息
+                    return apiConfig.fail("删除用户失败");
+                }
+            } catch (e: any) {
+                const errCn = dbErrorMessage[e.code];
+                // 返回一个失败的 ApiConfig 对象，包含提示信息
+                return apiConfig.fail(e.code + "->删除用户失败:" + errCn);
+            }
+        }
     }
 
 }

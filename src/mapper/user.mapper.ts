@@ -76,6 +76,15 @@ class UserMapper {
         const query = this.joinSQL.UPDATE(user, "wb_users", "uid");
         return await db.query(query[0], query[1]);
     }
+
+    // 删除用户
+    public async deleteUser(uid: string): Promise<OkPacket> {
+        let sql: string = `
+            DELETE FROM wb_users 
+            WHERE uid = ?
+        `;
+        return await db.query(sql, [uid]);
+    }
 }
 
 export default new UserMapper();

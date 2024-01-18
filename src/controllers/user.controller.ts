@@ -40,6 +40,13 @@ class UserController {
         return userService.updateUser(ctx);
     }
 
+    //删除用户
+    @Post("/deleteUser")
+    public deleteUser(@Ctx() ctx: any) {
+        return userService.deleteUser(ctx);
+    }
+
+
 }
 
 export default UserController;
