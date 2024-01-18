@@ -27,6 +27,19 @@ class UserController {
         return userService.login(ctx);
     }
 
+    //新增用户账号
+    @Post("/addUser")
+    public addUser(@Ctx() ctx: any) {
+        return userService.addUser(ctx);
+    }
+
+    //修改用户信息
+    @Post("/updateUser")
+    public updateUser(@Ctx() ctx: any) {
+        // return ""
+        return userService.updateUser(ctx);
+    }
+
 }
 
 export default UserController;

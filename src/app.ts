@@ -14,7 +14,6 @@ app.keys = ['session app keys'];
 app.use(session(CONFIG, app));
 
 
-
 useKoaServer(app, {
     controllers: [__dirname + "/controllers/*.ts"],
     middlewares: [__dirname + '/middlewares/**/*.ts'],

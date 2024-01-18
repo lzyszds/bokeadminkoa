@@ -142,6 +142,18 @@ const getCurrentUnixTime = (): number => {
     return dayjs().unix();
 };
 
+//检查对象中某些属性是否为空 或者 null 或者 undefined 或者长度为0 或者为NaN
+const checkObj = (obj: any, keys: string[]): boolean => {
+    if (!obj) return true
+    for (let key of keys) {
+        if (obj[key] === null || obj[key] === undefined || obj[key] === '' || obj[key].length === 0 ) {
+            return true
+        }
+    }
+    return false
+}
+
+
 export {
     mapGather,
     sliceData,
@@ -150,5 +162,6 @@ export {
     processFileContent,
     replaceSingleQuotes,
     toValidEnglishNumber,
-    getCurrentUnixTime
+    getCurrentUnixTime,
+    checkObj
 };
