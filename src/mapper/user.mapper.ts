@@ -12,8 +12,8 @@ class UserMapper {
     public async getUserListTotal(search: string): Promise<number> {
         let sql: string = `
             SELECT COUNT(*) as total 
-            FROM userlist 
-            WHERE uname LIKE ? OR username LIKE ? OR power LIKE ? OR perSign LiKE ?
+            FROM wb_users 
+            WHERE uname LIKE ? OR username LIKE ? OR power LIKE ? OR signature LiKE ?
         `;
         const total = await db.query(sql, [search, search, search, search]);
         return total[0].total;
@@ -21,24 +21,35 @@ class UserMapper {
 
     // 获取符合搜索条件的记录,获取分页的用户列表
     public async getUserList(search: string, pages: string, limit: string): Promise<UserRole[]> {
+        console.log(search, pages, limit)
         const offset: number = (Number(pages) - 1) * Number(limit);
         let sql: string = `
-            SELECT  
-            FROM userlist 
-            WHERE uname LIKE ? OR username LIKE ? OR power LIKE ? OR perSign LiKE ? 
+            SELECT *
+            FROM wb_users 
+            WHERE uname LIKE ? OR username LIKE ? OR power LIKE ? OR signature LiKE ? 
             ORDER BY uid LIMIT ?, ?
         `;
         return await db.query(sql, [search, search, search, search, offset, Number(limit)]);
     }
 
-    // 获取用户信息
+    // uid获取用户信息
     public async getUserInfo(uid: string): Promise<UserRole> {
         let sql: string = `
-            SELECT uid, uname, username, power, createDate, lastLoginDate, perSign, headImg, isUse
-            FROM userlist 
+            SELECT uid, uname, username, power, create_date, last_login_date, head_img, whether_use, signature,create_ip,last_login_ip,activation_key
+            FROM wb_users 
             WHERE uid = ?
         `;
         return await db.query(sql, [uid]);
+    }
+
+    // token获取用户信息
+    public async getUserInfoToken(token: string): Promise<UserRole[]> {
+        let sql: string = `
+            SELECT uid, uname, username, power, create_date, last_login_date, head_img, whether_use, signature,create_ip,last_login_ip
+            FROM wb_users 
+            WHERE activation_key = ?
+        `;
+        return await db.query(sql, [token]);
     }
 
     // 检查用户名获取密码

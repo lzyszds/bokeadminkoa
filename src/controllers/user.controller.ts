@@ -2,11 +2,12 @@ import {Controller, Get, Post, Param, Ctx} from "routing-controllers";
 import userService from "../service/user.service";
 import {Response} from "koa";
 
-@Controller("/api")
+@Controller("/user")
 class UserController {
     //获取用户列表
     @Get("/getUserList")
-    public getAll(search: string = "", pages: string = "1", limit: string = "10") {
+    public getAll(@Ctx() ctx: any) {
+        const {search, pages, limit} = ctx.request.query
         return userService.getUserList(search, pages, limit);
     }
 
@@ -16,10 +17,16 @@ class UserController {
         return userService.getRandHeadImg(ctx);
     }
 
-    //获取用户信息
+    //获取uid用户信息
     @Get("/getUserInfo/:uid")
     public getUserInfo(@Param("uid") uid: string) {
         return userService.getUserInfo(uid);
+    }
+
+    //获取uid用户信息
+    @Get("/getUserInfoToken")
+    public getUserInfoToken(@Ctx() ctx: any) {
+        return userService.getUserInfoToken(ctx.req.headers["authorization"]);
     }
 
     //登录

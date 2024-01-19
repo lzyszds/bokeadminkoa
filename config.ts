@@ -18,8 +18,8 @@ export default {
     },
     //拦截器白名单
     interceptorWhiteList: [
-        '/api/login',
-        '/api/getRandHeadImg',
+        '/user/login',
+        '/user/getRandHeadImg',
 
     ],
 }

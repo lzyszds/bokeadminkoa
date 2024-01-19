@@ -44,7 +44,7 @@ class UserService {
         return apiConfig.success('/img/updateImg/' + img);
     }
 
-    //  获取用户信息
+    //  获取uid用户信息
     public async getUserInfo(uid: string): Promise<ApiConfig<UserRole>> {
         // 调用 userMapper.getUserInfo 方法获取用户信息
         const user: UserRole = await userMapper.getUserInfo(uid);
@@ -52,6 +52,16 @@ class UserService {
         const apiConfig: ApiConfig<UserRole> = new ApiConfig<UserRole>();
         // 返回一个成功的 ApiConfig 对象，包含用户信息
         return apiConfig.success(user);
+    }
+
+    //  通过token获取用户信息
+    public async getUserInfoToken(token: string): Promise<ApiConfig<UserRole>> {
+        // 调用 userMapper.getUserInfo 方法获取用户信息
+        const user: UserRole[] = await userMapper.getUserInfoToken(token);
+        // 创建一个 ApiConfig 对象
+        const apiConfig: ApiConfig<UserRole> = new ApiConfig<UserRole>();
+        // 返回一个成功的 ApiConfig 对象，包含用户信息
+        return apiConfig.success(user[0]);
     }
 
     // 登录
