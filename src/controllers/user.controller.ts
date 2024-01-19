@@ -1,5 +1,6 @@
 import {Controller, Get, Post, Param, Ctx} from "routing-controllers";
 import userService from "../service/user.service";
+import {Response} from "koa";
 
 @Controller("/api")
 class UserController {
@@ -44,6 +45,12 @@ class UserController {
     @Post("/deleteUser")
     public deleteUser(@Ctx() ctx: any) {
         return userService.deleteUser(ctx);
+    }
+
+    //上传用户头像
+    @Post("/uploadHeadImg")
+    public uploadHeadImg(@Ctx() ctx: Response) {
+        return userService.uploadHeadImg(ctx);
     }
 
 

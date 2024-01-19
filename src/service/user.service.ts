@@ -8,6 +8,8 @@ import {hashPassword, comparePasswords,} from "../utils/passwordUtils";
 import {generateToken, verifyToken} from "../utils/authUtils";
 import {dbErrorMessage} from "../utils/dbErrorMessage";
 import {OkPacket} from "mysql";
+import {Response} from "koa";
+import {upload} from "../utils/upload";
 
 
 class UserService {
@@ -170,7 +172,7 @@ class UserService {
             try {
                 // 调用 userMapper.deleteUser 方法获取用户信息
                 const deleteIfOk: OkPacket = await userMapper.deleteUser(ctx.request.body.uid);
-                if (deleteIfOk.affectedRows >= 0) {
+                if (deleteIfOk.affectedRows > 0) {
                     // 返回一个成功的 ApiConfig 对象，包含提示信息
                     return apiConfig.success("删除用户成功");
                 } else {
@@ -184,6 +186,13 @@ class UserService {
             }
         }
     }
+
+    //上传用户头像
+    public async uploadHeadImg(ctx: any): Promise<ApiConfig<string>> {
+        // 上传图片的配置
+        return upload(ctx.req, ctx.res)
+    }
+
 
 }
 
