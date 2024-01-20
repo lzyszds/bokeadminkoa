@@ -142,12 +142,40 @@ const getCurrentUnixTime = (): number => {
     return dayjs().unix();
 };
 
-//检查对象中某些属性是否为空 或者 null 或者 undefined 或者长度为0 或者为NaN
-const checkObj = (obj: any, keys: string[]): boolean => {
+/**
+ * 检查给定的对象是否包含指定的键，或者只有一个存在的键，如果存在的键的值为空，则返回真。
+ *
+ * @param {any}        obj            需要检查的对象
+ * @param {string[]}   keys           需要检查的键的列表
+ * @param {string[]}   onlyOneExists  只需要存在一个的键的列表，是可选参数
+ *
+ * @return {boolean}   如果对象不包含指定的键，或者指定的键的值为空，则返回真；否则返回假。
+ */
+const checkObj = (obj: any, keys: string[], onlyOneExists?: string[]): boolean => {
     if (!obj) return true
     for (let key of keys) {
-        if (obj[key] === null || obj[key] === undefined || obj[key] === '' || obj[key].length === 0 ) {
-            return true
+        // 如果属性为空（null、undefined、空字符串或空数组），则：
+        if (obj[key] === null || obj[key] === undefined || obj[key] === '' || obj[key].length === 0) {
+
+            // 如果设置了 `onlyOneExists` 数组，则：
+            if (onlyOneExists) {
+
+                // 遍历 `onlyOneExists` 数组，检查其中是否有属性存在且非空：
+                let flag = false
+                for (let onlyOneExist of onlyOneExists) {
+                    if (obj[onlyOneExist] !== null && obj[onlyOneExist] !== undefined && obj[onlyOneExist] !== '' && obj[onlyOneExist].length > 0) {
+                        flag = true
+                        break
+                    }
+                }
+
+                // 如果 `flag` 为 false（表示 `onlyOneExists` 中的所有属性都为空），则返回 false
+                if (!flag) return false
+
+                // 否则，返回 true
+            } else {
+                return true
+            }
         }
     }
     return false

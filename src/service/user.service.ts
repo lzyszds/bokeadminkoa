@@ -148,7 +148,7 @@ class UserService {
         // 创建一个 ApiConfig 对象
         const apiConfig: ApiConfig<string> = new ApiConfig<string>();
         //检查参数是否包含 id
-        if (checkObj(ctx.request.body, ["uid"])) {
+        if (checkObj(ctx.request.body, ["uid"], ["uname", "password", "power", "whether_use", "signature", "head_img"])) {
             // 返回一个失败的 ApiConfig 对象，包含提示信息
             return apiConfig.fail("请传入要修改的用户id");
         } else {
