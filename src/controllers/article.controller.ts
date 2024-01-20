@@ -2,12 +2,14 @@
 
 import {Controller, Get, Param} from "routing-controllers";
 import {BaseContext} from "koa";
+import ArticleService from "../service/article.service";
 
-@Controller()
+@Controller("/article")
 class ArticleController {
-    @Get("/list")
-    public async getAll() {
-        return "This action returns all articles"
+
+    @Get("/getArticleList")
+    public async findAll(@Param("ctx") ctx: BaseContext) {
+        return ArticleService.findAll(ctx);
     }
 }
 
