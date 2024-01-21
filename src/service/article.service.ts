@@ -3,8 +3,8 @@
 import ArticleMapper from "../mapper/article.mapper";
 
 class ArticleService {
-    public async findAll(ctx: any) {
-        const {search, pages, limit} = ctx.request.body
+    public async findAll(search: string = "", pages: string = "1", limit: string = "10") {
+        search = `%${search}%`;
         return ArticleMapper.findAll(search, pages, limit);
     }
 

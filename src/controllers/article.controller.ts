@@ -1,6 +1,6 @@
 //文章接口
 
-import {Controller, Get, Param} from "routing-controllers";
+import {Controller, Ctx, Get,} from "routing-controllers";
 import {BaseContext} from "koa";
 import ArticleService from "../service/article.service";
 
@@ -8,8 +8,9 @@ import ArticleService from "../service/article.service";
 class ArticleController {
 
     @Get("/getArticleList")
-    public async findAll(@Param("ctx") ctx: BaseContext) {
-        return ArticleService.findAll(ctx);
+    public findAll(@Ctx() ctx: any) {
+        const {search, pages, limit} = ctx.request.query
+        return ArticleService.findAll(search, pages, limit);
     }
 }
 

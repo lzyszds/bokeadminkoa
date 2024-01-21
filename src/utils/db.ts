@@ -36,27 +36,35 @@ const db: Database = {
     query: function (sql: string, params: any): Promise<any> {
         return new Promise((resolve, reject) => {
             // 取出链接
-            pool.getConnection(function (err: Error, connection: Connection) {
+            try {
+                pool.getConnection(function (err: Error, connection: Connection) {
 
-                if (err) {
-                    reject(err);
-                    return;
-                }
+                    // 处理错误
+                    ErrorHandle(err, reject);
 
-                connection.query(sql, params, (error: any, results: any, fields: any) => {
-                    // 释放连接
-                    connection.release();
-                    if (error) {
-                        reject(error);
-                        return;
-                    }
-                    resolve(results);
+                    connection.query(sql, params, (error: any, results: any, fields: any) => {
+                        // 释放连接
+                        connection.release();
+                        // 处理错误
+                        ErrorHandle(error, reject);
+                        resolve(results);
+                    });
+
                 });
-
-            });
+            } catch (e: any) {
+                ErrorHandle(e, reject);
+            }
         });
     }
 }
+
+function ErrorHandle(err: Error, reject: Function) {
+    if (err) {
+        console.error(err);
+        reject(err);
+    }
+}
+
 
 // 导出对象
 export default db;

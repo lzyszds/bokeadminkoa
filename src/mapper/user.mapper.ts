@@ -21,7 +21,6 @@ class UserMapper {
 
     // 获取符合搜索条件的记录,获取分页的用户列表
     public async getUserList(search: string, pages: string, limit: string): Promise<UserRole[]> {
-        console.log(search, pages, limit)
         const offset: number = (Number(pages) - 1) * Number(limit);
         let sql: string = `
             SELECT *
