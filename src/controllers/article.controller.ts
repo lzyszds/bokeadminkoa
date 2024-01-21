@@ -10,6 +10,7 @@ class ArticleController {
     @Get("/getArticleList")
     public findAll(@Ctx() ctx: any) {
         const {search, pages, limit} = ctx.request.query
+
         return ArticleService.findAll(search, pages, limit);
     }
 }

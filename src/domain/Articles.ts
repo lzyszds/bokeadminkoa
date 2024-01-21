@@ -1,3 +1,5 @@
+import {UserRole} from "./User";
+
 interface Articles {
     aid: number;
     uid: number;
@@ -32,6 +34,13 @@ interface ArticleUser {
     accessCount: number;
 }
 
+interface ArticleData {
+    total: number,
+    data: Articles[],
+}
+
 export {
     Articles,
+    ArticleUser,
+    ArticleData
 };
