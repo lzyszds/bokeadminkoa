@@ -20,6 +20,6 @@ export default {
     interceptorWhiteList: [
         '/user/login',
         '/user/getRandHeadImg',
-
+        '/article/getRandArticleImg',
     ],
 }

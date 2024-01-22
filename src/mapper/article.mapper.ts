@@ -49,8 +49,15 @@ class ArticleMapper {
             INSERT INTO wb_articlestype (name, whether_use) 
             VALUES (?, ?)
         `;
-        return await db.query(sql, [name, whether_use]);
+        let result
+        try {
+            result = await db.query(sql, [name, whether_use]);
+        } catch (e) {
+            result = e
+        }
+        return result;
     }
 }
+
 
 export default new ArticleMapper();
