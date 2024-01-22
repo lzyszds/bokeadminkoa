@@ -39,8 +39,16 @@ interface ArticleData {
     data: Articles[],
 }
 
+
+interface ArticleType {
+    tid: number;
+    name: string;
+    whether_use: 0 | 1;
+}
+
 export {
     Articles,
     ArticleUser,
-    ArticleData
+    ArticleData,
+    ArticleType
 };

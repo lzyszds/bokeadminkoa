@@ -10,9 +10,9 @@ class ArticleMapper {
         let sql: string = `
             SELECT COUNT(*) as total 
             FROM wb_articles 
-            WHERE title LIKE ? OR wtype LIKE ? OR coverContent LIKE ? 
+            WHERE title LIKE ? OR  partial_content LIKE ? 
         `;
-        const total = await db.query(sql, [search, search, search, search]);
+        const total = await db.query(sql, [search, search, search]);
         return total[0].total;
     }
 
@@ -20,14 +20,37 @@ class ArticleMapper {
         let sql: string = `
             SELECT *
             FROM wb_articles 
-            WHERE title LIKE ? OR wtype LIKE ? OR coverContent LIKE ? 
+            WHERE title LIKE ?  OR partial_content LIKE ? 
             ORDER BY uid LIMIT ?, ?
         `;
         const offset: number = (Number(pages) - 1) * Number(limit);
-        return await db.query(sql, [search, search, search, offset, Number(limit)]);
+        return await db.query(sql, [search, search, offset, Number(limit)]);
     }
 
+    public async findArticleTypeAll() {
+        let sql: string = `
+            SELECT *
+            FROM wb_articlestype 
+            WHERE whether_use = 1
+        `;
+        return await db.query(sql, []);
+    }
 
+    public async addArticle(title: string, content: string, coverImg: string, comNumber: string, main: string, partial_content: string) {
+        let sql: string = `
+            INSERT INTO wb_articles (title, content, coverImg, comNumber, main,  partial_content) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+        return await db.query(sql, [title, content, coverImg, comNumber, main, partial_content]);
+    }
+
+    public async addArticleType(name: string, whether_use: string) {
+        let sql: string = `
+            INSERT INTO wb_articlestype (name, whether_use) 
+            VALUES (?, ?)
+        `;
+        return await db.query(sql, [name, whether_use]);
+    }
 }
 
 export default new ArticleMapper();
