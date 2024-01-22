@@ -5,8 +5,9 @@
  * @LastEditors: hai-27
  * @LastEditTime: 2020-02-27 13:20:11
  */
-import mysql from "mysql";
+import mysql, {MysqlError, PoolConnection} from "mysql";
 import Config from "../../config";
+import {dbErrorMessage} from "./dbErrorMessage";
 
 var pool: mysql.Pool = mysql.createPool(Config.dbConfig);
 
@@ -37,12 +38,11 @@ const db: Database = {
         return new Promise((resolve, reject) => {
             // 取出链接
             try {
-                pool.getConnection(function (err: Error, connection: Connection) {
-
+                pool.getConnection(function (err: MysqlError, connection: PoolConnection) {
                     // 处理错误
                     ErrorHandle(err, reject);
 
-                    connection.query(sql, params, (error: any, results: any, fields: any) => {
+                    connection.query(sql, params, (error: MysqlError | null, results: any, fields: any) => {
                         // 释放连接
                         connection.release();
                         // 处理错误
@@ -58,10 +58,10 @@ const db: Database = {
     }
 }
 
-function ErrorHandle(err: Error, reject: Function) {
+function ErrorHandle(err: MysqlError | null, reject: Function) {
+    // 截取错误信息
     if (err) {
-        console.error(err);
-        reject(err);
+        reject(dbErrorMessage[err.code]);
     }
 }
 
