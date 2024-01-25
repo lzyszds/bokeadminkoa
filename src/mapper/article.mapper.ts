@@ -18,10 +18,11 @@ class ArticleMapper {
 
     public async findAll(search: string, pages: string, limit: string) {
         let sql: string = `
-            SELECT *
-            FROM wb_articles 
-            WHERE title LIKE ?  OR partial_content LIKE ? 
-            ORDER BY uid LIMIT ?, ?
+            SELECT a.aid, a.create_date, a.title, a.content, a.modified_date, a.cover_img, a.comments_count, a.main, a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date
+            FROM wb_articles AS a
+            JOIN wb_users ON a.uid = wb_users.uid
+            WHERE a.title LIKE ?  OR a.partial_content LIKE ? 
+            ORDER BY aid LIMIT ?, ?
         `;
         const offset: number = (Number(pages) - 1) * Number(limit);
         return await db.query(sql, [search, search, offset, Number(limit)]);

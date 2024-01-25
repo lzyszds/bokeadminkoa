@@ -61,6 +61,7 @@ const db: Database = {
 function ErrorHandle(err: MysqlError | null, reject: Function) {
     // 截取错误信息
     if (err) {
+        console.error(err);
         reject(dbErrorMessage[err.code]);
     }
 }
