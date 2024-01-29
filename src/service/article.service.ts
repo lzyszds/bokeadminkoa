@@ -11,8 +11,9 @@ import * as buffer from "buffer";
 
 class ArticleService {
 
-    public async findAll(search: string = "", pages: string = "1", limit: string = "10") {
-        search = `%${search}%`;
+    public async findAll(ctx: any) {
+        let {search, pages, limit} = ctx.request.query
+        search = `%${search ? search : ''}%`;
         const total: number = await ArticleMapper.getArticleListTotal(search);
 
         const data: Articles[] = await ArticleMapper.findAll(search, pages, limit);
@@ -20,7 +21,8 @@ class ArticleService {
         return apiConfig.success({total: total, data});
     }
 
-    public async findArticleInfo(id: string) {
+    public async findArticleInfo(ctx: any) {
+        const {id} = ctx.params;
         const data: Articles = await ArticleMapper.findArticleInfo(id);
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
@@ -85,6 +87,15 @@ class ArticleService {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误");
         }
+    }
+
+    //获取文章评论
+    public async getArticleComment(ctx: any) {
+        const {id} = ctx.query;
+        console.log(id)
+        const data: Articles = await ArticleMapper.getArticleComment(id);
+        const apiConfig: ApiConfig<Articles> = new ApiConfig();
+        return apiConfig.success(data);
     }
 }
 

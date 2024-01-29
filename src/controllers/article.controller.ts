@@ -10,16 +10,12 @@ class ArticleController {
     //获取文章列表
     @Get("/getArticleList")
     public findAll(@Ctx() ctx: any) {
-        const {search, pages, limit} = ctx.request.query
-
-        return ArticleService.findAll(search, pages, limit);
+        return ArticleService.findAll(ctx);
     }
 
     @Get("/getArticleInfo/:id")
     public findArticleInfo(@Ctx() ctx: any) {
-        const {id} = ctx.params;
-        console.log(id)
-        return ArticleService.findArticleInfo(id);
+        return ArticleService.findArticleInfo(ctx);
     }
 
     //获取文章类型列表
@@ -54,6 +50,12 @@ class ArticleController {
     @Post("/updateArticle")
     public updateArticle(@Ctx() ctx: any) {
         return ArticleService.updateArticle(ctx);
+    }
+
+    //获取指定文章评论
+    @Get("/getArticleComment")
+    public getArticleComments(@Ctx() ctx: any) {
+        return ArticleService.getArticleComment(ctx);
     }
 
 }
