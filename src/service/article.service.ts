@@ -20,6 +20,12 @@ class ArticleService {
         return apiConfig.success({total: total, data});
     }
 
+    public async findArticleInfo(id: string) {
+        const data: Articles = await ArticleMapper.findArticleInfo(id);
+        const apiConfig: ApiConfig<Articles> = new ApiConfig();
+        return apiConfig.success(data);
+    }
+
     public async findArticleTypeAll() {
         const data: ArticleType[] = await ArticleMapper.findArticleTypeAll();
         const apiConfig: ApiConfig<ArticleType[]> = new ApiConfig();

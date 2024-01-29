@@ -15,6 +15,13 @@ class ArticleController {
         return ArticleService.findAll(search, pages, limit);
     }
 
+    @Get("/getArticleInfo/:id")
+    public findArticleInfo(@Ctx() ctx: any) {
+        const {id} = ctx.params;
+        console.log(id)
+        return ArticleService.findArticleInfo(id);
+    }
+
     //获取文章类型列表
     @Get("/getArticleTypeList")
     public getArticleTypeList(@Ctx() ctx: any) {
