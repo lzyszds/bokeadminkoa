@@ -16,16 +16,32 @@ class ArticleMapper {
         return total[0].total;
     }
 
-    public async findAll(search: string, pages: string, limit: string) {
-        let sql: string = `
+    public findAll(search: string, pages: string, limit: string) {
+        return new Promise<any>(async (resolve, reject) => {
+            let sql: string = `
             SELECT a.aid, a.create_date, a.title, a.content, a.modified_date, a.cover_img, a.comments_count, a.main, a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date
             FROM wb_articles AS a
             JOIN wb_users ON a.uid = wb_users.uid
             WHERE a.title LIKE ?  OR a.partial_content LIKE ? 
             ORDER BY aid LIMIT ?, ?
         `;
-        const offset: number = (Number(pages) - 1) * Number(limit);
-        return await db.query(sql, [search, search, offset, Number(limit)]);
+            const offset: number = (Number(pages) - 1) * Number(limit);
+            const result = await db.query(sql, [search, search, offset, Number(limit)]);
+            result.forEach((item: any, index: number) => {
+                //根据文章aid查询文章类型
+                let sqlChild: string = `
+                    SELECT wb_articlestype.name
+                    FROM wb_articles_types
+                    JOIN wb_articlestype ON wb_articles_types.type_id = wb_articlestype.type_id
+                    WHERE wb_articles_types.aid = ?
+                `
+                //获取文章类型
+                db.query(sqlChild, [item.aid]).then(a => {
+                    item.wtype = a.map((item: any) => item.name)
+                    if (index === result.length - 1) resolve(result)
+                })
+            })
+        })
     }
 
     public async findArticleTypeAll() {
