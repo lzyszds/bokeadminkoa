@@ -92,7 +92,6 @@ class ArticleService {
     //获取文章评论
     public async getArticleComment(ctx: any) {
         const {id} = ctx.query;
-        console.log(id)
         const data: Articles = await ArticleMapper.getArticleComment(id);
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);

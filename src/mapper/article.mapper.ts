@@ -49,6 +49,15 @@ class ArticleMapper {
     //获取文章信息
     public async findArticleInfo(id: string) {
         return new Promise<any>(async (resolve, reject) => {
+
+            //先更新文章访问量
+            let sqlAccess: string = `
+                UPDATE wb_articles
+                SET access_count = access_count + 1
+                WHERE aid = ?
+            `;
+            await db.query(sqlAccess, [id]);
+
             let sql: string = `
                 SELECT a.aid, a.create_date, a.title, a.content,a.main, a.modified_date, a.cover_img, a.comments_count,
                 a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date,
