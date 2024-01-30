@@ -4,10 +4,16 @@ import CommonService from "../service/common.service";
 @Controller("/common")
 class CommonController {
 
-//天气预报以及ip地址查询
+    //天气预报以及ip地址查询
     @Get("/jinrishici/info")
     public async getWeather(@Ctx() ctx: any) {
         return CommonService.getWeather(ctx);
+    }
+
+    //后台首页数据
+    @Get("/getAdminHomeData")
+    public getAdminHomeData() {
+        return CommonService.getAdminHomeData();
     }
 }
 

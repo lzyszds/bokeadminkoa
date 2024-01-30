@@ -1,7 +1,4 @@
 //文章接口
-
-import {Controller, Get, Param} from "routing-controllers";
-import {BaseContext} from "koa";
 import db from "../utils/db";
 
 class ArticleMapper {
@@ -18,46 +15,48 @@ class ArticleMapper {
     }
 
     //获取文章列表
-    public findAll(search: string, pages: string, limit: string) {
+    public findAll(search: string = "%%", pages: string | number = 1, limit: string | number = 10) {
         return new Promise<any>(async (resolve, reject) => {
             let sql: string = `
-            SELECT a.aid, a.create_date, a.title, a.content, a.modified_date, a.cover_img, a.comments_count, a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date
+            SELECT a.aid, a.create_date, a.title,  a.modified_date, a.cover_img, a.comments_count, a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date
             FROM wb_articles AS a
             JOIN wb_users ON a.uid = wb_users.uid
             WHERE a.title LIKE ?  OR a.partial_content LIKE ? 
             ORDER BY aid LIMIT ?, ?
         `;
             const offset: number = (Number(pages) - 1) * Number(limit);
-            const result = await db.query(sql, [search, search, offset, Number(limit)]);
-            result.forEach((item: any, index: number) => {
-                //根据文章aid查询文章类型
-                let sqlChild: string = `
+            try {
+                const result = await db.query(sql, [search, search, offset, Number(limit)]);
+                result.forEach((item: any, index: number) => {
+                    //根据文章aid查询文章类型
+                    let sqlChild: string = `
                     SELECT wb_articlestype.name
                     FROM wb_articles_types
                     JOIN wb_articlestype ON wb_articles_types.type_id = wb_articlestype.type_id
                     WHERE wb_articles_types.aid = ?
                 `
-                //获取文章类型
-                db.query(sqlChild, [item.aid]).then(a => {
-                    item.wtype = a.map((item: any) => item.name)
-                    if (index === result.length - 1) resolve(result)
+                    //获取文章类型
+                    db.query(sqlChild, [item.aid]).then(a => {
+                        item.wtype = a.map((item: any) => item.name)
+                        if (index === result.length - 1) resolve(result)
+                    })
                 })
-            })
+            } catch (e) {
+                reject(e)
+            }
         })
     }
 
     //获取文章信息
     public async findArticleInfo(id: string) {
         return new Promise<any>(async (resolve, reject) => {
-
-            //先更新文章访问量
-            let sqlAccess: string = `
+            //更新文章访问量
+            const sqlAccess: string = `
                 UPDATE wb_articles
                 SET access_count = access_count + 1
                 WHERE aid = ?
-            `;
+            `
             await db.query(sqlAccess, [id]);
-
             let sql: string = `
                 SELECT a.aid, a.create_date, a.title, a.content,a.main, a.modified_date, a.cover_img, a.comments_count,
                 a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date,
@@ -66,7 +65,7 @@ class ArticleMapper {
                 JOIN wb_users ON a.uid = wb_users.uid
                 WHERE a.aid = ?
             `;
-            const result = await db.query(sql, [id]);
+            const result = await db.query(sql, [id, id]);
             if (result.length === 0) {
                 resolve(null)
             } else {
@@ -86,6 +85,16 @@ class ArticleMapper {
         })
 
     }
+
+    // //更新文章访问量
+    // public async updateArticleAccessCount(id: string) {
+    //     let sql: string = `
+    //         UPDATE wb_articles
+    //         SET access_count = access_count + 1
+    //         WHERE aid = ?
+    //     `;
+    //     return await db.query(sql, [id]);
+    // }
 
     //获取文章类型列表
     public async findArticleTypeAll() {
@@ -130,6 +139,8 @@ class ArticleMapper {
         `;
         return await db.query(sql, [id]);
     }
+
+
 }
 
 

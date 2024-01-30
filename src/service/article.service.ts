@@ -1,13 +1,11 @@
 //文章接口
 
 import ArticleMapper from "../mapper/article.mapper";
-import db from "../utils/db";
 import {ArticleData, Articles, ArticleType} from "../domain/Articles";
 import ApiConfig from "../domain/ApiCongfigType";
 import {checkObj, randomUnique} from "../utils/common";
 import path from "path";
 import fs from "fs";
-import * as buffer from "buffer";
 
 class ArticleService {
 
@@ -96,6 +94,8 @@ class ArticleService {
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
     }
+
+
 }
 
 export default new ArticleService()
