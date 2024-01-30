@@ -94,7 +94,12 @@ class ArticleService {
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
     }
-
+    //获取所有评论
+    public async getAllComment() {
+        const data: Articles = await ArticleMapper.getAllComment();
+        const apiConfig: ApiConfig<Articles> = new ApiConfig();
+        return apiConfig.success(data);
+    }
 
 }
 

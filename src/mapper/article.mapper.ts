@@ -140,6 +140,14 @@ class ArticleMapper {
         return await db.query(sql, [id]);
     }
 
+    //获取所有评论
+    public async getAllComment() {
+        let sql: string = `
+            SELECT *
+            FROM wb_comments 
+        `;
+        return await db.query(sql, []);
+    }
 
 }
 

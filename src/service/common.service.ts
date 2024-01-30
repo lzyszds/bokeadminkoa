@@ -22,7 +22,6 @@ class CommonService {
     //后台首页数据
     public async getAdminHomeData(): Promise<ApiConfig<ProcessAdminHomeType>> {
         const data: AdminHomeType = await CommonMapper.getAdminHomeData();
-        console.log(data)
         //获取最新文章6篇
         const newArticle = await ArticleMapper.findAll('%%', 1, 6);
         //处理数据 不需要返回所有数据 删除对象中的content属性

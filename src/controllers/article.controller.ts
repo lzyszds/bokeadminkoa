@@ -58,6 +58,11 @@ class ArticleController {
         return ArticleService.getArticleComment(ctx);
     }
 
+    //获取当前系统所有评论
+    @Get("/getAllComment")
+    public getAllComment() {
+        return ArticleService.getAllComment();
+    }
 
 }
 
