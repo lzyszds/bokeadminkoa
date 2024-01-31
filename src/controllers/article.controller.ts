@@ -13,21 +13,22 @@ class ArticleController {
         return ArticleService.findAll(ctx);
     }
 
+    //根据id获取文章详情
     @Get("/getArticleInfo/:id")
     public findArticleInfo(@Ctx() ctx: any) {
         return ArticleService.findArticleInfo(ctx);
-    }
-
-    //获取文章类型列表
-    @Get("/getArticleTypeList")
-    public getArticleTypeList(@Ctx() ctx: any) {
-        return ArticleService.findArticleTypeAll();
     }
 
     //新增文章
     @Post("/addArticle")
     public addArticle(@Ctx() ctx: any) {
         return ArticleService.addArticle(ctx);
+    }
+
+    //获取文章类型列表
+    @Get("/getArticleTypeList")
+    public getArticleTypeList(@Ctx() ctx: any) {
+        return ArticleService.findArticleTypeAll();
     }
 
     //新增文章类型
