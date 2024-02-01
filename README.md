@@ -1,6 +1,15 @@
-# Blog Backend Project
+# 博客后端项目 -. -
 
-这个博客后台项目是基于Koa框架构建的。项目开始时，我们从Express框架迁移过来，进行了一次全面的项目重构。在这个过程中，我们引入了许多新的特性和改进。
+<img src="https://github.com/lzyszds/bokeadminkoa/blob/master/mdfiles/koaLogo.png?raw=true">
+<br>这个博客后台项目是基于Koa框架构建的。
+<br>项目开始时，我们从Express框架迁移过来，进行了一次全面的项目重构。
+<br>在这个过程中，我们引入了许多新的特性和改进。
+<br>
+<img src="https://img.shields.io/badge/node-20.x-brightgreen.svg">
+<img src="https://img.shields.io/badge/Mysql-5.x-brightgreen" >
+<img src="https://img.shields.io/badge/Koa-2.x-blue" >
+<img src="https://img.shields.io/badge/TypeScript-5.x-yellow">
+
 
 ## 主要功能
 
@@ -8,7 +17,8 @@
 
 2. **权限验证**: 为了保证安全，我们新增了接口拦截和token验证功能。同时，我们还引入了全局的配置项。
 
-3. **文章管理**: 我们为文章提供了一系列的API接口，包括获取文章列表、获取文章详情、更新文章访问量等。此外，我们还新增了一些文章详情的字段，使得文章的信息更加丰富。在文章类型方面，我们也提供了相应的接口，并且引入了随机文章图库接口。
+3. **文章管理**:
+   我们为文章提供了一系列的API接口，包括获取文章列表、获取文章详情、更新文章访问量等。此外，我们还新增了一些文章详情的字段，使得文章的信息更加丰富。在文章类型方面，我们也提供了相应的接口，并且引入了随机文章图库接口。
 
 4. **评论管理**: 我们提供了获取当前系统所有评论的API接口。
 
