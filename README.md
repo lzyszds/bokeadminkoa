@@ -5,7 +5,10 @@
    <br>项目开始时，我们从Express框架迁移过来，进行了一次全面的项目重构。
    <br>在这个过程中，我们引入了许多新的特性和改进。
    <br>
-   <img src="https://img.shields.io/badge/node-20.x-brightgreen.svg"><img src="https://img.shields.io/badge/Mysql-5.x-brightgreen" ><img src="https://img.shields.io/badge/Koa-2.x-blue" ><img src="https://img.shields.io/badge/TypeScript-5.x-yellow">
+   <img style="margin-left:10px" src="https://img.shields.io/badge/node-20.x-brightgreen.svg">
+   <img style="margin-left:10px" src="https://img.shields.io/badge/Mysql-5.x-brightgreen" >
+   <img style="margin-left:10px" src="https://img.shields.io/badge/Koa-2.x-blue" >
+   <img style="margin-left:10px" src="https://img.shields.io/badge/TypeScript-5.x-yellow">
 </p>
 
 ## 主要功能
