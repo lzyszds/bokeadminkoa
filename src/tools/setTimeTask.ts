@@ -59,7 +59,6 @@ export default () => {
             }).then(res => res.text());
             const filePath = path.resolve(jsonDir, 'getGithubInfo.json');
             fs.writeFileSync(filePath, response);
-            console.log(`bearer ${token1}${token2}${token3}`)
             // 获取当前时间
             const date = new Date();
             // console.log("github数据获取成功", date);

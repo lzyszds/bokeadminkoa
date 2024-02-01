@@ -47,11 +47,12 @@ class CommonService {
 
     //获取github 贡献图
     public async getGithubInfo(): Promise<ApiConfig<string>> {
-        const apiConfig: ApiConfig<string> = new ApiConfig<string>();
+        const apiConfig: ApiConfig<any> = new ApiConfig<any>();
         try {
             const filePath = path.resolve(__dirname, '../../public/json/getGithubInfo.json');
             const data = fs.readFileSync(filePath, 'utf-8');
-            return apiConfig.success(data)
+
+            return apiConfig.success(JSON.parse(data).data)
         } catch (e: any) {
             console.log(e)
             return apiConfig.fail(e.message)
