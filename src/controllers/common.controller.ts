@@ -15,6 +15,13 @@ class CommonController {
     public getAdminHomeData() {
         return CommonService.getAdminHomeData();
     }
+
+    //获取github 贡献图
+    @Get("/getGithubInfo")
+    public getGithubInfo() {
+        return CommonService.getGithubInfo();
+    }
+
 }
 
 export default CommonController;

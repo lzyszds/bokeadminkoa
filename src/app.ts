@@ -7,6 +7,9 @@ import mount from 'koa-mount'
 import session from 'koa-session'
 import CONFIG from "./utils/session";
 
+//执行定时任务 获取github数据
+import __src_utils_setTimeTask from "./tools/setTimeTask";
+__src_utils_setTimeTask();
 
 const app = new koa()
 

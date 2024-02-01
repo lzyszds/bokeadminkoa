@@ -2,6 +2,8 @@ import ApiConfig from "../domain/ApiCongfigType";
 import {AdminHomeType, ProcessAdminHomeType} from "../domain/AdminHomeType";
 import CommonMapper from "../mapper/common.mapper";
 import ArticleMapper from "../mapper/article.mapper";
+import path from "path";
+import fs from "fs";
 
 
 class CommonService {
@@ -41,6 +43,19 @@ class CommonService {
 
         const apiConfig: ApiConfig<ProcessAdminHomeType> = new ApiConfig();
         return apiConfig.success(processData);
+    }
+
+    //获取github 贡献图
+    public async getGithubInfo(): Promise<ApiConfig<string>> {
+        const apiConfig: ApiConfig<string> = new ApiConfig<string>();
+        try {
+            const filePath = path.resolve(__dirname, '../../public/json/getGithubInfo.json');
+            const data = fs.readFileSync(filePath, 'utf-8');
+            return apiConfig.success(data)
+        } catch (e: any) {
+            console.log(e)
+            return apiConfig.fail(e.message)
+        }
     }
 }
 

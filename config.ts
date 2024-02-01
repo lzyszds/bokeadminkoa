@@ -1,7 +1,7 @@
 /*
  * @Description: 全局配置信息
  */
-const path = require('path');
+import path from 'path';
 
 export default {
     Port: 1020, // 启动端口
@@ -22,4 +22,13 @@ export default {
         '/user/getRandHeadImg',
         '/article/getRandArticleImg',
     ],
+    //github api密钥 配置
+    githubUserConfig: {
+        token1: 'github_pat_',
+        token2: '11APYO7PI021pjfuHxWKPA_',
+        token3: 'JBLdpwspK6s67u1P5levoDgdRxkFHhQcG6jX5q1ONRpRNUREZTPzW2kqpI7',
+        name: 'lzyszds',
+    },
 }
+
+
