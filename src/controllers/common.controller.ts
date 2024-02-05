@@ -22,6 +22,9 @@ class CommonController {
         return CommonService.getGithubInfo();
     }
 
+
+
+
 }
 
 export default CommonController;

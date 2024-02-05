@@ -9,6 +9,7 @@ import CONFIG from "./utils/session";
 
 //执行定时任务 获取github数据
 import __src_utils_setTimeTask from "./tools/setTimeTask";
+
 __src_utils_setTimeTask();
 
 const app = new koa()
@@ -22,6 +23,18 @@ useKoaServer(app, {
     middlewares: [__dirname + '/middlewares/**/*.ts'],
     interceptors: [__dirname + '/interceptor/**/*.ts'],
 })
+
+//默认路由 /
+app.use(async (ctx, next) => {
+    if (ctx.url === '/') {
+        //返回holloworld
+        ctx.body = "hello world"
+    } else {
+        await next()
+    }
+})
+
+
 // 静态资源
 app.use(mount("/public", KoaStatic(Config.staticDir)))
 

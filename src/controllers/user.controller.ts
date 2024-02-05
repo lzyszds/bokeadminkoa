@@ -54,11 +54,11 @@ class UserController {
         return userService.deleteUser(ctx);
     }
 
-    //上传用户头像
-    @Post("/uploadHeadImg")
-    public uploadHeadImg(@Ctx() ctx: Response) {
-        return userService.uploadHeadImg(ctx);
-    }
+    // //上传用户头像
+    // @Post("/uploadHeadImg")
+    // public uploadHeadImg(@Ctx() ctx: Response) {
+    //     return userService.uploadHeadImg(ctx);
+    // }
 
 
 }

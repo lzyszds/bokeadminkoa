@@ -9,7 +9,6 @@ import {generateToken, verifyToken} from "../utils/authUtils";
 import {dbErrorMessage} from "../utils/dbErrorMessage";
 import {OkPacket} from "mysql";
 import {Response} from "koa";
-import {upload} from "../utils/upload";
 
 
 class UserService {
@@ -199,10 +198,10 @@ class UserService {
     }
 
     //上传用户头像
-    public async uploadHeadImg(ctx: any): Promise<ApiConfig<string>> {
-        // 上传图片的配置
-        return upload(ctx.req, ctx.res)
-    }
+    // public async uploadHeadImg(ctx: any): Promise<ApiConfig<string>> {
+    //     // 上传图片的配置
+    //     return upload(ctx.req, ctx.res)
+    // }
 
 
 }
