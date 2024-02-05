@@ -116,14 +116,14 @@ class ArticleMapper {
     }
 
     //新增文章类型
-    public async addArticleType(name: string, whether_use: string) {
+    public async addArticleType(name: string) {
         let sql: string = `
             INSERT INTO wb_articlestype (name, whether_use) 
             VALUES (?, ?)
         `;
         let result
         try {
-            result = await db.query(sql, [name, whether_use]);
+            result = await db.query(sql, [name, 1]);
         } catch (e) {
             result = e
         }

@@ -6,6 +6,7 @@ import ApiConfig from "../domain/ApiCongfigType";
 import {checkObj, randomUnique} from "../utils/common";
 import path from "path";
 import fs from "fs";
+import md5 from "md5";
 
 class ArticleService {
 
@@ -43,12 +44,12 @@ class ArticleService {
     }
 
     public async addArticleType(ctx: any) {
-        const {name, whether_use} = ctx.request.body;
-        if (checkObj(ctx.request.body, ["name", "whether_use"])) {
+        const {name} = ctx.request.body;
+        if (checkObj(ctx.request.body, ["name"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误");
         }
-        const result = await ArticleMapper.addArticleType(name, whether_use)
+        const result = await ArticleMapper.addArticleType(name)
         const apiConfig: ApiConfig<string> = new ApiConfig();
         if (result.affectedRows === 1) {
             return apiConfig.success("类型添加成功");
@@ -94,11 +95,55 @@ class ArticleService {
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
     }
+
     //获取所有评论
     public async getAllComment() {
         const data: Articles = await ArticleMapper.getAllComment();
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
+    }
+
+    /**
+     *  上传文章图片
+     *  @param ctx 请求对象
+     *  @param file 文件对象
+     *  @returns 返回上传成功
+     *  限制配置: 文件大小限制为10MB
+     *  具体的上传图片逻辑
+     *  1. 获取上传的文件 只支持图片上传 格式为: jpg, png, webp, jpeg (后续可扩展)
+     *  2. 创建可读流 创建可写流
+     *  3. 可读流通过管道写入可写流
+     *  4. 设置图片名字  保证唯一性 文件md5 转换为16进制
+     *  5. 将图片写入到指定文件夹
+     *  6. 返回上传成功
+     * */
+    public async uploadArticleImg(ctx: any, file: any) {
+        if (!file || !file.buffer) {
+            const apiConfig: ApiConfig<string> = new ApiConfig();
+            return apiConfig.fail("上传失败");
+        }
+
+        //文件类型判断
+        const fileType = file.mimetype.split('/')[1];
+        if (!['jpg', 'png', 'webp', 'jpeg'].includes(fileType)) {
+            const apiConfig: ApiConfig<string> = new ApiConfig();
+            return apiConfig.fail("上传失败,文件类型不支持");
+        }
+
+        //将图片的数据中的buffer转成md5
+        const md5Name = md5(file.buffer);
+
+        //图片名字
+        // @ts-ignore
+        const imgName = `${md5Name.toString(16)}.${fileType}`;
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        //
+        // try {
+        //     uploadArticleImg(imgName);
+        // } catch (e: any) {
+        //     return apiConfig.fail(e);
+        // }
+        return apiConfig.success("上传成功");
     }
 
 }

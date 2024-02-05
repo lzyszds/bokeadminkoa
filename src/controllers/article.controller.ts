@@ -1,8 +1,9 @@
 //文章接口
 
-import {Controller, Ctx, Get, Post,} from "routing-controllers";
-import {BaseContext} from "koa";
+import {Controller, Ctx, Get, Post, UploadedFile,} from "routing-controllers";
 import ArticleService from "../service/article.service";
+import fileUploadOptions from "../utils/upload";
+import ApiConfig from "../domain/ApiCongfigType";
 
 @Controller("/article")
 class ArticleController {
@@ -65,6 +66,18 @@ class ArticleController {
         return ArticleService.getAllComment();
     }
 
+    //上传图片
+    // @Post("/uploadArticleImg")
+    // public uploadArticleImg(@Ctx() ctx: BaseContext, @UploadedFile('upload-image') file: Express.Multer.File) {
+    //     return ArticleService.uploadArticleImg(ctx, file);
+    // }
+
+    @Post('/uploadArticleImg')
+    upload(@UploadedFile('upload-image', {options: fileUploadOptions}) file: Express.Multer.File) {
+        console.log(file)
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        return apiConfig.success(file.path);
+    }
 }
 
 export default ArticleController;
