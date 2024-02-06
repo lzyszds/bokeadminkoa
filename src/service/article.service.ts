@@ -7,6 +7,7 @@ import {checkObj, randomUnique} from "../utils/common";
 import path from "path";
 import fs from "fs";
 import md5 from "md5";
+import UserMapper from "../mapper/user.mapper";
 
 class ArticleService {
 
@@ -34,13 +35,31 @@ class ArticleService {
     }
 
     public async addArticle(ctx: any) {
-        const {title, content, coverImg, comNumber, main, wtype, coverContent} = ctx.request.body;
-        if (checkObj(ctx.request.body, ["title", "content", "coverImg", "comNumber", "main", "wtype", "coverContent"])) {
+        const {title, content, cover_img, main, tags, partial_content} = ctx.request.body;
+        if (checkObj(ctx.request.body, ["title", "content", "cover_img", "main", "tags", "partial_content"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误");
         }
-
-        return await ArticleMapper.addArticle(title, content, coverImg, comNumber, main, coverContent);
+        //根据token获取uid
+        const {uid} = (await UserMapper.getUidByToken(ctx.req.headers["authorization"]))[0];
+        //获取文章发布时间 2021-08-01 12:00:00
+        const create_date = new Date().toLocaleString();
+        const queryData = await ArticleMapper.addArticle({
+            title, content, cover_img, main, partial_content, uid, create_date
+        });
+        //实例化apiConfig
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        //根据文章类型获取文章类型id
+        for (let i = 0; i < tags.length; i++) {
+            const type = await ArticleMapper.getArticleTypeByName(tags[i]);
+            if (type.length === 0) {
+                return apiConfig.fail("文章类型不存在");
+            } else {
+                //将文章id和文章类型id插入到文章类型表
+                await ArticleMapper.addArticleTypeByAid(type[0].type_id, queryData.insertId);
+            }
+        }
+        return apiConfig.success("文章添加成功");
     }
 
     public async addArticleType(ctx: any) {

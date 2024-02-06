@@ -41,10 +41,30 @@ class UserMapper {
         return await db.query(sql, [uid]);
     }
 
+    // uname获取uid
+    public async getUidByName(username: string): Promise<UserRole> {
+        let sql: string = `
+            SELECT uid
+            FROM wb_users 
+            WHERE uname = ?
+        `;
+        return await db.query(sql, [username]);
+    }
+
     // token获取用户信息
     public async getUserInfoToken(token: string): Promise<UserRole[]> {
         let sql: string = `
             SELECT uid, uname, username, power, create_date, last_login_date, head_img, whether_use, signature,create_ip,last_login_ip
+            FROM wb_users 
+            WHERE activation_key = ?
+        `;
+        return await db.query(sql, [token]);
+    }
+
+    //token获取uid
+    public async getUidByToken(token: string): Promise<{ uid: number }[]> {
+        let sql: string = `
+            SELECT uid
             FROM wb_users 
             WHERE activation_key = ?
         `;

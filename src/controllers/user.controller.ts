@@ -1,6 +1,8 @@
-import {Controller, Get, Post, Param, Ctx} from "routing-controllers";
+import {Controller, Get, Post, Param, Ctx, UploadedFile} from "routing-controllers";
 import userService from "../service/user.service";
 import {Response} from "koa";
+import fileUploadOptions from "../utils/upload";
+import ApiConfig from "../domain/ApiCongfigType";
 
 @Controller("/user")
 class UserController {
@@ -55,12 +57,13 @@ class UserController {
     }
 
     // //上传用户头像
-    // @Post("/uploadHeadImg")
-    // public uploadHeadImg(@Ctx() ctx: Response) {
-    //     return userService.uploadHeadImg(ctx);
-    // }
-
-
+    @Post("/uploadHeadImg")
+    public uploadHeadImg(@UploadedFile("headImg", {
+        options: fileUploadOptions("uploadHead")
+    }) file: Express.Multer.File) {
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        return apiConfig.success("/img/uploadHead/" + file.filename);
+    }
 }
 
 export default UserController;

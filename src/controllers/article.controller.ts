@@ -68,10 +68,16 @@ class ArticleController {
 
     //上传图片
     @Post('/uploadArticleImg')
-    public upload(@UploadedFile('upload-image', {options: fileUploadOptions("articleImages")}) file: Express.Multer.File) {
+    public upload(@UploadedFile('upload-image', {
+        options: fileUploadOptions("articleImages")
+    }) file: Express.Multer.File) {
         const apiConfig: ApiConfig<string> = new ApiConfig();
         //获取文件路径
-        return apiConfig.success("/img/articleImages/" + file.filename);
+        if (file.filename) {
+            return apiConfig.success("/img/articleImages/" + file.filename);
+        } else {
+            return apiConfig.fail("上传失败");
+        }
     }
 }
 

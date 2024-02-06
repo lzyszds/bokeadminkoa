@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 import multer, {Options} from 'multer';
 
 // 允许上传的图片类型
-const allowImgType = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp', 'image/svg+xml', 'image/x-icon'];
+const allowImgType = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp', 'image/svg+xml'];
 
 // 文件存储的基础路径
 const baseStoragePath = path.join(__dirname, '../../public/img/');
@@ -15,6 +15,18 @@ const baseStoragePath = path.join(__dirname, '../../public/img/');
  * @returns {boolean} 是否允许上传
  */
 const isAllowedFileType = (mimetype: string): boolean => allowImgType.includes(mimetype);
+
+/**
+ *  根据mime类型生成文件扩展名
+ *
+ *  @param {string} mimetype - 文件的 MIME 类型
+ *  @returns {string} 文件扩展名
+ */
+const generateFileExtname = (mimetype: string): string => {
+    const extname = mimetype.split('/')[1];
+    return "." + (extname === 'svg+xml' ? 'svg' : extname);
+}
+
 
 /**
  * 生成用于文件上传的 Multer 配置选项
@@ -35,8 +47,7 @@ const fileUploadOptions = (region: string): Options => {
             destination: storage_path,
             filename: (req, file, cb) => {
                 // 使用 uuid 生成唯一文件名
-                const filename = isAllowedFileType(file.mimetype) ? uuid.v4() + path.extname(file.originalname) : '';
-
+                const filename = isAllowedFileType(file.mimetype) ? uuid.v4() + generateFileExtname(file.mimetype) : '';
                 cb(null, filename);
             }
         }),
