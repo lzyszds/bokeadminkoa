@@ -1,41 +1,51 @@
-import multer, {Options} from "koa-multer";
-import mime from "mime";
-import {Request, Response} from "express";
-import path from "node:path";
-import crypto from "crypto";
-// 允许存储的文件类型
-const allowImgType = [
-    'image/jpg',
-    'image/jpeg',
-    'image/png',
-    'image/gif',
-    'image/bmp',
-    'image/webp',
-    'image/svg+xml',
-    'image/x-icon',
-];
+import path from 'path';
+import * as uuid from 'uuid';
+import multer, {Options} from 'multer';
 
-// 文件存储位置
-const storage_path = path.join(__dirname, '../../public/img/articleImages');
+// 允许上传的图片类型
+const allowImgType = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp', 'image/svg+xml', 'image/x-icon'];
 
-const fileUploadOptions: Options = {
-    storage: multer.diskStorage({
-        destination: storage_path,
-        filename: function (req: Request, file, cb) {
-            if (allowImgType.includes(file.mimetype)) {
-                cb(null, file.fieldname);
-            } else {
-                const err = new Error('当前文件暂不支持上传,暂时只支持jpg.jpeg,png,gif,bmp,webp,svg,icon等图片。');
-                cb(err, file.fieldname);
+// 文件存储的基础路径
+const baseStoragePath = path.join(__dirname, '../../public/img/');
+
+/**
+ * 检查文件类型是否允许上传
+ *
+ * @param {string} mimetype - 文件的 MIME 类型
+ * @returns {boolean} 是否允许上传
+ */
+const isAllowedFileType = (mimetype: string): boolean => allowImgType.includes(mimetype);
+
+/**
+ * 生成用于文件上传的 Multer 配置选项
+ *
+ * @param {string} region - 文件存储的区域信息
+ * @returns {Options} Multer 配置选项
+ */
+const fileUploadOptions = (region: string): Options => {
+    // 文件存储位置
+    const storage_path = path.join(baseStoragePath, region);
+
+    // 限制信息
+    const fileSizeLimit = 1024 * 1024 * 2; // 2MB
+    const filesLimit = 1;
+
+    return {
+        storage: multer.diskStorage({
+            destination: storage_path,
+            filename: (req, file, cb) => {
+                // 使用 uuid 生成唯一文件名
+                const filename = isAllowedFileType(file.mimetype) ? uuid.v4() + path.extname(file.originalname) : '';
+
+                cb(null, filename);
             }
+        }),
+        limits: {
+            fileSize: fileSizeLimit,
+            files: filesLimit,
         }
-    }),
-    limits: {
-        fileSize: 1024 * 1024 * 2, // 1024字节=1kb, 1024kb=1MB
-        files: 1, // 一次上传一张
-    },
-
-}
+    };
+};
 
 
 export default fileUploadOptions;

@@ -67,16 +67,11 @@ class ArticleController {
     }
 
     //上传图片
-    // @Post("/uploadArticleImg")
-    // public uploadArticleImg(@Ctx() ctx: BaseContext, @UploadedFile('upload-image') file: Express.Multer.File) {
-    //     return ArticleService.uploadArticleImg(ctx, file);
-    // }
-
     @Post('/uploadArticleImg')
-    upload(@UploadedFile('upload-image', {options: fileUploadOptions}) file: Express.Multer.File) {
-        console.log(file)
+    public upload(@UploadedFile('upload-image', {options: fileUploadOptions("articleImages")}) file: Express.Multer.File) {
         const apiConfig: ApiConfig<string> = new ApiConfig();
-        return apiConfig.success(file.path);
+        //获取文件路径
+        return apiConfig.success("/img/articleImages/" + file.filename);
     }
 }
 

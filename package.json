@@ -22,6 +22,7 @@
     "@types/md5": "^2.3.5",
     "@types/multer": "^1.4.11",
     "@types/mysql": "^2.15.25",
+    "@types/uuid": "^9.0.8",
     "@vercel/ncc": "^0.38.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
@@ -40,6 +41,7 @@
     "node-schedule": "^2.1.1",
     "routing-controllers": "^0.10.4",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "uuid": "^9.0.1"
   }
 }
