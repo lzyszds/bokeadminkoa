@@ -2,6 +2,16 @@ import {AdminHomeType, AdminHomeTypeSql} from "../domain/AdminHomeType";
 import db from "../utils/db";
 
 class CommonMapper {
+
+    //根据ip地区获取具体的城市编码
+    public async getCityCodeByIp(city: string): Promise<{ adcode: string }> {
+        const sql: string = `SELECT adcode 
+                             FROM wb_map_adcode_citycode
+                             WHERE  city = ? `
+        const result = await db.query(sql, [city]);
+        return result[0];
+    }
+
     //获取后台首页数据
     public async getAdminHomeData(): Promise<AdminHomeType> {
         const sqlObjeck: AdminHomeTypeSql = {

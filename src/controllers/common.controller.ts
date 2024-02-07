@@ -5,7 +5,7 @@ import CommonService from "../service/common.service";
 class CommonController {
 
     //天气预报以及ip地址查询
-    @Get("/jinrishici/info")
+    @Get("/ipConfig")
     public async getWeather(@Ctx() ctx: any) {
         return CommonService.getWeather(ctx);
     }
@@ -21,8 +21,6 @@ class CommonController {
     public getGithubInfo() {
         return CommonService.getGithubInfo();
     }
-
-
 
 
 }

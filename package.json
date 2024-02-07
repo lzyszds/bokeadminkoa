@@ -29,6 +29,7 @@
     "class-validator": "^0.14.1",
     "dayjs": "^1.11.10",
     "fontmin": "^1.0.1",
+    "ip2region": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
     "koa": "^2.15.0",
     "koa-mount": "^4.0.0",

@@ -7,6 +7,7 @@ export default {
     Port: 1020, // 启动端口
     staticDir: path.resolve('./public'), // 静态资源路径
     uploadDir: path.join(__dirname, path.resolve('public/')), // 上传文件路径
+    weatherKey: "78182b9b39355dc0ae4ce91dae7f0bbf",
     // 数据库连接设置
     dbConfig: {
         connectionLimit: 10,
