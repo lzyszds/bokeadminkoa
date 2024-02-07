@@ -116,7 +116,8 @@
     /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "globals.d.ts"
   ],
   "exclude": [
     "node_modules"

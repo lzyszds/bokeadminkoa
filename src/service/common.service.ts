@@ -78,6 +78,30 @@ class CommonService {
             return apiConfig.fail(e.message)
         }
     }
+
+    //获取系统设置
+    public async getSystemConfig(): Promise<ApiConfig<any>> {
+        const apiConfig: ApiConfig<any> = new ApiConfig();
+        try {
+            const data = await CommonMapper.getSystemConfig();
+            console.log(data)
+            return apiConfig.success(data)
+        } catch (e: any) {
+            return apiConfig.fail(e.message)
+        }
+    }
+
+    //新增系统设置
+    public async addSystemConfig(ctx: any): Promise<ApiConfig<any>> {
+        const apiConfig: ApiConfig<any> = new ApiConfig();
+        try {
+            const {config_key, config_value, config_desc} = ctx.request.body;
+            const data = await CommonMapper.addSystemConfig(config_key, config_value, config_desc);
+            return apiConfig.success(data === 0 ? '新增成功' : '新增失败')
+        } catch (e: any) {
+            return apiConfig.fail(e.message)
+        }
+    }
 }
 
 export default new CommonService();

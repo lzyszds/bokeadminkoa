@@ -33,3 +33,10 @@ export interface WeatherDataTypeResponse {
         }
     ]
 }
+
+export interface SystemConfigType {
+    id: number,
+    config_key: string,
+    config_value: string,
+    config_desc: string
+}

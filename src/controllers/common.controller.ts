@@ -1,4 +1,4 @@
-import {Controller, Ctx, Get} from "routing-controllers";
+import {Controller, Ctx, Get, Post} from "routing-controllers";
 import CommonService from "../service/common.service";
 
 @Controller("/common")
@@ -22,6 +22,17 @@ class CommonController {
         return CommonService.getGithubInfo();
     }
 
+    //获取系统配置
+    @Get("/getSystemConfig")
+    public getSystemConfig() {
+        return CommonService.getSystemConfig();
+    }
+
+    //新增系统配置
+    @Post("/addSystemConfig")
+    public addSystemConfig(@Ctx() ctx: any) {
+        return CommonService.addSystemConfig(ctx);
+    }
 
 }
 

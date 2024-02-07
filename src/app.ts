@@ -17,6 +17,9 @@ const app = new koa()
 app.keys = ['session app keys'];
 app.use(session(CONFIG, app));
 
+//@ts-ignore
+global.config = Config
+
 
 useKoaServer(app, {
     controllers: [__dirname + "/controllers/*.ts"],
@@ -39,6 +42,6 @@ app.use(async (ctx, next) => {
 app.use(mount("/public", KoaStatic(Config.staticDir)))
 
 
-app.listen(Config.Port, () => {
+app.listen(Config.port, () => {
     console.log("server is running at http://localhost:1020")
 })
