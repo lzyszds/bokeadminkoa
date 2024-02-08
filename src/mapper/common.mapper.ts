@@ -1,6 +1,7 @@
 import {AdminHomeType, AdminHomeTypeSql} from "../domain/AdminHomeType";
 import db from "../utils/db";
 import {SystemConfigType} from "../domain/CommonType";
+import {OkPacket} from "mysql";
 
 class CommonMapper {
 
@@ -44,7 +45,7 @@ class CommonMapper {
     }
 
     //新增系统设置
-    public async addSystemConfig(config_key: string, config_value: string, config_desc?: string): Promise<number> {
+    public async addSystemConfig(config_key: string, config_value: string, config_desc?: string): Promise<OkPacket> {
         const sql: string = `INSERT INTO wb_system_config (config_key, config_value, config_desc) VALUES (?, ?, ?)`
         return await db.query(sql, [config_key, config_value, config_desc]);
     }

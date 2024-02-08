@@ -97,7 +97,7 @@ class CommonService {
         try {
             const {config_key, config_value, config_desc} = ctx.request.body;
             const data = await CommonMapper.addSystemConfig(config_key, config_value, config_desc);
-            return apiConfig.success(data === 0 ? '新增成功' : '新增失败')
+            return apiConfig.success(data.affectedRows === 1 ? '新增成功' : '新增失败')
         } catch (e: any) {
             return apiConfig.fail(e.message)
         }
