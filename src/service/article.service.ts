@@ -100,11 +100,29 @@ class ArticleService {
     }
 
     public async updateArticle(ctx: any) {
-        const {aid, title, content, coverImg, comNumber, main, wtype, coverContent} = ctx.request.body;
-        if (checkObj(ctx.request.body, ["aid"], ["title", "content", "coverImg", "comNumber", "main", "wtype", "coverContent"])) {
-            const apiConfig: ApiConfig<string> = new ApiConfig();
-            return apiConfig.fail("参数错误");
+        //实例化apiConfig
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        if (!ctx.request.body) {
+            return apiConfig.fail("内容不曾改变");
         }
+        const {tags, aid} = ctx.request.body;
+
+        await ArticleMapper.updateArticle(ctx.request.body)
+
+        if (tags) {
+            //根据文章类型获取文章类型id
+            for (let i = 0; i < tags.length; i++) {
+                const type = await ArticleMapper.getArticleTypeByName(tags[i]);
+                if (type.length === 0) {
+                    return apiConfig.fail("文章类型不存在");
+                } else {
+                    //将文章id和文章类型id插入到文章类型表
+                    await ArticleMapper.addArticleTypeByAid(type[0].type_id, aid);
+                }
+            }
+        }
+        return apiConfig.success("文章修改成功");
+
     }
 
     //获取文章评论

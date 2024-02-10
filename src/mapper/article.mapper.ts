@@ -44,7 +44,7 @@ class ArticleMapper {
                 `
                     //获取文章类型
                     db.query(sqlChild, [item.aid]).then(a => {
-                        item.wtype = a.map((item: any) => item.name)
+                        item.tags = a.map((item: any) => item.name)
                         if (index === result.length - 1) resolve(result)
                     })
                 })
@@ -85,7 +85,7 @@ class ArticleMapper {
                 `
                 //获取文章类型
                 db.query(sqlChild, [id]).then(a => {
-                    result[0].wtype = a.map((item: any) => item.name)
+                    result[0].tags = a.map((item: any) => item.name)
                     resolve(result[0])
                 })
             }
@@ -142,6 +142,31 @@ class ArticleMapper {
         return await db.query(sql, [title, content, cover_img, main, partial_content, uid, create_date]);
     }
 
+    //修改文章
+    public async updateArticle(params: any) {
+        let sqlSetFieldArr: string[] = []
+        let sqlQueryArr: string[] = []
+        Object.keys(params).forEach((key: string) => {
+            if (params[key] == undefined || !params[key] || key === 'tags') {
+                delete params[key]
+            } else {
+                //修改了什么就更新什么
+                sqlSetFieldArr.push(`${key} = ?`)
+                sqlQueryArr.push(params[key])
+            }
+        })
+        let sqlSetField: string = sqlSetFieldArr.join(',')
+        //修改时间
+        sqlSetField += ', modified_date = NOW()'
+        let sql: string = `
+            UPDATE wb_articles
+            SET ${sqlSetField}
+            WHERE aid = ?
+        `;
+        sqlQueryArr.push(params.aid)
+        return await db.query(sql, sqlQueryArr);
+    }
+
     //新增文章类型
     public async addArticleType(name: string) {
         let sql: string = `
@@ -156,6 +181,7 @@ class ArticleMapper {
         }
         return result;
     }
+
 
     //获取文章评论
     public async getArticleComment(id: string) {
