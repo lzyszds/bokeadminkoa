@@ -37,6 +37,12 @@ class UserController {
         return userService.login(ctx);
     }
 
+    //开始记录用户在线时间
+    @Post("/startOnlineTime")
+    public startOnlineTime(@Ctx() ctx: any) {
+        return userService.startOnlineTime(ctx);
+    }
+
     //新增用户账号
     @Post("/addUser")
     public addUser(@Ctx() ctx: any) {

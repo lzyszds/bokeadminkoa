@@ -98,6 +98,27 @@ class UserService {
         }
     }
 
+    //开始记录用户在线时间
+    public async startOnlineTime(ctx: any): Promise<ApiConfig<string>> {
+        //获取用户token
+        const token = ctx.req.headers["authorization"];
+        //验证token
+        const user: UserRole[] = await userMapper.getUserInfoToken(token);
+        // 创建一个 ApiConfig 对象
+        const apiConfig: ApiConfig<string> = new ApiConfig<string>();
+        //如果用户信息存在，说明登录成功
+        if (user.length > 0) {
+            //修改用户最后登录时间
+            const last_login_date = new Date().toLocaleString();
+            await userMapper.updateUser({uid: user[0].uid, last_login_date})
+            // 返回一个成功的 ApiConfig 对象，包含提示信息
+            return apiConfig.success("记录用户在线时间成功");
+        } else {
+            // 返回一个失败的 ApiConfig 对象，包含提示信息
+            return apiConfig.fail("记录用户在线时间失败");
+        }
+    }
+
     //新增用户账号 逻辑层
     public async addUser(ctx: any): Promise<ApiConfig<string>> {
         //检查 用户名、密码、权限、创建时间、最后登录时间、个性签名、头像、是否启用 是否为空
