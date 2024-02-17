@@ -8,7 +8,6 @@ import {hashPassword, comparePasswords,} from "../utils/passwordUtils";
 import {generateToken, verifyToken} from "../utils/authUtils";
 import {dbErrorMessage} from "../utils/dbErrorMessage";
 import {OkPacket} from "mysql";
-import {Response} from "koa";
 
 
 class UserService {

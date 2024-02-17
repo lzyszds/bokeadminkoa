@@ -37,10 +37,12 @@
     "koa-session": "^6.4.0",
     "koa-static": "^5.0.0",
     "md5": "^2.3.0",
+    "mongoose": "^8.1.2",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "node-schedule": "^2.1.1",
     "routing-controllers": "^0.10.4",
+    "socket.io": "^4.7.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1"
