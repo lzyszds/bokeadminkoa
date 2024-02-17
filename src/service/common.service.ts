@@ -35,7 +35,7 @@ class CommonService {
             //根据城市编码获取天气预报
             const weatherData: WeatherDataTypeResponse = await fetch(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${Config.weatherKey}`)
                 .then(res => res.json())
-            console.log(weatherData)
+            weatherData.lives[0].ip = ipAddress
             // weatherData.lives[0].ip = ipAddress
             return apiConfig.success(weatherData.lives[0])
         } catch (e: any) {
