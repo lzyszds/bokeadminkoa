@@ -18,7 +18,12 @@ export class AuthInterceptor implements InterceptorInterface {
         const notIntercept = Config.interceptorWhiteList
         // 判断当前请求的接口是否需要验证token
         if (!notIntercept.includes(url)) {
-            const token = action.request.headers["authorization"].replace("Bearer ", "");
+            //获取当前用户的token
+            const authorization = action.request.headers["authorization"]
+            if (!authorization) {
+                return "未登录"
+            }
+            const token = authorization.replace("Bearer ", "");
             if (!token) {
                 return {
                     code: 401,
@@ -36,7 +41,8 @@ export class AuthInterceptor implements InterceptorInterface {
                 }
             }
         }
+
         // 如果验证通过，可以继续处理请求
-        return result;
+        return result
     }
 }

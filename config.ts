@@ -23,6 +23,10 @@ export default {
         '/user/login',
         '/user/getRandHeadImg',
         '/article/getRandArticleImg',
+        '/article/getArticleList',
+        '/article/getArticleInfo',
+        '/article/getArticleTypeList',
+        '/common/ipConfig'
     ],
     //github api密钥 配置
     githubUserConfig: {

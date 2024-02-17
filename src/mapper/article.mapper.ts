@@ -182,6 +182,14 @@ class ArticleMapper {
         return result;
     }
 
+    //删除文章类型
+    public async deleteArticleType(type_id: string) {
+        let sql: string = `
+            DELETE FROM wb_articlestype
+            WHERE type_id = ?
+        `;
+        return await db.query(sql, [type_id]);
+    }
 
     //获取文章评论
     public async getArticleComment(id: string) {

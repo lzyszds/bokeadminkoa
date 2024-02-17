@@ -38,6 +38,12 @@ class ArticleController {
         return ArticleService.addArticleType(ctx);
     }
 
+    //删除文章类型
+    @Post("/deleteArticleType")
+    public deleteArticle(@Ctx() ctx: any) {
+        return ArticleService.deleteArticleType(ctx);
+    }
+
     // 随机文章图库
     @Get("/getRandArticleImg")
     public async getRandArticleImg(@Ctx() ctx: any) {

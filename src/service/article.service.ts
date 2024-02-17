@@ -62,6 +62,7 @@ class ArticleService {
         return apiConfig.success("文章添加成功");
     }
 
+    //添加文章类型
     public async addArticleType(ctx: any) {
         const {name} = ctx.request.body;
         if (checkObj(ctx.request.body, ["name"])) {
@@ -77,6 +78,23 @@ class ArticleService {
         }
     }
 
+    //删除文章类型
+    public async deleteArticleType(ctx: any) {
+        const {id} = ctx.request.body;
+        if (checkObj(ctx.request.body, ["id"])) {
+            const apiConfig: ApiConfig<string> = new ApiConfig();
+            return apiConfig.fail("参数错误");
+        }
+        const result = await ArticleMapper.deleteArticleType(id)
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        if (result.affectedRows === 1) {
+            return apiConfig.success("类型删除成功");
+        } else {
+            return apiConfig.fail(result);
+        }
+    }
+
+    //获取随机文章图库
     public async getRandArticleImg(ctx: any) {
         const imgBuffer = null
         try {
@@ -99,6 +117,7 @@ class ArticleService {
         }
     }
 
+    //更新文章
     public async updateArticle(ctx: any) {
         //实例化apiConfig
         const apiConfig: ApiConfig<string> = new ApiConfig();

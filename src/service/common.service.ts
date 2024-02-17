@@ -18,21 +18,25 @@ class CommonService {
             const networkInterfaces = os.networkInterfaces();
 
             // 找到第一个非内部接口的IP地址
-            const ipAddress = Object.values(networkInterfaces)
+            let ipAddress = Object.values(networkInterfaces)
                 .flat()
                 .filter((interfaceInfo: any) => interfaceInfo.family === 'IPv4' && !interfaceInfo.internal)
                 .map((interfaceInfo: any) => interfaceInfo.address)
                 .shift();
 
+            ipAddress = ipAddress.indexOf('192.168') !== -1 || ipAddress.indexOf('127.0') !== -1 ? '113.16.126.38' : ipAddress
+
             // 创建一个 IP2Region 对象
             const query: IP2Region = new IP2Region();
             // 查询 IP 地址的归属地
-            const res: IP2RegionResult | null = query.search('113.16.126.38');
+            const res: IP2RegionResult | null = query.search(ipAddress);
             //根据地区获取当前城市编码
             const {adcode} = await CommonMapper.getCityCodeByIp(res?.city!)
             //根据城市编码获取天气预报
             const weatherData: WeatherDataTypeResponse = await fetch(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${Config.weatherKey}`)
                 .then(res => res.json())
+            console.log(weatherData)
+            // weatherData.lives[0].ip = ipAddress
             return apiConfig.success(weatherData.lives[0])
         } catch (e: any) {
             console.log(e)

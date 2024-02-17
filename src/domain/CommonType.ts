@@ -29,7 +29,9 @@ export interface WeatherDataTypeResponse {
             "humidity": string,
             "reporttime": string,
             "temperature_float": string,
-            "humidity_float": string
+            "humidity_float": string,
+            "ip": string,
+
         }
     ]
 }

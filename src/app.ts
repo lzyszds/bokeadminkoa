@@ -7,7 +7,7 @@ import mount from 'koa-mount'
 import session from 'koa-session'
 import CONFIG from "./utils/session";
 
-const socket = require('socket.io')(1022, {cors: true})
+// const socket = require('socket.io')(1022, {cors: true})
 
 
 //执行定时任务 获取github数据
@@ -41,29 +41,29 @@ app.use(async (ctx, next) => {
     }
 })
 
-const userSocket = new Map()
+// const userSocket = new Map()
 
-// 监听用户连接
-socket.on('connection', (client: any) => {
-    console.log('用户已连接');
-
-    // 监听用户发送的消息
-    client.on('message', (msg: any) => {
-        console.log('收到消息:', msg);
-
-        // 向所有连接的用户发送消息
-        socket.emit('message', msg);
-
-        //记录用户首次连接
-        userSocket.set(msg, client.id)
-        console.log(userSocket)
-    });
-
-    // 用户断开连接时
-    client.on('disconnect', () => {
-        console.log('用户已断开连接');
-    });
-});
+// // 监听用户连接
+// socket.on('connection', (client: any) => {
+//     console.log('用户已连接');
+//
+//     // 监听用户发送的消息
+//     client.on('message', (msg: any) => {
+//         console.log('收到消息:', msg);
+//
+//         // 向所有连接的用户发送消息
+//         socket.emit('message', msg);
+//
+//         //记录用户首次连接
+//         userSocket.set(msg, client.id)
+//         console.log(userSocket)
+//     });
+//
+//     // 用户断开连接时
+//     client.on('disconnect', () => {
+//         console.log('用户已断开连接');
+//     });
+// });
 
 // 静态资源
 app.use(mount("/public", KoaStatic(Config.staticDir)))
