@@ -12,6 +12,7 @@ import CONFIG from "./utils/session";
 
 //执行定时任务 获取github数据
 import __src_utils_setTimeTask from "./tools/setTimeTask";
+import path from "path";
 
 __src_utils_setTimeTask();
 
@@ -24,11 +25,13 @@ app.use(session(CONFIG, app));
 //@ts-ignore
 global.config = Config
 
+//根据当前文件名字的后缀名字来判断当前是开发环境还是生产环境 开发环境为.ts 生产环境为.js
+const currentEnv = path.extname(__filename)
 
 useKoaServer(app, {
-    controllers: [__dirname + "/controllers/*.ts"],
-    middlewares: [__dirname + '/middlewares/**/*.ts'],
-    interceptors: [__dirname + '/interceptor/**/*.ts'],
+    controllers: [__dirname + "/controllers/*" + currentEnv],
+    middlewares: [__dirname + "/middlewares/*" + currentEnv],
+    interceptors: [__dirname + "/interceptor/*" + currentEnv],
 })
 
 //默认路由 /
