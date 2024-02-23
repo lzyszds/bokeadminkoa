@@ -8,28 +8,46 @@ import IP2Region, {IP2RegionResult} from "ip2region"
 import os from "os";
 import Config from "../../config";
 import {WeatherDataType, WeatherDataTypeResponse} from "../domain/CommonType";
+import dayjs from "dayjs";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
         // 创建一个 ApiConfig 对象
         const apiConfig: ApiConfig<WeatherDataType> = new ApiConfig();
         try {
-            // 获取本机所有网络接口的信息
-            const networkInterfaces = os.networkInterfaces();
+            // // 获取本机所有网络接口的信息
+            // const networkInterfaces = os.networkInterfaces();
+            // // 找到第一个非内部接口的IP地址
+            // let ipAddress = Object.values(networkInterfaces)
+            //     .flat()
+            //     .filter((interfaceInfo: any) => interfaceInfo.family === 'IPv4' && !interfaceInfo.internal)
+            //     .map((interfaceInfo: any) => interfaceInfo.address)
+            //     .shift();
+            //获取当前请求的IP地址
 
-            // 找到第一个非内部接口的IP地址
-            let ipAddress = Object.values(networkInterfaces)
-                .flat()
-                .filter((interfaceInfo: any) => interfaceInfo.family === 'IPv4' && !interfaceInfo.internal)
-                .map((interfaceInfo: any) => interfaceInfo.address)
-                .shift();
-
-            ipAddress = ipAddress.indexOf('192.168') !== -1 || ipAddress.indexOf('127.0') !== -1 ? '113.16.126.38' : ipAddress
+            let ipAddress = ctx.request.headers['x-real-ip'] || ctx.request.ip.replace('::ffff:', '')
 
             // 创建一个 IP2Region 对象
             const query: IP2Region = new IP2Region();
             // 查询 IP 地址的归属地
             const res: IP2RegionResult | null = query.search(ipAddress);
+            console.log(res)
+            if (!res?.city) {
+                return apiConfig.success({
+                    "province": res?.country || "未知",
+                    "city": "未知",
+                    "adcode": "未知",
+                    "weather": "未知",
+                    "temperature": "未知",
+                    "winddirection": "未知",
+                    "windpower": "未知",
+                    "humidity": "未知",
+                    "reporttime": dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                    "temperature_float": "未知",
+                    "humidity_float": "未知",
+                    "ip": ipAddress,
+                })
+            }
             //根据地区获取当前城市编码
             const {adcode} = await CommonMapper.getCityCodeByIp(res?.city!)
             //根据城市编码获取天气预报
