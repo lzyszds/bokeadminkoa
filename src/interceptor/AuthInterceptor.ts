@@ -17,7 +17,7 @@ export class AuthInterceptor implements InterceptorInterface {
         //设置不需要拦截token验证的接口
         const notIntercept = Config.interceptorWhiteList
         // 判断当前请求的接口是否需要验证token
-        if (!notIntercept.includes(url)) {
+        if (!notIntercept.includes(url.replace(/\?.*/, "").replace(/\/\d+/, ""))) {
             //获取当前用户的token
             const authorization = action.request.headers["authorization"]
             if (!authorization) {
