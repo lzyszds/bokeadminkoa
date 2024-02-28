@@ -59,6 +59,7 @@ class UserService {
         const user: UserRole[] = await userMapper.getUserInfoToken(token);
         // 创建一个 ApiConfig 对象
         const apiConfig: ApiConfig<UserRole> = new ApiConfig<UserRole>();
+        
         // 返回一个成功的 ApiConfig 对象，包含用户信息
         return apiConfig.success(user[0]);
     }

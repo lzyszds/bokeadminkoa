@@ -72,6 +72,12 @@ class ArticleController {
         return ArticleService.getAllComment();
     }
 
+    //新增评论
+    @Post("/addComment")
+    public addComment(@Ctx() ctx: any) {
+        return ArticleService.addComment(ctx);
+    }
+
     //上传图片
     @Post('/uploadArticleImg')
     public upload(@UploadedFile('upload-image', {

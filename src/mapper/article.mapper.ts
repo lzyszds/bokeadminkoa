@@ -210,6 +210,25 @@ class ArticleMapper {
         return await db.query(sql, []);
     }
 
+    //新增评论
+    public async addComment(params: any) {
+        const {content, aid, replyId, groundId, email, name, userIp, img, nowDate} = params;
+        let sql: string = `
+            INSERT INTO wb_comments (content, article_id, reply_id, ground_id , email, user_name, user_ip, head_img, time)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        return await db.query(sql, [content, aid, replyId, groundId, email, name, userIp, img, nowDate]);
+    }
+
+    //新增文章评论数
+    public async addArticleCommentCount(id: string) {
+        let sql: string = `
+            UPDATE wb_articles
+            SET comments_count = comments_count + 1
+            WHERE aid = ?
+        `;
+        return await db.query(sql, [id]);
+    }
 }
 
 

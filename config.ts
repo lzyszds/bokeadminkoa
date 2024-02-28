@@ -29,6 +29,7 @@ export default {
         '/article/getArticleComment',
         '/article/getArticleInfo',
         '/article/getArticleTypeList',
+        '/article/addComment',
         '/common/ipConfig'
     ],
     //github api密钥 配置
