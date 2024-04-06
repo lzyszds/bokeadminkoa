@@ -52,7 +52,7 @@ class UserMapper {
     }
 
     // token获取用户信息
-    public async getUserInfoToken(token: string): Promise<UserRole[]> {
+    public async getUserInfoToken(token: string): Promise<UserRole> {
         let sql: string = `
             SELECT uid, uname, username, power, create_date, last_login_date, head_img, whether_use, signature,create_ip,last_login_ip
             FROM wb_users 
