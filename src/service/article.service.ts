@@ -35,11 +35,15 @@ class ArticleService {
     }
 
     public async addArticle(ctx: any) {
-        const {title, content, cover_img, main, tags, partial_content} = ctx.request.body;
+        let {title, content, cover_img, main, tags, partial_content} = ctx.request.body;
         if (checkObj(ctx.request.body, ["title", "content", "cover_img", "main", "tags", "partial_content"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
-            return apiConfig.fail("参数错误");
+            return apiConfig.fail("参数错误,请检查是否有空参数");
         }
+        if (cover_img.indexOf("/api/article/getRandArticleImg") == 0) {
+            cover_img = `/img/coverRomImg/${ctx.session.img}`;
+        }
+
         //根据token获取uid
         const {uid} = (await UserMapper.getUidByToken(ctx.req.headers["authorization"]))[0];
         //获取文章发布时间 2021-08-01 12:00:00
@@ -106,6 +110,8 @@ class ArticleService {
             const random = randomUnique(0, imgs.length - 1, 0);
             // 获取随机图片
             const img = imgs[random];
+            //通过系统中的session存储图片名字 用于后续的文章封面图片
+            ctx.session.img = img;
             // 返回图片
             const imgPath = path.join(imgDir, img);
             return await fs.promises.readFile(imgPath);
@@ -227,6 +233,22 @@ class ArticleService {
         //     return apiConfig.fail(e);
         // }
         return apiConfig.success("上传成功");
+    }
+
+    //删除文章
+    public async deleteArticle(ctx: any) {
+        const {id} = ctx.request.body;
+        if (checkObj(ctx.request.body, ["id"])) {
+            const apiConfig: ApiConfig<string> = new ApiConfig();
+            return apiConfig.fail("参数错误");
+        }
+        const result = await ArticleMapper.deleteArticle(id)
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        if (result.affectedRows === 1) {
+            return apiConfig.success("文章删除成功");
+        } else {
+            return apiConfig.fail(result);
+        }
     }
 
 }

@@ -229,6 +229,15 @@ class ArticleMapper {
         `;
         return await db.query(sql, [id]);
     }
+
+    //删除文章
+    public async deleteArticle(id: string) {
+        let sql: string = `
+            DELETE FROM wb_articles
+            WHERE aid = ?
+        `;
+        return await db.query(sql, [id]);
+    }
 }
 
 

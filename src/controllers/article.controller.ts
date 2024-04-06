@@ -40,7 +40,7 @@ class ArticleController {
 
     //删除文章类型
     @Post("/deleteArticleType")
-    public deleteArticle(@Ctx() ctx: any) {
+    public deleteArticleType(@Ctx() ctx: any) {
         return ArticleService.deleteArticleType(ctx);
     }
 
@@ -90,6 +90,12 @@ class ArticleController {
         } else {
             return apiConfig.fail("上传失败");
         }
+    }
+
+    //删除文章
+    @Post("/deleteArticle")
+    public deleteArticle(@Ctx() ctx: any) {
+        return ArticleService.deleteArticle(ctx);
     }
 }
 
