@@ -8,6 +8,7 @@ import {hashPassword, comparePasswords,} from "../utils/passwordUtils";
 import {generateToken, verifyToken} from "../utils/authUtils";
 import {dbErrorMessage} from "../utils/dbErrorMessage";
 import {OkPacket} from "mysql";
+import dayjs from "dayjs";
 
 
 class UserService {
@@ -90,7 +91,8 @@ class UserService {
         if (isMatch) {
 
             //修改用户最后登录时间
-            const last_login_date = new Date().toLocaleString();
+            const last_login_date = dayjs().format('YYYY-MM-DD HH:mm:ss')
+            console.log(last_login_date)
             await userMapper.updateUser({uid: user.uid, last_login_date})
 
             // 返回一个成功的 ApiConfig 对象，包含提示信息

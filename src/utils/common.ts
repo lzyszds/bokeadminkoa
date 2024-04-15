@@ -181,6 +181,44 @@ const checkObj = (obj: any, keys: string[], onlyOneExists?: string[]): boolean =
     return false
 }
 
+//提取出你需要的信息，比如浏览器名称、版本号以及操作系统等
+function parseUserAgent(userAgent: any) {
+    var browserName = "Unknown";
+    var browserVersion = "Unknown";
+    var os = "Unknown";
+    if (!userAgent) return {browserSystem: "Unknown", browserVersion, deviceSystem: os};
+    // 浏览器信息
+    if (userAgent.indexOf("Firefox") > -1) {
+        browserName = "Firefox";
+        browserVersion = userAgent.match(/Firefox\/([\d.]+)/)[1];
+    } else if (userAgent.indexOf("Chrome") > -1) {
+        browserName = "Chrome";
+        browserVersion = userAgent.match(/Chrome\/([\d.]+)/)[1];
+    } else if (userAgent.indexOf("Safari") > -1) {
+        browserName = "Safari";
+        browserVersion = userAgent.match(/Version\/([\d.]+)/)[1];
+    } else if (userAgent.indexOf("MSIE") > -1) {
+        browserName = "Internet Explorer";
+        browserVersion = userAgent.match(/MSIE ([\d.]+)/)[1];
+    }
+
+    // 操作系统信息
+    if (userAgent.indexOf("Windows NT 10.0") != -1) os = "Windows 10";
+    else if (userAgent.indexOf("Windows NT 6.2") != -1) os = "Windows 8";
+    else if (userAgent.indexOf("Windows NT 6.1") != -1) os = "Windows 7";
+    else if (userAgent.indexOf("Windows NT 6.0") != -1) os = "Windows Vista";
+    else if (userAgent.indexOf("Windows NT 5.1") != -1) os = "Windows XP";
+    else if (userAgent.indexOf("Macintosh") != -1) os = "MacOS";
+    else if (userAgent.indexOf("Linux") != -1) os = "Linux";
+    else if (userAgent.indexOf("Android") != -1) os = "Android";
+    else if (userAgent.indexOf("like Mac OS X") != -1) {
+        os = "iOS";
+        // 可以进一步解析iOS的版本
+    }
+
+    return {browserSystem: browserName + browserVersion, deviceSystem: os};
+}
+
 
 export {
     mapGather,
@@ -191,5 +229,6 @@ export {
     replaceSingleQuotes,
     toValidEnglishNumber,
     getCurrentUnixTime,
-    checkObj
+    checkObj,
+    parseUserAgent
 };

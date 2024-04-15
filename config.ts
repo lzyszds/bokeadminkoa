@@ -26,12 +26,17 @@ export default {
         '/user/getRandHeadImg',
         '/article/getRandArticleImg',
         '/article/getArticleList',
-        '/article/getArticleComment',
+        '/comment/getArticleComment',
         '/article/getArticleInfo',
-        '/article/getArticleTypeList',
-        '/article/addComment',
+        '/comment/getArticleTypeList',
+        '/comment/addComment',
+        '/comment/getNewComment',
         '/common/ipConfig',
         '/common/getGithubInfo',
+        '/common/openai',
+        '/common/getSystemConfig',
+        '/common/getFooterInfo',
+
     ],
     //github api密钥 配置
     githubUserConfig: {

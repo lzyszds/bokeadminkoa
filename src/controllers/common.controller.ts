@@ -34,6 +34,18 @@ class CommonController {
         return CommonService.addSystemConfig(ctx);
     }
 
+    //获取页脚信息数据
+    @Get("/getFooterInfo")
+    public getFooterInfo() {
+        return CommonService.getFooterInfo();
+    }
+
+    //GPT3.5开放ai
+    // @Post("/getAifox")
+    // public getAifox(@Ctx() ctx: any) {
+    //     return CommonService.getAifox(ctx);
+    // }
+
 }
 
 export default CommonController;

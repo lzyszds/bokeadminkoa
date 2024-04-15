@@ -5,10 +5,11 @@ import ArticleMapper from "../mapper/article.mapper";
 import path from "path";
 import fs from "fs";
 import IP2Region, {IP2RegionResult} from "ip2region"
-import os from "os";
+
 import Config from "../../config";
 import {WeatherDataType, WeatherDataTypeResponse} from "../domain/CommonType";
 import dayjs from "dayjs";
+import {Footer} from "../domain/FooterType";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
@@ -31,7 +32,6 @@ class CommonService {
             const query: IP2Region = new IP2Region();
             // 查询 IP 地址的归属地
             const res: IP2RegionResult | null = query.search(ipAddress);
-            console.log(res)
             if (!res?.city) {
                 return apiConfig.success({
                     "province": res?.country || "未知",
@@ -52,7 +52,7 @@ class CommonService {
             const {adcode} = await CommonMapper.getCityCodeByIp(res?.city!)
             //根据城市编码获取天气预报
             const weatherData: WeatherDataTypeResponse = await fetch(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${Config.weatherKey}`)
-                .then(res => res.json())
+                .then((res: any) => res.json())
             weatherData.lives[0].ip = ipAddress
             // weatherData.lives[0].ip = ipAddress
             return apiConfig.success(weatherData.lives[0])
@@ -124,6 +124,29 @@ class CommonService {
             return apiConfig.fail(e.message)
         }
     }
+
+    //获取页脚信息
+    public async getFooterInfo(): Promise<ApiConfig<Footer[][]>> {
+        const apiConfig: ApiConfig<Footer[][]> = new ApiConfig();
+        try {
+            const data = await CommonMapper.getFooterInfo();
+            //处理数据
+            let result: Footer[][] = []
+            data.forEach((item: Footer) => {
+                if (!result[item.footer_order]) {
+                    result[item.footer_order] = []
+                }
+                result[item.footer_order].push(item)
+            })
+            // console.log(result)
+            return apiConfig.success(result)
+        } catch (e: any) {
+            return apiConfig.fail(e.message)
+        }
+    }
+
+
+
 }
 
 export default new CommonService();

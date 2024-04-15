@@ -3,11 +3,12 @@
 import ArticleMapper from "../mapper/article.mapper";
 import {ArticleData, Articles, ArticleType} from "../domain/Articles";
 import ApiConfig from "../domain/ApiCongfigType";
-import {checkObj, getCurrentUnixTime, randomUnique} from "../utils/common";
+import {checkObj, getCurrentUnixTime, parseUserAgent, randomUnique} from "../utils/common";
 import path from "path";
 import fs from "fs";
 import md5 from "md5";
 import UserMapper from "../mapper/user.mapper";
+import IP2Region, {IP2RegionResult} from "ip2region";
 
 class ArticleService {
 
@@ -150,47 +151,7 @@ class ArticleService {
 
     }
 
-    //获取文章评论
-    public async getArticleComment(ctx: any) {
-        const {id} = ctx.query;
-        const data: Articles = await ArticleMapper.getArticleComment(id);
-        const apiConfig: ApiConfig<Articles> = new ApiConfig();
-        return apiConfig.success(data);
-    }
 
-    //获取所有评论
-    public async getAllComment() {
-        const data: Articles = await ArticleMapper.getAllComment();
-        const apiConfig: ApiConfig<Articles> = new ApiConfig();
-        return apiConfig.success(data);
-    }
-
-    //新增评论
-    public async addComment(ctx: any) {
-        const apiConfig: ApiConfig<string> = new ApiConfig();
-
-        try {
-            // 遍历文件夹下的所有图片
-            const imgs = fs.readdirSync(path.join(__dirname, '../../public/img/comments'));
-
-            // 获取前端传入的参数
-            let {content, aid, replyId, groundId, email, name, userIp, imgIndex} = ctx.request.body;
-            replyId = replyId ? replyId : 0;
-            groundId = groundId ? groundId : 0;
-            //头像地址
-            const img: string = `/img/comments/${imgs[imgIndex]}`;
-            const nowDate: number = getCurrentUnixTime();
-            // 添加评论进数据库
-            await ArticleMapper.addComment({
-                content, aid, replyId, groundId, email, name, userIp, img, nowDate
-            });
-            //评论成功后，文章评论数加1
-            await ArticleMapper.addArticleCommentCount(aid);
-            return apiConfig.success("评论成功");
-        } catch (err) {
-            return apiConfig.fail("评论失败");
-        }
-    }
 
     /**
      *  上传文章图片

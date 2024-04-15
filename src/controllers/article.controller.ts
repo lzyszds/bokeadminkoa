@@ -60,23 +60,7 @@ class ArticleController {
         return ArticleService.updateArticle(ctx);
     }
 
-    //获取指定文章评论
-    @Get("/getArticleComment")
-    public getArticleComments(@Ctx() ctx: any) {
-        return ArticleService.getArticleComment(ctx);
-    }
 
-    //获取当前系统所有评论
-    @Get("/getAllComment")
-    public getAllComment() {
-        return ArticleService.getAllComment();
-    }
-
-    //新增评论
-    @Post("/addComment")
-    public addComment(@Ctx() ctx: any) {
-        return ArticleService.addComment(ctx);
-    }
 
     //上传图片
     @Post('/uploadArticleImg')

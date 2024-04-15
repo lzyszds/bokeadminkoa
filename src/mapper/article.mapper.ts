@@ -191,44 +191,6 @@ class ArticleMapper {
         return await db.query(sql, [type_id]);
     }
 
-    //获取文章评论
-    public async getArticleComment(id: string) {
-        let sql: string = `
-            SELECT *
-            FROM wb_comments 
-            WHERE article_id = ?
-        `;
-        return await db.query(sql, [id]);
-    }
-
-    //获取所有评论
-    public async getAllComment() {
-        let sql: string = `
-            SELECT *
-            FROM wb_comments 
-        `;
-        return await db.query(sql, []);
-    }
-
-    //新增评论
-    public async addComment(params: any) {
-        const {content, aid, replyId, groundId, email, name, userIp, img, nowDate} = params;
-        let sql: string = `
-            INSERT INTO wb_comments (content, article_id, reply_id, ground_id , email, user_name, user_ip, head_img, time)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-        return await db.query(sql, [content, aid, replyId, groundId, email, name, userIp, img, nowDate]);
-    }
-
-    //新增文章评论数
-    public async addArticleCommentCount(id: string) {
-        let sql: string = `
-            UPDATE wb_articles
-            SET comments_count = comments_count + 1
-            WHERE aid = ?
-        `;
-        return await db.query(sql, [id]);
-    }
 
     //删除文章
     public async deleteArticle(id: string) {
@@ -238,6 +200,8 @@ class ArticleMapper {
         `;
         return await db.query(sql, [id]);
     }
+
+
 }
 
 
