@@ -54,21 +54,10 @@ interface User {
 }
 
 
-interface UserData {
-    total: number,
-    data: User[],
-}
-
-interface UserRoleData {
-    total: number,
-    data: UserRole[],
-}
 
 
 export {
     User,
-    UserData,
     UserRole,
-    UserRoleData,
     UserAny
 }

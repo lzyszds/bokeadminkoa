@@ -1,6 +1,6 @@
 import userMapper from "../mapper/user.mapper";
 import ApiConfig from "../domain/ApiCongfigType";
-import {User, UserData, UserRole, UserRoleData} from "../domain/User";
+import {User, UserRole} from "../domain/User";
 import fs from "fs";
 import path from "path";
 import {randomUnique, checkObj} from "../utils/common";
@@ -9,19 +9,20 @@ import {generateToken, verifyToken} from "../utils/authUtils";
 import {dbErrorMessage} from "../utils/dbErrorMessage";
 import {OkPacket} from "mysql";
 import dayjs from "dayjs";
+import {DataTotal} from "../domain/DataTotal";
 
 
 class UserService {
 
     // 定义一个控制器方法，返回类型是 Promise<ApiConfig<UserData>>
-    public async getUserList(search: string = "", pages: string = "1", limit: string = "10"): Promise<ApiConfig<UserRoleData>> {
+    public async getUserList(search: string = "", pages: string = "1", limit: string = "10"): Promise<ApiConfig<DataTotal<UserRole>>> {
         search = `%${search}%`;
         // 调用 userMapper.getUserListTotal 方法获取符合搜索条件的用户总数
         const total: number = await userMapper.getUserListTotal(search);
         // 调用 userMapper.getUserList 方法获取符合搜索条件的用户列表
         const data: UserRole[] = await userMapper.getUserList(search, pages, limit);
         // 创建一个 ApiConfig 对象
-        const apiConfig: ApiConfig<UserRoleData> = new ApiConfig<UserRoleData>();
+        const apiConfig: ApiConfig<DataTotal<UserRole>> = new ApiConfig<DataTotal<UserRole>>();
         // 返回一个成功的 ApiConfig 对象，包含用户数据和总数
         return apiConfig.success({total: total, data});
     }

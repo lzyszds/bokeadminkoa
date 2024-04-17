@@ -13,6 +13,7 @@ import CONFIG from "./utils/session";
 //执行定时任务 获取github数据
 import __src_utils_setTimeTask from "./tools/setTimeTask";
 import path from "path";
+import chatGpt from "./utils/chatGpt";
 
 __src_utils_setTimeTask();
 
@@ -67,6 +68,13 @@ app.use(async (ctx, next) => {
 //         console.log('用户已断开连接');
 //     });
 // });
+
+chatGpt().then(res => {
+    return res.json()
+}).then(res => {
+    console.log(res)
+})
+console.log()
 
 // 静态资源
 app.use(mount("/public", KoaStatic(Config.staticDir)))

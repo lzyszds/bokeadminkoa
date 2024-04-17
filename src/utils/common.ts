@@ -220,6 +220,7 @@ function parseUserAgent(userAgent: any) {
 }
 
 
+
 export {
     mapGather,
     sliceData,

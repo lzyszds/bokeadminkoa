@@ -1,11 +1,38 @@
 import ApiConfig from "../domain/ApiCongfigType";
 import ArticleMapper from "../mapper/article.mapper";
 import stream from "stream";
+import AiMapper from "../mapper/ai.mapper";
+import {AiUc, AiUcKeys} from "../domain/AiType";
+import {DataTotal} from "../domain/DataTotal";
+import dayjs from "dayjs";
 
 
-
+/*
+    * 获取ai的key方法
+    * 1.根据使用次数排序
+    * 2.使用次数最小的key先使用 让其使用次数增加
+    * 3.确保每次使用的key使用次数都是最小的
+    * 4.这样可以保证每个key的使用次数都是平均的
+    * */
+async function SelkeysBasedOnUsageFrequency(): Promise<string[]> {
+    const aiuc = (await AiMapper.findAiList(1, 10000))[0]
+    let list: any = [];
+    for (let key in aiuc) {
+        if (key == 'id' || key == 'created_at') continue;
+        //@ts-ignore
+        if (list.length != 0 && aiuc[key] < aiuc[list[0]] && aiuc[key] < 150) {
+            list.unshift(key)
+        } else {
+            list.push(key)
+        }
+    }
+    const aiucKey = await AiMapper.findAiKey(list[0])
+    return [aiucKey[0].keyValue, aiucKey[0].keyName]
+}
 
 class AiService {
+
+
     //GPT3.5开放ai
     public async getAifox(ctx: any) {
         let strConnect = ''
@@ -29,7 +56,7 @@ class AiService {
                 callback();
             }
         });
-
+        const [key, keyName] = await SelkeysBasedOnUsageFrequency()
         const url: string = 'https://api.chatanywhere.com.cn/v1/chat/completions/';
         const result = await fetch(url, {
             method: 'POST',
@@ -48,9 +75,13 @@ class AiService {
             }),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer sk-vPMwI4Qv32xSXutKVpJ0xsoL9yEoKMEjki8UOrszoq2MHk6j`
+                'Authorization': `Bearer ${key}`
             },
         });
+
+        // 在ai使用次数表中增加使用次数
+        await AiMapper.updateAiUc(keyName, "%" + dayjs().format('YYYY-MM-DD') + "%")
+
         const textDecoder = new TextDecoder()
         const reader = result.body?.getReader()!
 
@@ -90,6 +121,50 @@ class AiService {
         }
 
     }
+
+    //获取ai列表
+    public async getAiList(ctx: any): Promise<ApiConfig<DataTotal<AiUc>>> {
+
+        const apiConfig = new ApiConfig<DataTotal<AiUc>>();
+        const {pages, limit} = ctx.query;
+        const total = await AiMapper.findAiListTotal();
+        const list = await AiMapper.findAiList(Number(pages), Number(limit));
+        apiConfig.success({
+            data: list,
+            total
+        })
+        return apiConfig
+    }
+
+    //获取指定Ai的key
+    public async getAiKeysList(ctx: any): Promise<ApiConfig<AiUcKeys[]>> {
+        const apiConfig = new ApiConfig<AiUcKeys[]>();
+        const {search, pages, limit} = ctx.query;
+        const list = await AiMapper.findAiKey('%' + search + '%', Number(pages), Number(limit));
+        apiConfig.success(list)
+        return apiConfig
+    }
+
+    //新增Ai的key
+    public async addAiKey(ctx: any): Promise<ApiConfig<string>> {
+        const apiConfig = new ApiConfig<string>();
+        const {keyName, keyValue} = ctx.request.body;
+        const list = await AiMapper.addAiKey(keyName, keyValue);
+        apiConfig.success(list)
+        return apiConfig
+    }
+
+    //删除Ai的key
+    public async deleteAiKey(ctx: any): Promise<ApiConfig<any>> {
+        const apiConfig = new ApiConfig<any>();
+        const {id} = ctx.request.body;
+        const list = await AiMapper.deleteAiKey(id);
+        if (list.affectedRows > 0) {
+            apiConfig.success("删除成功")
+        }
+        return apiConfig
+    }
+
 
 }
 

@@ -2,6 +2,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import Config from "../../config";
+import AiMapper from "../mapper/ai.mapper";
 
 const {token1, token2, token3, name} = Config.githubUserConfig
 
@@ -37,7 +38,7 @@ export default () => {
          0 9 * * *: 每天早上9点执行一次
          0 0 * * 1: 每周一的午夜执行一次
     */
-    schedule.scheduleJob('* * * * *', async function () {
+    schedule.scheduleJob('0 0 * * *', async function () {
         try {
             // 创建目录
             const jsonDir = path.resolve(__dirname, '../../public/json');
@@ -59,9 +60,7 @@ export default () => {
             }).then(res => res.text());
             const filePath = path.resolve(jsonDir, 'getGithubInfo.json');
             fs.writeFileSync(filePath, response);
-            // 获取当前时间
-            const date = new Date();
-            // console.log("github数据获取成功", date);
+            await AiMapper.addAiUc()
         } catch (e) {
             console.error("github数据获取失败", e);
         }
