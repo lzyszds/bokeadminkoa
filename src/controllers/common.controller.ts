@@ -40,11 +40,7 @@ class CommonController {
         return CommonService.getFooterInfo();
     }
 
-    //GPT3.5开放ai
-    // @Post("/getAifox")
-    // public getAifox(@Ctx() ctx: any) {
-    //     return CommonService.getAifox(ctx);
-    // }
+
 
 }
 

@@ -69,12 +69,7 @@ app.use(async (ctx, next) => {
 //     });
 // });
 
-chatGpt().then(res => {
-    return res.json()
-}).then(res => {
-    console.log(res)
-})
-console.log()
+
 
 // 静态资源
 app.use(mount("/public", KoaStatic(Config.staticDir)))
