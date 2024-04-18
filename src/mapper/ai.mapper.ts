@@ -62,6 +62,19 @@ class AiMapper {
 
     //修改新增某AiKey的使用次数
     public async updateAiUc(keyName: string, created_at: string) {
+
+        //先查询是否有当天的数据
+        let selectSQL: string = `
+            SELECT COUNT(*) as total
+            FROM wb_aiuc
+            where created_at like ?
+        `;
+        const total = await db.query(selectSQL, [created_at]);
+        if (total[0].total === 0) {
+            await this.addAiUc();
+        }
+
+        //更新数据
         let sql: string = `
             UPDATE wb_aiuc
             SET ${keyName} = ${keyName} + 1

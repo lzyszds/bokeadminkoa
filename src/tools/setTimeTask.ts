@@ -3,6 +3,8 @@ import fs from "node:fs"
 import path from "node:path"
 import Config from "../../config";
 import AiMapper from "../mapper/ai.mapper";
+import dayjs from "dayjs";
+import emailTools from './emailTools'
 
 const {token1, token2, token3, name} = Config.githubUserConfig
 
@@ -61,6 +63,37 @@ export default () => {
             const filePath = path.resolve(jsonDir, 'getGithubInfo.json');
             fs.writeFileSync(filePath, response);
             await AiMapper.addAiUc()
+        } catch (e) {
+            console.error("github数据获取失败", e);
+        }
+    })
+    //重新设置一个每日任务 时间为每天的23点10分0秒
+    // schedule.scheduleJob('0 10 23 * * *', async function () {
+    schedule.scheduleJob('0 10 23 * *', async function () {
+        try {
+            const githubData = fs.readFileSync(path.resolve(__dirname, '../../public/json/getGithubInfo.json'), 'utf-8');
+            const data = JSON.parse(githubData)
+            const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks
+            const newWeeks = weeks[weeks.length - 1].contributionDays
+            //检查今天是否有提交
+            const today = dayjs().format('YYYY-MM-DD')
+            let isToday = false
+            let count = 0
+            newWeeks.forEach((item: any) => {
+                if (item.date === today) {
+                    isToday = true
+                    count = item.contributionCount
+                }
+            })
+
+            emailTools.mail(isToday ? `今天已经提交了${count}次` : '今天还没有提交哦!')
+            emailTools.transporter.sendMail(emailTools.mail(), (err: any, info: any) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                console.log('邮件发送成功', info.messageId);
+            });
         } catch (e) {
             console.error("github数据获取失败", e);
         }

@@ -80,7 +80,7 @@ class AiService {
         });
 
         // 在ai使用次数表中增加使用次数
-        await AiMapper.updateAiUc(keyName, "%" + dayjs().format('YYYY-MM-DD') + "%")
+        await AiMapper.updateAiUc(keyName, dayjs().format('YYYY-MM-DD') + "%")
 
         const textDecoder = new TextDecoder()
         const reader = result.body?.getReader()!

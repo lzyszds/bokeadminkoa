@@ -6,24 +6,11 @@
   "scripts": {
     "dev": "ts-node-dev ./src/app.ts --mode dev ",
     "start": "tsc && node ./dist/src/app.js",
-    "build": "tsc",
-    "ncc": "ncc build ./dist/src/app.js -o ./dist2/src/app.js"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/koa": "^2.14.0",
-    "@types/koa-mount": "^4.0.5",
-    "@types/koa-multer": "^1.0.4",
-    "@types/koa-session": "^6.4.5",
-    "@types/koa-static": "^4.0.4",
-    "@types/md5": "^2.3.5",
-    "@types/multer": "^1.4.11",
-    "@types/mysql": "^2.15.25",
-    "@types/uuid": "^9.0.8",
-    "@vercel/ncc": "^0.38.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
@@ -41,10 +28,27 @@
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.13",
+    "reflect-metadata": "^0.2.2",
     "routing-controllers": "^0.10.4",
+    "rxjs": "^7.8.1",
     "socket.io": "^4.7.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/koa": "^2.14.0",
+    "@types/koa-mount": "^4.0.5",
+    "@types/koa-multer": "^1.0.4",
+    "@types/koa-session": "^6.4.5",
+    "@types/koa-static": "^4.0.4",
+    "@types/md5": "^2.3.5",
+    "@types/multer": "^1.4.11",
+    "@types/mysql": "^2.15.25",
+    "@types/nodemailer": "^6.4.14",
+    "@types/uuid": "^9.0.8"
   }
 }

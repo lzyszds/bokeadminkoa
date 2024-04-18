@@ -32,7 +32,7 @@ class CommonService {
             const query: IP2Region = new IP2Region();
             // 查询 IP 地址的归属地
             const res: IP2RegionResult | null = query.search(ipAddress);
-            if (!res?.city) {
+            if (!res?.province) {
                 return apiConfig.success({
                     "province": res?.country || "未知",
                     "city": "未知",
@@ -106,7 +106,24 @@ class CommonService {
         const apiConfig: ApiConfig<any> = new ApiConfig();
         try {
             const data = await CommonMapper.getSystemConfig();
-            console.log(data)
+            return apiConfig.success(data)
+        } catch (e: any) {
+            return apiConfig.fail(e.message)
+        }
+    }
+
+    //获取loadGif图片
+    public async getLoadGif(): Promise<ApiConfig<any[]>> {
+        const apiConfig: ApiConfig<any[]> = new ApiConfig();
+        let data: any[] = []
+        try {
+            //获取loading数据图片
+            let result = fs.readdirSync(path.resolve(__dirname, '../../public/img/loadGif'))
+            result = result.sort((a: string, b: string) => {
+                return parseInt(a.split('.')[0].replace('loading', '')) - parseInt(b.split('.')[0].replace('loading', ''))
+            })
+            data = result.map((item: string) => "/public/img/loadGif/" + item)
+
             return apiConfig.success(data)
         } catch (e: any) {
             return apiConfig.fail(e.message)
@@ -125,26 +142,43 @@ class CommonService {
         }
     }
 
+    //更新系统设置
+    public async updateSystemConfig(ctx: any): Promise<ApiConfig<string>> {
+        const apiConfig: ApiConfig<any> = new ApiConfig();
+        try {
+            const {config_key, config_value, config_id} = ctx.request.body;
+            const data = await CommonMapper.updateSystemConfig(config_key, config_value, config_id);
+            return apiConfig.success(data.affectedRows === 1 ? '更新成功' : '更新失败')
+        } catch (e: any) {
+            return apiConfig.fail(e.message)
+        }
+    }
+
     //获取页脚信息
-    public async getFooterInfo(): Promise<ApiConfig<Footer[][]>> {
-        const apiConfig: ApiConfig<Footer[][]> = new ApiConfig();
+    public async getFooterInfo(): Promise<ApiConfig<Footer[]>> {
+        const apiConfig: ApiConfig<Footer[]> = new ApiConfig();
         try {
             const data = await CommonMapper.getFooterInfo();
             //处理数据
-            let result: Footer[][] = []
-            data.forEach((item: Footer) => {
-                if (!result[item.footer_order]) {
-                    result[item.footer_order] = []
+            let result: any[] = []
+            let arr: string[] = data.map((item: Footer) => item.footer_type)
+            let set = new Set(arr)
+            set.forEach((item: string) => {
+                let children = data.filter((child: Footer) => child.footer_type === item)
+                result[children[0].footer_order] = {
+                    footer_id: children[0].footer_id,
+                    footer_content: children[0].footer_type,
+                    footer_order: children[0].footer_order,
+                    children: children
                 }
-                result[item.footer_order].push(item)
             })
+
             // console.log(result)
             return apiConfig.success(result)
         } catch (e: any) {
             return apiConfig.fail(e.message)
         }
     }
-
 
 
 }

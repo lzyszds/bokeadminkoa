@@ -27,6 +27,11 @@ class CommonController {
     public getSystemConfig() {
         return CommonService.getSystemConfig();
     }
+    //获取loadGif图片
+    @Get("/getLoadGif")
+    public getLoadGif() {
+        return CommonService.getLoadGif();
+    }
 
     //新增系统配置
     @Post("/addSystemConfig")
@@ -34,11 +39,19 @@ class CommonController {
         return CommonService.addSystemConfig(ctx);
     }
 
+    //更新系统配置
+    @Post("/updateSystemConfig")
+    public updateSystemConfig(@Ctx() ctx: any) {
+        return CommonService.updateSystemConfig(ctx);
+    }
+
     //获取页脚信息数据
     @Get("/getFooterInfo")
     public getFooterInfo() {
         return CommonService.getFooterInfo();
     }
+
+    //更新页脚信息
 
 
 

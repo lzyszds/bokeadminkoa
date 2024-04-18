@@ -5,4 +5,5 @@ export interface Footer {
     footer_url: string;
     footer_order: number;
     created_at: Date;
+    chidren?: Footer[];
 }

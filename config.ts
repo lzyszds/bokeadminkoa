@@ -6,7 +6,7 @@ import path from 'path';
 
 export default {
     port: 1020, // 启动端口
-    staticDir: path.resolve('./public'), // 静态资源路径
+    staticDir: path.join(__dirname, 'public'), // 静态文件目录
     uploadDir: path.join(__dirname, path.resolve('public/')), // 上传文件路径
     weatherKey: "78182b9b39355dc0ae4ce91dae7f0bbf",
     //根据当前文件名字的后缀名字来判断当前是开发环境还是生产环境 开发环境为.ts 生产环境为.js

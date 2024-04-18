@@ -13,7 +13,6 @@ import CONFIG from "./utils/session";
 //执行定时任务 获取github数据
 import __src_utils_setTimeTask from "./tools/setTimeTask";
 import path from "path";
-import chatGpt from "./utils/chatGpt";
 
 __src_utils_setTimeTask();
 
@@ -73,7 +72,7 @@ app.use(async (ctx, next) => {
 
 // 静态资源
 app.use(mount("/public", KoaStatic(Config.staticDir)))
-
+console.log(Config.staticDir)
 
 app.listen(Config.port, () => {
     console.log("server is running at http://localhost:1020")

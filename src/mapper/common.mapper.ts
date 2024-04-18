@@ -51,6 +51,12 @@ class CommonMapper {
         return await db.query(sql, [config_key, config_value, config_desc]);
     }
 
+    //更新系统设置
+    public async updateSystemConfig(config_key: string, config_value: string, config_id: number): Promise<OkPacket> {
+        const sql: string = `UPDATE wb_system_config SET config_value = ?, config_key = ? WHERE config_id = ?`
+        return await db.query(sql, [config_value, config_key, config_id]);
+    }
+
     //获取页脚信息
     public async getFooterInfo(): Promise<Footer[]> {
         const sql: string = `SELECT * FROM wb_footer`
