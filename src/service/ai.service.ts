@@ -44,9 +44,14 @@ class AiService {
 
         //拿到文章id
         const aid: any = ctx.query.aid
-
-        //根据文章id获取文章内容
-        const articleInfo = await ArticleMapper.findArticleInfo(aid)
+        let articleInfo: any;
+        try {
+            //根据文章id获取文章内容
+            articleInfo = await ArticleMapper.findArticleInfo(aid)
+        } catch (e) {
+            ctx.res.end('无法获取文章内容')
+            return
+        }
 
 
         // 创建一个可写流
@@ -98,7 +103,6 @@ class AiService {
 
                 const text = textDecoder.decode(value)
                 const lines = (partialData + text).split('\n'); // 将部分数据与新数据合并后再按行分割
-                partialData = lines.pop() || ''; // 获取新数据中的不完整行，并保存到 partialData 中
                 for (let line of lines) { // 逐行处理数据
                     try {
                         if (strConnect != '') {
@@ -139,7 +143,11 @@ class AiService {
     //获取指定Ai的key
     public async getAiKeysList(ctx: any): Promise<ApiConfig<AiUcKeys[]>> {
         const apiConfig = new ApiConfig<AiUcKeys[]>();
-        const {search, pages, limit} = ctx.query;
+        let {search, pages, limit} = ctx.query;
+        search = search || ''
+        pages = pages || 1
+        limit = limit || 10
+
         const list = await AiMapper.findAiKey('%' + search + '%', Number(pages), Number(limit));
         apiConfig.success(list)
         return apiConfig

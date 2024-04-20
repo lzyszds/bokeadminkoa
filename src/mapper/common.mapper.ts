@@ -62,6 +62,18 @@ class CommonMapper {
         const sql: string = `SELECT * FROM wb_footer`
         return await db.query(sql, []);
     }
+
+    //更新页脚信息
+    public async updateFooterInfo(data: Footer[]): Promise<OkPacket> {
+
+        for (let i = 0; i < data.length; i++) {
+            const sql: string = `UPDATE wb_footer SET footer_content = ? WHERE footer_id = ?`
+            await db.query(sql, [data[i].footer_content, data[i].footer_id]);
+
+        }
+        const sql: string = `UPDATE wb_footer SET footer_content = ? WHERE footer_id = ?`
+        return await db.query(sql, []);
+    }
 }
 
 export default new CommonMapper();

@@ -82,6 +82,16 @@ class AiMapper {
         `;
         return await db.query(sql, [created_at]);
     }
+
+    //根据时间判断 是否有今天的数据
+    public async findAiUcByTime(created_at: string) {
+        let sql: string = `
+            SELECT *
+            FROM wb_aiuc
+            where created_at like ?
+        `;
+        return await db.query(sql, [created_at]);
+    }
 }
 
 

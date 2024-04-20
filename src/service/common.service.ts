@@ -9,7 +9,7 @@ import IP2Region, {IP2RegionResult} from "ip2region"
 import Config from "../../config";
 import {WeatherDataType, WeatherDataTypeResponse} from "../domain/CommonType";
 import dayjs from "dayjs";
-import {Footer} from "../domain/FooterType";
+import {Footer, FooterPrincipal, FooterSecondary} from "../domain/FooterType";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
@@ -155,12 +155,12 @@ class CommonService {
     }
 
     //获取页脚信息
-    public async getFooterInfo(): Promise<ApiConfig<Footer[]>> {
-        const apiConfig: ApiConfig<Footer[]> = new ApiConfig();
+    public async getFooterInfo(): Promise<ApiConfig<FooterPrincipal[]>> {
+        const apiConfig: ApiConfig<FooterPrincipal[]> = new ApiConfig();
         try {
             const data = await CommonMapper.getFooterInfo();
             //处理数据
-            let result: any[] = []
+            let result: FooterSecondary[] = []
             let arr: string[] = data.map((item: Footer) => item.footer_type)
             let set = new Set(arr)
             set.forEach((item: string) => {
@@ -174,7 +174,30 @@ class CommonService {
             })
 
             // console.log(result)
-            return apiConfig.success(result)
+            return apiConfig.success([{
+                footer_id: 0,
+                footer_content: "页脚数据设置",
+                footer_order: 0,
+                children: result
+            }])
+        } catch (e: any) {
+            return apiConfig.fail(e.message)
+        }
+    }
+
+    //更新页脚信息
+    public async updateFooterInfo(ctx: any): Promise<ApiConfig<string>> {
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        try {
+            const {children} = ctx.request.body;
+            let arr: Footer[] = []
+            children.forEach((item: FooterSecondary) => {
+                item.children.forEach((child: Footer) => {
+                    arr.push(child)
+                })
+            })
+            const data = await CommonMapper.updateFooterInfo(arr);
+            return apiConfig.success("更新成功")
         } catch (e: any) {
             return apiConfig.fail(e.message)
         }

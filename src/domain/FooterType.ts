@@ -5,5 +5,18 @@ export interface Footer {
     footer_url: string;
     footer_order: number;
     created_at: Date;
-    chidren?: Footer[];
+}
+
+export interface FooterSecondary {
+    footer_id: number
+    footer_content: string
+    footer_order: number
+    children: Footer[]
+}
+
+export interface FooterPrincipal {
+    footer_id: number
+    footer_content: string
+    footer_order: number
+    children: FooterSecondary[]
 }

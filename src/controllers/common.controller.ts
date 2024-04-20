@@ -52,7 +52,10 @@ class CommonController {
     }
 
     //更新页脚信息
-
+    @Post("/updateFooterInfo")
+    public updateFooterInfo(@Ctx() ctx: any) {
+        return CommonService.updateFooterInfo(ctx);
+    }
 
 
 }
