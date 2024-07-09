@@ -1,4 +1,4 @@
-import {UserRole} from "./User";
+import { UserRole } from "./User";
 
 interface Articles {
     aid: number;
@@ -34,9 +34,9 @@ interface ArticleUser {
     accessCount: number;
 }
 
-interface ArticleData {
+interface ArticleData<T> {
     total: number,
-    data: Articles[],
+    data: T,
 }
 
 

@@ -1,42 +1,43 @@
 //文章接口
 
 import ArticleMapper from "../mapper/article.mapper";
-import {ArticleData, Articles, ArticleType} from "../domain/Articles";
+import { ArticleData, Articles, ArticleType } from "../domain/Articles";
 import ApiConfig from "../domain/ApiCongfigType";
-import {checkObj, getCurrentUnixTime, parseUserAgent, randomUnique} from "../utils/common";
+import { checkObj, getCurrentUnixTime, parseUserAgent, randomUnique } from "../utils/common";
 import path from "path";
 import fs from "fs";
 import md5 from "md5";
 import UserMapper from "../mapper/user.mapper";
-import IP2Region, {IP2RegionResult} from "ip2region";
+import IP2Region, { IP2RegionResult } from "ip2region";
 
 class ArticleService {
 
     public async findAll(ctx: any) {
-        let {search, pages, limit} = ctx.request.query
+        let { search, pages, limit } = ctx.request.query
         search = `%${search ? search : ''}%`;
         const total: number = await ArticleMapper.getArticleListTotal(search);
 
         const data: Articles[] = await ArticleMapper.findAll(search, pages, limit);
-        const apiConfig: ApiConfig<ArticleData> = new ApiConfig();
-        return apiConfig.success({total: total, data});
+        const apiConfig: ApiConfig<ArticleData<Articles[]>> = new ApiConfig();
+        return apiConfig.success({ total: total, data });
     }
 
     public async findArticleInfo(ctx: any) {
-        const {id} = ctx.params;
+        const { id } = ctx.params;
         const data: Articles = await ArticleMapper.findArticleInfo(id);
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
     }
 
     public async findArticleTypeAll() {
+
         const data: ArticleType[] = await ArticleMapper.findArticleTypeAll();
-        const apiConfig: ApiConfig<ArticleType[]> = new ApiConfig();
-        return apiConfig.success(data);
+        const apiConfig: ApiConfig<ArticleData<ArticleType[]>> = new ApiConfig();
+        return apiConfig.success({ total: data.length, data });
     }
 
     public async addArticle(ctx: any) {
-        let {title, content, cover_img, main, tags, partial_content} = ctx.request.body;
+        let { title, content, cover_img, main, tags, partial_content } = ctx.request.body;
         if (checkObj(ctx.request.body, ["title", "content", "cover_img", "main", "tags", "partial_content"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误,请检查是否有空参数");
@@ -46,7 +47,7 @@ class ArticleService {
         }
 
         //根据token获取uid
-        const {uid} = (await UserMapper.getUidByToken(ctx.req.headers["authorization"]))[0];
+        const { uid } = (await UserMapper.getUidByToken(ctx.req.headers["authorization"]))[0];
         //获取文章发布时间 2021-08-01 12:00:00
         const create_date = new Date().toLocaleString();
         const queryData = await ArticleMapper.addArticle({
@@ -69,7 +70,7 @@ class ArticleService {
 
     //添加文章类型
     public async addArticleType(ctx: any) {
-        const {name} = ctx.request.body;
+        const { name } = ctx.request.body;
         if (checkObj(ctx.request.body, ["name"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误");
@@ -85,7 +86,7 @@ class ArticleService {
 
     //删除文章类型
     public async deleteArticleType(ctx: any) {
-        const {id} = ctx.request.body;
+        const { id } = ctx.request.body;
         if (checkObj(ctx.request.body, ["id"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误");
@@ -131,7 +132,7 @@ class ArticleService {
         if (!ctx.request.body) {
             return apiConfig.fail("内容不曾改变");
         }
-        const {tags, aid} = ctx.request.body;
+        const { tags, aid } = ctx.request.body;
 
         await ArticleMapper.updateArticle(ctx.request.body)
 
@@ -198,7 +199,7 @@ class ArticleService {
 
     //删除文章
     public async deleteArticle(ctx: any) {
-        const {id} = ctx.request.body;
+        const { id } = ctx.request.body;
         if (checkObj(ctx.request.body, ["id"])) {
             const apiConfig: ApiConfig<string> = new ApiConfig();
             return apiConfig.fail("参数错误");
