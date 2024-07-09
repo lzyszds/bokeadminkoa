@@ -1,28 +1,30 @@
 import ApiConfig from "../domain/ApiCongfigType";
 import path from "path";
 import fs from "fs";
-import IP2Region, {IP2RegionResult} from "ip2region"
+import IP2Region, { IP2RegionResult } from "ip2region"
 
-import {Articles} from "../domain/Articles";
-import {getCurrentUnixTime, parseUserAgent} from "../utils/common";
+import { ArticleData, Articles } from "../domain/Articles";
+import { getCurrentUnixTime, parseUserAgent } from "../utils/common";
 import CommentMapper from "../mapper/comment.mapper";
-import {CommentType} from "../domain/CommentType";
+import { CommentType } from "../domain/CommentType";
 
 class CommentService {
 
     //获取文章评论
     public async getArticleComment(ctx: any) {
-        const {id} = ctx.query;
+        const { id } = ctx.query;
         const data: Articles = await CommentMapper.getArticleComment(id);
         const apiConfig: ApiConfig<Articles> = new ApiConfig();
         return apiConfig.success(data);
     }
 
     //获取所有评论
-    public async getAllComment() {
-        const data: Articles = await CommentMapper.getAllComment();
-        const apiConfig: ApiConfig<Articles> = new ApiConfig();
-        return apiConfig.success(data);
+    public async getAllComment(search: string, pages: string, limit: string) {
+        search = `%${search}%`;
+
+        const data: CommentType[] = await CommentMapper.getAllComment(search, pages, limit);
+        const apiConfig: ApiConfig<ArticleData<CommentType[]>> = new ApiConfig();
+        return apiConfig.success({ total: data.length, data });
     }
 
     //新增评论
@@ -34,7 +36,7 @@ class CommentService {
             const imgs = fs.readdirSync(path.join(__dirname, '../../public/img/comments'));
 
             // 获取前端传入的参数
-            let {content, aid, replyId, groundId, email, name, imgIndex} = ctx.request.body;
+            let { content, aid, replyId, groundId, email, name, imgIndex } = ctx.request.body;
             // 获取用户ip
             const userIp = ctx.request.headers['x-real-ip'] || ctx.request.ip.replace('::ffff:', '')
             //根据用户ip获取用户地址
@@ -46,7 +48,7 @@ class CommentService {
             //获取评论人的系统信息
             const agent = ctx.request.headers['user-agent'];
             //获取设备系统
-            const {browserSystem, deviceSystem} = parseUserAgent(agent);
+            const { browserSystem, deviceSystem } = parseUserAgent(agent);
             replyId = replyId ? replyId : 0;
             groundId = groundId ? groundId : 0;
             //头像地址
@@ -69,7 +71,7 @@ class CommentService {
         // 创建一个 ApiConfig 对象
         const apiConfig: ApiConfig<CommentType[]> = new ApiConfig();
         try {
-            const {limit} = ctx.query;
+            const { limit } = ctx.query;
             // 获取最新评论
             const data: CommentType[] = await CommentMapper.getNewComment(Number(limit));
 

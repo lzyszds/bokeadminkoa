@@ -1,4 +1,4 @@
-import {Controller, Ctx, Get, Post} from "routing-controllers";
+import { Controller, Ctx, Get, Post } from "routing-controllers";
 import CommentService from "../service/comment.service";
 
 @Controller("/comment")
@@ -13,8 +13,9 @@ class CommentController {
 
     //获取当前系统所有评论
     @Get("/getAllComment")
-    public getAllComment() {
-        return CommentService.getAllComment();
+    public getAllComment(@Ctx() ctx: any) {
+        const { search, pages, limit } = ctx.request.query
+        return CommentService.getAllComment(search, pages, limit);
     }
 
     //新增评论
