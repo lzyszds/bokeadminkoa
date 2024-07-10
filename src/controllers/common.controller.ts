@@ -1,4 +1,4 @@
-import {Controller, Ctx, Get, Post} from "routing-controllers";
+import { Controller, Ctx, Get, Post } from "routing-controllers";
 import CommonService from "../service/common.service";
 
 @Controller("/common")
@@ -24,8 +24,8 @@ class CommonController {
 
     //获取系统配置
     @Get("/getSystemConfig")
-    public getSystemConfig() {
-        return CommonService.getSystemConfig();
+    public getSystemConfig(@Ctx() ctx: any) {
+        return CommonService.getSystemConfig(ctx.query.type);
     }
     //获取loadGif图片
     @Get("/getLoadGif")

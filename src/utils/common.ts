@@ -43,7 +43,7 @@ const sliceData = <T>(data: T[], pages: number, limit: number): { data: T[], tot
     // 截取当前页数的数据
     data = data.slice(start, end);
 
-    return {data, total};
+    return { data, total };
 };
 
 /**
@@ -90,9 +90,8 @@ const imgProxy = async (url: string): Promise<string> => {
 /**
  * 处理文件内容，去除重复字符后再写入文件
  */
-const processFileContent = (): void => {
+const processFileContent = (filePath: string): void => {
     try {
-        const filePath = path.resolve(__dirname, '../../utilsPublic/font.txt');
         const text = fs.readFileSync(filePath, "utf-8");
         // 去重处理
         const arr = text.split("");
@@ -186,7 +185,7 @@ function parseUserAgent(userAgent: any) {
     var browserName = "Unknown";
     var browserVersion = "Unknown";
     var os = "Unknown";
-    if (!userAgent) return {browserSystem: "Unknown", browserVersion, deviceSystem: os};
+    if (!userAgent) return { browserSystem: "Unknown", browserVersion, deviceSystem: os };
     // 浏览器信息
     if (userAgent.indexOf("Firefox") > -1) {
         browserName = "Firefox";
@@ -216,7 +215,7 @@ function parseUserAgent(userAgent: any) {
         // 可以进一步解析iOS的版本
     }
 
-    return {browserSystem: browserName + browserVersion, deviceSystem: os};
+    return { browserSystem: browserName + browserVersion, deviceSystem: os };
 }
 
 

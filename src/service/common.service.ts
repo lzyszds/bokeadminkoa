@@ -1,15 +1,15 @@
 import ApiConfig from "../domain/ApiCongfigType";
-import {AdminHomeType, ProcessAdminHomeType} from "../domain/AdminHomeType";
+import { AdminHomeType, ProcessAdminHomeType } from "../domain/AdminHomeType";
 import CommonMapper from "../mapper/common.mapper";
 import ArticleMapper from "../mapper/article.mapper";
 import path from "path";
 import fs from "fs";
-import IP2Region, {IP2RegionResult} from "ip2region"
+import IP2Region, { IP2RegionResult } from "ip2region"
 
 import Config from "../../config";
-import {WeatherDataType, WeatherDataTypeResponse} from "../domain/CommonType";
+import { WeatherDataType, WeatherDataTypeResponse } from "../domain/CommonType";
 import dayjs from "dayjs";
-import {Footer, FooterPrincipal, FooterSecondary} from "../domain/FooterType";
+import { Footer, FooterPrincipal, FooterSecondary } from "../domain/FooterType";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
@@ -49,7 +49,7 @@ class CommonService {
                 })
             }
             //根据地区获取当前城市编码
-            const {adcode} = await CommonMapper.getCityCodeByIp(res?.city!)
+            const { adcode } = await CommonMapper.getCityCodeByIp(res?.city!)
             //根据城市编码获取天气预报
             const weatherData: WeatherDataTypeResponse = await fetch(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${Config.weatherKey}`)
                 .then((res: any) => res.json())
@@ -102,10 +102,15 @@ class CommonService {
     }
 
     //获取系统设置
-    public async getSystemConfig(): Promise<ApiConfig<any>> {
+    public async getSystemConfig(type: string): Promise<ApiConfig<any>> {
+        const params: any = {
+            "all": "%%", //获取所有
+            "reception": '4,5', //前台
+        }
+
         const apiConfig: ApiConfig<any> = new ApiConfig();
         try {
-            const data = await CommonMapper.getSystemConfig();
+            const data = await CommonMapper.getSystemConfig(params[type]);
             return apiConfig.success(data)
         } catch (e: any) {
             return apiConfig.fail(e.message)
@@ -134,7 +139,7 @@ class CommonService {
     public async addSystemConfig(ctx: any): Promise<ApiConfig<any>> {
         const apiConfig: ApiConfig<any> = new ApiConfig();
         try {
-            const {config_key, config_value, config_desc} = ctx.request.body;
+            const { config_key, config_value, config_desc } = ctx.request.body;
             const data = await CommonMapper.addSystemConfig(config_key, config_value, config_desc);
             return apiConfig.success(data.affectedRows === 1 ? '新增成功' : '新增失败')
         } catch (e: any) {
@@ -146,7 +151,7 @@ class CommonService {
     public async updateSystemConfig(ctx: any): Promise<ApiConfig<string>> {
         const apiConfig: ApiConfig<any> = new ApiConfig();
         try {
-            const {config_key, config_value, config_id} = ctx.request.body;
+            const { config_key, config_value, config_id } = ctx.request.body;
             const data = await CommonMapper.updateSystemConfig(config_key, config_value, config_id);
             return apiConfig.success(data.affectedRows === 1 ? '更新成功' : '更新失败')
         } catch (e: any) {
@@ -189,7 +194,7 @@ class CommonService {
     public async updateFooterInfo(ctx: any): Promise<ApiConfig<string>> {
         const apiConfig: ApiConfig<string> = new ApiConfig();
         try {
-            const {children} = ctx.request.body;
+            const { children } = ctx.request.body;
             let arr: Footer[] = []
             children.forEach((item: FooterSecondary) => {
                 item.children.forEach((child: Footer) => {

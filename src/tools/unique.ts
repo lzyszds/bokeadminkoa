@@ -10,11 +10,12 @@
 import fs from "node:fs"
 import path from "node:path"
 import Fontmin from "fontmin";
-import {processFileContent} from "../utils/common";
-//将txt进行去重
-processFileContent()
-
+import { processFileContent } from "../utils/common";
 const filePath = path.join(__dirname, "./font.txt")
+console.log(`lzy  filePath:`, filePath)
+//将txt进行去重
+processFileContent(filePath)
+
 
 const fontfiles = fs.readdirSync(path.resolve(__dirname, '../public/font/fonts'))
 console.log(fontfiles)

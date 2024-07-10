@@ -1,8 +1,8 @@
-import {AdminHomeType, AdminHomeTypeSql} from "../domain/AdminHomeType";
+import { AdminHomeType, AdminHomeTypeSql } from "../domain/AdminHomeType";
 import db from "../utils/db";
-import {SystemConfigType} from "../domain/CommonType";
-import {OkPacket} from "mysql";
-import {Footer} from "../domain/FooterType";
+import { SystemConfigType } from "../domain/CommonType";
+import { OkPacket } from "mysql";
+import { Footer } from "../domain/FooterType";
 
 class CommonMapper {
 
@@ -40,9 +40,9 @@ class CommonMapper {
 
 
     //从数据库获取系统设置配置
-    public async getSystemConfig(): Promise<SystemConfigType[]> {
-        const sql: string = `SELECT * FROM wb_system_config`
-        return await db.query(sql, []);
+    public async getSystemConfig(ids: string): Promise<SystemConfigType[]> {
+        const sql: string = `SELECT * FROM wb_system_config where config_id in (?)`
+        return await db.query(sql, [ids]);
     }
 
     //新增系统设置
