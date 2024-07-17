@@ -27,10 +27,18 @@ class CommonController {
     public getSystemConfig(@Ctx() ctx: any) {
         return CommonService.getSystemConfig(ctx.query.type);
     }
-    //获取loadGif图片
+    //获取系统中全部的loadGif图片
     @Get("/getLoadGif")
     public getLoadGif() {
         return CommonService.getLoadGif();
+    }
+    //图片懒加载的loadGif图片
+    @Get("/getLazyLoadGif")
+    public async getLazyLoadGif(@Ctx() ctx: any) {
+        const imgBuffer = await CommonService.getLazyLoadGif(ctx);;
+        ctx.set('Content-Type', 'image/jpeg');
+        ctx.body = imgBuffer;
+        return ctx;
     }
 
     //新增系统配置

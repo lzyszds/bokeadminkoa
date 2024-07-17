@@ -41,8 +41,9 @@ class CommonMapper {
 
     //从数据库获取系统设置配置
     public async getSystemConfig(ids: string): Promise<SystemConfigType[]> {
-        const sql: string = `SELECT * FROM wb_system_config where config_id in (?)`
-        return await db.query(sql, [ids]);
+        const sqlAfter: string = `WHERE config_id IN (${ids})`
+        let sql: string = `SELECT * FROM wb_system_config ` + (ids == 'admin' ? '' : sqlAfter);
+        return await db.query(sql, []);
     }
 
     //新增系统设置
@@ -74,6 +75,8 @@ class CommonMapper {
         const sql: string = `UPDATE wb_footer SET footer_content = ? WHERE footer_id = ?`
         return await db.query(sql, []);
     }
+
+
 }
 
 export default new CommonMapper();

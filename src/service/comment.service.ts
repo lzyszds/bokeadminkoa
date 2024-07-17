@@ -67,6 +67,19 @@ class CommentService {
         }
     }
 
+    //删除评论
+    public async deleteComment(ctx: any) {
+        const apiConfig: ApiConfig<string> = new ApiConfig();
+        try {
+            const { ids } = ctx.request.body;
+            // 删除评论
+            await CommentMapper.deleteComment(ids);
+            return apiConfig.success("删除成功");
+        } catch (e: any) {
+            return apiConfig.fail(e.message);
+        }
+    }
+
     public async getNewComment(ctx: any): Promise<ApiConfig<CommentType[]>> {
         // 创建一个 ApiConfig 对象
         const apiConfig: ApiConfig<CommentType[]> = new ApiConfig();

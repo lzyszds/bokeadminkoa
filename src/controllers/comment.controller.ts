@@ -24,6 +24,12 @@ class CommentController {
         return CommentService.addComment(ctx);
     }
 
+    //删除评论
+    @Post("/deleteComment")
+    public deleteComment(@Ctx() ctx: any) {
+        return CommentService.deleteComment(ctx);
+    }
+
     //获取最新评论
     @Get("/getNewComment")
     public async getWeather(@Ctx() ctx: any) {

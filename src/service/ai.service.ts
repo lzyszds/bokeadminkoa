@@ -2,8 +2,8 @@ import ApiConfig from "../domain/ApiCongfigType";
 import ArticleMapper from "../mapper/article.mapper";
 import stream from "stream";
 import AiMapper from "../mapper/ai.mapper";
-import {AiUc, AiUcKeys} from "../domain/AiType";
-import {DataTotal} from "../domain/DataTotal";
+import { AiUc, AiUcKeys } from "../domain/AiType";
+import { DataTotal } from "../domain/DataTotal";
 import dayjs from "dayjs";
 
 
@@ -31,7 +31,6 @@ async function SelkeysBasedOnUsageFrequency(): Promise<string[]> {
 }
 
 class AiService {
-
 
     //GPT3.5开放ai
     public async getAifox(ctx: any) {
@@ -95,7 +94,7 @@ class AiService {
         async function slowLoop() {
             let partialData = ''; // 保存部分数据
             while (true) {
-                const {done, value} = await reader.read()
+                const { done, value } = await reader.read()
                 if (done) {
                     ctx.res.end(); // 结束响应
                     break
@@ -130,7 +129,7 @@ class AiService {
     public async getAiList(ctx: any): Promise<ApiConfig<DataTotal<AiUc>>> {
 
         const apiConfig = new ApiConfig<DataTotal<AiUc>>();
-        const {pages, limit} = ctx.query;
+        const { pages, limit } = ctx.query;
         const total = await AiMapper.findAiListTotal();
         const list = await AiMapper.findAiList(Number(pages), Number(limit));
         apiConfig.success({
@@ -143,7 +142,7 @@ class AiService {
     //获取指定Ai的key
     public async getAiKeysList(ctx: any): Promise<ApiConfig<AiUcKeys[]>> {
         const apiConfig = new ApiConfig<AiUcKeys[]>();
-        let {search, pages, limit} = ctx.query;
+        let { search, pages, limit } = ctx.query;
         search = search || ''
         pages = pages || 1
         limit = limit || 10
@@ -156,7 +155,7 @@ class AiService {
     //新增Ai的key
     public async addAiKey(ctx: any): Promise<ApiConfig<string>> {
         const apiConfig = new ApiConfig<string>();
-        const {keyName, keyValue} = ctx.request.body;
+        const { keyName, keyValue } = ctx.request.body;
         const list = await AiMapper.addAiKey(keyName, keyValue);
         apiConfig.success(list)
         return apiConfig
@@ -165,7 +164,7 @@ class AiService {
     //删除Ai的key
     public async deleteAiKey(ctx: any): Promise<ApiConfig<any>> {
         const apiConfig = new ApiConfig<any>();
-        const {id} = ctx.request.body;
+        const { id } = ctx.request.body;
         const list = await AiMapper.deleteAiKey(id);
         if (list.affectedRows > 0) {
             apiConfig.success("删除成功")

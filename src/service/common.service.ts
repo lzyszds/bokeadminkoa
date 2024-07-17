@@ -104,7 +104,7 @@ class CommonService {
     //获取系统设置
     public async getSystemConfig(type: string): Promise<ApiConfig<any>> {
         const params: any = {
-            "all": "%%", //获取所有
+            "admin": "admin", //获取所有
             "reception": '4,5', //前台
         }
 
@@ -135,6 +135,17 @@ class CommonService {
         }
     }
 
+    public async getLazyLoadGif(ctx: any): Promise<any> {
+        try {
+            const data = await CommonMapper.getSystemConfig('admin');
+            const gifValue = data.filter((item: any) => item.config_key === "load_animation_gif")[0].config_value
+            const imgBuffer = fs.readFileSync(path.resolve(__dirname, '../..' + gifValue));
+            return imgBuffer
+        } catch (e) {
+            return e
+        }
+    }
+
     //新增系统设置
     public async addSystemConfig(ctx: any): Promise<ApiConfig<any>> {
         const apiConfig: ApiConfig<any> = new ApiConfig();
@@ -160,8 +171,8 @@ class CommonService {
     }
 
     //获取页脚信息
-    public async getFooterInfo(): Promise<ApiConfig<FooterPrincipal[]>> {
-        const apiConfig: ApiConfig<FooterPrincipal[]> = new ApiConfig();
+    public async getFooterInfo(): Promise<ApiConfig<FooterSecondary[]>> {
+        const apiConfig: ApiConfig<FooterSecondary[]> = new ApiConfig();
         try {
             const data = await CommonMapper.getFooterInfo();
             //处理数据
@@ -179,12 +190,7 @@ class CommonService {
             })
 
             // console.log(result)
-            return apiConfig.success([{
-                footer_id: 0,
-                footer_content: "页脚数据设置",
-                footer_order: 0,
-                children: result
-            }])
+            return apiConfig.success(result)
         } catch (e: any) {
             return apiConfig.fail(e.message)
         }

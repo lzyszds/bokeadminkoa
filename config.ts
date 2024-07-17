@@ -36,6 +36,7 @@ export default {
         '/common/openai',
         '/common/getSystemConfig',
         '/common/getFooterInfo',
+        '/common/getLazyLoadGif',
 
     ],
     //github api密钥 配置
