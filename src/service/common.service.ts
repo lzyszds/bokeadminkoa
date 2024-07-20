@@ -5,6 +5,7 @@ import ArticleMapper from "../mapper/article.mapper";
 import path from "path";
 import fs from "fs";
 import IP2Region, { IP2RegionResult } from "ip2region"
+import fetch from "node-fetch";
 
 import Config from "../../config";
 import { WeatherDataType, WeatherDataTypeResponse } from "../domain/CommonType";

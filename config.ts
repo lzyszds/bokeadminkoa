@@ -37,6 +37,7 @@ export default {
         '/common/getSystemConfig',
         '/common/getFooterInfo',
         '/common/getLazyLoadGif',
+        '/aiService/getAifox',
 
     ],
     //github api密钥 配置

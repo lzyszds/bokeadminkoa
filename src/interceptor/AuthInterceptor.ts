@@ -1,6 +1,6 @@
 // interceptor/AuthInterceptor.ts
 
-import {Interceptor, InterceptorInterface, Action, UnauthorizedError} from "routing-controllers";
+import { Interceptor, InterceptorInterface, Action, UnauthorizedError } from "routing-controllers";
 import userMapper from "../mapper/user.mapper";
 import Config from "../../config"
 
@@ -24,6 +24,7 @@ export class AuthInterceptor implements InterceptorInterface {
                 return "未登录"
             }
             const token = authorization.replace("Bearer ", "");
+            console.log(`lzy  token:`, token)
             if (!token) {
                 return {
                     code: 401,

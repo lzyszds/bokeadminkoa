@@ -1,13 +1,17 @@
-import {Controller, Ctx, Get, Post} from "routing-controllers";
+import { Controller, Ctx, Get, Post } from "routing-controllers";
 import AiService from "../service/ai.service";
 
 // import AiService from "../service/ai.service";
 
 @Controller("/aiService")
 class AiController {
+
     //GPT3.5开放ai
     @Get("/getAifox")
     public getAifox(@Ctx() ctx: any) {
+        ctx.status = 200;
+        ctx.set('Content-Type', 'text/plain');
+        ctx.set('Transfer-Encoding', 'chunked');
         return AiService.getAifox(ctx);
     }
 

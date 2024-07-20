@@ -53,13 +53,7 @@ class AiService {
         }
 
 
-        // 创建一个可写流
-        const writableStream = new stream.Writable({
-            write(chunk, encoding, callback) {
-                ctx.res.write(chunk, encoding);
-                callback();
-            }
-        });
+
         const [key, keyName] = await SelkeysBasedOnUsageFrequency()
         const url: string = 'https://api.chatanywhere.com.cn/v1/chat/completions/';
         const result = await fetch(url, {
@@ -112,8 +106,9 @@ class AiService {
                         const resObj: any = JSON.parse(line.replace('data: ', ''));
                         const str = resObj.choices[0].delta.content;
                         if (str) {
+                            await new Promise(resolve => setTimeout(resolve, 100));
                             // 返回数据
-                            writableStream.write(`${str}\n`, 'utf-8');
+                            ctx.res.write(`${str}\n`, 'utf-8');
                         }
                     } catch (e) {
                         // 处理异常
