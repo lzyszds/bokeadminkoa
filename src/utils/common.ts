@@ -2,6 +2,7 @@ import fs from "fs";
 import * as https from "https";
 import path from "node:path";
 import dayjs from "dayjs";
+const rootPath = path.resolve(__dirname, '../../');
 
 /**
  * 通用键值对象接口
@@ -218,17 +219,47 @@ function parseUserAgent(userAgent: any) {
     return { browserSystem: browserName + browserVersion, deviceSystem: os };
 }
 
+// 读取 JSON 文件
+const readJsonFile = async (filePath: string) => {
+    try {
+        const data = await fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(data);
+    } catch (err) {
+        console.error('读取失败:', err);
+    }
+};
+
+// 写入 JSON 文件
+const writeJsonFile = async (filePath: string, data: object) => {
+    try {
+        await fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    } catch (err) {
+        console.error('写入失败:', err);
+    }
+};
+
+// 追加内容到文件的函数
+const appendToFile = (content: string, filePath: string) => {
+    try {
+        fs.appendFileSync(path.join(rootPath, filePath), content);
+    } catch (e) {
+        console.error('追加内容到文件失败:', e);
+    }
+};
 
 
 export {
-    mapGather,
-    sliceData,
-    randomUnique,
-    imgProxy,
-    processFileContent,
-    replaceSingleQuotes,
-    toValidEnglishNumber,
-    getCurrentUnixTime,
-    checkObj,
-    parseUserAgent
+    mapGather,  // 将对象转换成键值数组
+    sliceData,  // 数据截取函数
+    randomUnique,   // 生成在指定范围内不重复的随机数
+    imgProxy,   // 图片代理函数
+    processFileContent,   // 处理文件内容，去除重复字符后再写入文件
+    replaceSingleQuotes,    // 将字符串中所有的单引号转换成双引号
+    toValidEnglishNumber,   // 判断传入的参数是否是英文和数字组成的字符串
+    getCurrentUnixTime, // 获取当前时间的时间戳
+    checkObj,    // 检查对象是否包含指定的键，或者只有一个存在的键，如果存在的键的值为空，则返回真
+    parseUserAgent, // 提取出你需要的信息，比如浏览器名称、版本号以及操作系统等
+    readJsonFile,   // 读取 JSON 文件
+    writeJsonFile,  // 写入 JSON 文件
+    appendToFile,   // 追加内容到文件的函数
 };

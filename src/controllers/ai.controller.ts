@@ -9,9 +9,12 @@ class AiController {
     //GPT3.5开放ai
     @Get("/getAifox")
     public getAifox(@Ctx() ctx: any) {
-        ctx.status = 200;
         ctx.set('Content-Type', 'text/plain');
         ctx.set('Transfer-Encoding', 'chunked');
+        ctx.status = 200;
+        // 处理流式请求
+        ctx.respond = false; // 禁用 Koa 的内置响应处理
+        ctx.type = 'text/plain'; // 设置响应头为文本类型
         return AiService.getAifox(ctx);
     }
 
