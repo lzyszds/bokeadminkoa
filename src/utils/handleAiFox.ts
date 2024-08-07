@@ -14,7 +14,7 @@ export default {
         messages: [
           {
             role: "user",
-            content: "请从以下文章中总结出一段不要超出100个字的简洁的内容(换行请使用\\n表示)。" + content
+            content: "请从以下文章中总结出一段不要超出100个字的简洁的内容。请不要使用编号列出信息点" + content
           }
         ],
         presence_penalty: 0,
@@ -29,8 +29,9 @@ export default {
         responseType: 'stream', // 设置响应类型为流
         timeout: 5000, // 设定超时为 5 秒
       });
-    } catch (error) {
-      new Error('请求失败');
+    } catch (error: any) {
+      console.log(`lzy  error:`, error.message);
+      throw new Error('请求失败');
     }
   },
   writeAiTextStore: async (content: string, id: string) => {

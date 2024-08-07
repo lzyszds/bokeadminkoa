@@ -1,0 +1,3 @@
+[
+  "文章总结如下：\n\n本文记录了使用Vue3 + Vite和Node.ts的打包过程，解决了路径前后打包的问题。在Vue项目中，通过vite-plugin-env-compatible插件处理环境变量，并使用import.meta.env.VITE_BASE_URL配置路径。对比使用Webpack打包Node.ts，虽然功能相对不便，但通过ts-loader和webpack.config.js实现了基本打包。然而，Webpack在处理路径和静态资源上的灵活性不如Vite，需要手动调整线上路径和复制静态资源。"
+]

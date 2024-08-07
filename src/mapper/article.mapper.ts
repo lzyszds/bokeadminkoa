@@ -66,13 +66,12 @@ class ArticleMapper {
             await db.query(sqlAccess, [id]);
             let sql: string = `
                 SELECT a.aid, a.create_date, a.title, a.content,a.main, a.modified_date, a.cover_img, a.comments_count,
-                a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.create_date,
-                wb_users.signature
+                a.partial_content, a.access_count, wb_users.uname, wb_users.head_img, wb_users.signature
                 FROM wb_articles AS a
                 JOIN wb_users ON a.uid = wb_users.uid
                 WHERE a.aid = ?
             `;
-            const result = await db.query(sql, [id, id]);
+            const result = await db.query(sql, [id]);
             if (result.length === 0) {
                 resolve(null)
             } else {
@@ -134,7 +133,7 @@ class ArticleMapper {
 
     //新增文章
     public async addArticle(params: any) {
-        const {title, content, cover_img, main, partial_content, uid, create_date} = params;
+        const { title, content, cover_img, main, partial_content, uid, create_date } = params;
         let sql: string = `
             INSERT INTO wb_articles (title, content, cover_img, main, partial_content, uid, create_date) 
             VALUES (?, ?, ?, ?, ?, ?, ?)

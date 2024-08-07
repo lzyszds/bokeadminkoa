@@ -60,16 +60,16 @@ class AiService {
         const [key, keyName] = await SelkeysBasedOnUsageFrequency();
         const url: string = 'https://api.chatanywhere.com.cn/v1/chat/completions/';
 
-
         let result: any;
 
-        try {
-            result = await handleAiFox.getAiList(url, articleInfo.content, key);
-        } catch (error) {
-            ctx.res.end('');
-            return;
+        const getResultData = async () => {
+            try {
+                result = await handleAiFox.getAiList(url, articleInfo.content, key);
+            } catch (error) {
+                return await getResultData()
+            }
         }
-
+        await getResultData()
         // 更新 AI 使用次数
         await AiMapper.updateAiUc(keyName, dayjs().format('YYYY-MM-DD') + "%");
 
@@ -78,7 +78,10 @@ class AiService {
 
         // 流处理逻辑
         stream.on('data', async (chunk: Buffer) => {
-            const text = textDecoder.decode(chunk);
+            let text = textDecoder.decode(chunk)
+            //将text文本中出现的多个/转换成一个/
+            text = text.replace(/\/+/g, '/')
+
             const lines = (partialData + text).split('\n'); // 将部分数据与新数据合并后再按行分割
 
             partialData = lines.pop() || ''; // 更新 partialData 为剩余部分

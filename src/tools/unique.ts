@@ -17,12 +17,12 @@ console.log(`lzy  filePath:`, filePath)
 processFileContent(filePath)
 
 
-const fontfiles = fs.readdirSync(path.resolve(__dirname, '../public/font/fonts'))
+const fontfiles = fs.readdirSync(path.resolve(__dirname, '../../public/fonts'))
 console.log(fontfiles)
 let fontmin;
 fontfiles.forEach(res => {
-    const srcPath: string = 'public/font/fonts/' + res; // 字体源文件
-    const destPath: string = 'public/font/dist';    // 输出路径
+    const srcPath: string = 'public/fonts/' + res; // 字体源文件
+    const destPath: string = 'public/dist';    // 输出路径
     let text = fs.readFileSync(filePath, "utf-8") as string
 
     // 初始化

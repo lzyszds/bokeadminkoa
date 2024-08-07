@@ -44,7 +44,7 @@ class CommentMapper {
             browserSystem
         } = params;
         let sql: string = `
-            INSERT INTO wb_comments (content, article_id, reply_id, ground_id , email, user_name, user_ip, head_img, time,deviceSystem,browserSystem)
+            INSERT INTO wb_comments (content, article_id, reply_id, ground_id , email, user_name, user_ip, head_img, create_date,deviceSystem,browserSystem)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         return await db.query(sql, [content, aid, replyId, groundId, email, name, userIp, img, nowDate, deviceSystem, browserSystem]);
@@ -74,7 +74,7 @@ class CommentMapper {
         let sql: string = `
             SELECT *
             FROM wb_comments 
-            ORDER BY time DESC
+            ORDER BY create_date DESC
             LIMIT 0, ?
         `;
         return await db.query(sql, [limit]);

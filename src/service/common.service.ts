@@ -10,7 +10,7 @@ import fetch from "node-fetch";
 import Config from "../../config";
 import { WeatherDataType, WeatherDataTypeResponse } from "../domain/CommonType";
 import dayjs from "dayjs";
-import { Footer, FooterPrincipal, FooterSecondary } from "../domain/FooterType";
+import systemMapper from "../mapper/system.mapper";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
@@ -102,21 +102,7 @@ class CommonService {
         }
     }
 
-    //获取系统设置
-    public async getSystemConfig(type: string): Promise<ApiConfig<any>> {
-        const params: any = {
-            "admin": "admin", //获取所有
-            "reception": '4,5', //前台
-        }
 
-        const apiConfig: ApiConfig<any> = new ApiConfig();
-        try {
-            const data = await CommonMapper.getSystemConfig(params[type]);
-            return apiConfig.success(data)
-        } catch (e: any) {
-            return apiConfig.fail(e.message)
-        }
-    }
 
     //获取loadGif图片
     public async getLoadGif(): Promise<ApiConfig<any[]>> {
@@ -138,7 +124,7 @@ class CommonService {
 
     public async getLazyLoadGif(ctx: any): Promise<any> {
         try {
-            const data = await CommonMapper.getSystemConfig('admin');
+            const data = await systemMapper.getSystemConfig('admin');
             const gifValue = data.filter((item: any) => item.config_key === "load_animation_gif")[0].config_value
             const imgBuffer = fs.readFileSync(path.resolve(__dirname, '../..' + gifValue));
             return imgBuffer
@@ -146,75 +132,6 @@ class CommonService {
             return e
         }
     }
-
-    //新增系统设置
-    public async addSystemConfig(ctx: any): Promise<ApiConfig<any>> {
-        const apiConfig: ApiConfig<any> = new ApiConfig();
-        try {
-            const { config_key, config_value, config_desc } = ctx.request.body;
-            const data = await CommonMapper.addSystemConfig(config_key, config_value, config_desc);
-            return apiConfig.success(data.affectedRows === 1 ? '新增成功' : '新增失败')
-        } catch (e: any) {
-            return apiConfig.fail(e.message)
-        }
-    }
-
-    //更新系统设置
-    public async updateSystemConfig(ctx: any): Promise<ApiConfig<string>> {
-        const apiConfig: ApiConfig<any> = new ApiConfig();
-        try {
-            const { config_key, config_value, config_id } = ctx.request.body;
-            const data = await CommonMapper.updateSystemConfig(config_key, config_value, config_id);
-            return apiConfig.success(data.affectedRows === 1 ? '更新成功' : '更新失败')
-        } catch (e: any) {
-            return apiConfig.fail(e.message)
-        }
-    }
-
-    //获取页脚信息
-    public async getFooterInfo(): Promise<ApiConfig<FooterSecondary[]>> {
-        const apiConfig: ApiConfig<FooterSecondary[]> = new ApiConfig();
-        try {
-            const data = await CommonMapper.getFooterInfo();
-            //处理数据
-            let result: FooterSecondary[] = []
-            let arr: string[] = data.map((item: Footer) => item.footer_type)
-            let set = new Set(arr)
-            set.forEach((item: string) => {
-                let children = data.filter((child: Footer) => child.footer_type === item)
-                result[children[0].footer_order] = {
-                    footer_id: children[0].footer_id,
-                    footer_content: children[0].footer_type,
-                    footer_order: children[0].footer_order,
-                    children: children
-                }
-            })
-
-            // console.log(result)
-            return apiConfig.success(result)
-        } catch (e: any) {
-            return apiConfig.fail(e.message)
-        }
-    }
-
-    //更新页脚信息
-    public async updateFooterInfo(ctx: any): Promise<ApiConfig<string>> {
-        const apiConfig: ApiConfig<string> = new ApiConfig();
-        try {
-            const { children } = ctx.request.body;
-            let arr: Footer[] = []
-            children.forEach((item: FooterSecondary) => {
-                item.children.forEach((child: Footer) => {
-                    arr.push(child)
-                })
-            })
-            const data = await CommonMapper.updateFooterInfo(arr);
-            return apiConfig.success("更新成功")
-        } catch (e: any) {
-            return apiConfig.fail(e.message)
-        }
-    }
-
 
 }
 

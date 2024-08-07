@@ -1,0 +1,7 @@
+[
+  "在这篇文章中，作者发现了网上关于在 TypeScript 中使用 Web Workers 处理图像数据的教程很少，因此自己进行了研究并总结出了一套方法。作者展示了如何在 TypeScript 主线程中使用 Worker 对象来加载并处理图像数据，通过 postMessage() 函数传递数据给子进程，然后在子进程中处理图像数据并返回处理后的结果。最终，作者发现 TypeScript 中可以直接加载 JavaScript 文件作为子进程，成功验证了这一方法的可行性。",
+  "TypeScript中可以直接使用JavaScript编写的子线程（Worker），处理图像数据等计算密集型任务。通过主线程文件创建Worker，使用postMessage传递数据给子进程，子进程计算后再通过postMessage返回结果，主线程接收后可继续渲染。",
+  "在 TypeScript 中，可以使用 Web Workers 在子线程中处理图像数据。首先，通过创建一个新的 Worker 实例连接到 `worker.js` 文件，使用 `postMessage` 传递需要处理的图像数据和参数。在 `worker.js` 中，通过 `onmessage` 事件接收主线程发送的数据，然后处理图像数据，包括调整色调、饱和度、亮度和对比度，最后使用 `postMessage` 返回处理后的图像数据至主线程。",
+  "在处理图像数据时，通过 TypeScript 可以轻松地利用 Web Workers 实现多线程处理。主线程文件通过创建 `Worker` 实例并使用 `postMessage` 将数据传输到子线程，在子线程中，通过 `onmessage` 处理接收到的数据并进行图像处理操作，最后通过 `postMessage` 返回处理后的图像数据给主线程，实现了高效的并行计算。",
+  "在这篇文章中，作者发现了关于在TypeScript中使用Web Workers处理图像数据的方法。他们发现在线教程有限，于是自己进行了研究和实践。结果显示，与JavaScript相似，TypeScript也能够直接加载并使用JavaScript编写的子线程（worker.js）进程文件来处理数据。"
+]
