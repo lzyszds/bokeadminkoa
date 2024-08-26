@@ -10,7 +10,6 @@ import fetch from "node-fetch";
 import Config from "../../config";
 import { WeatherDataType, WeatherDataTypeResponse } from "../domain/CommonType";
 import dayjs from "dayjs";
-import systemMapper from "../mapper/system.mapper";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
@@ -99,37 +98,6 @@ class CommonService {
         } catch (e: any) {
             console.log(e)
             return apiConfig.fail(e.message)
-        }
-    }
-
-
-
-    //获取loadGif图片
-    public async getLoadGif(): Promise<ApiConfig<any[]>> {
-        const apiConfig: ApiConfig<any[]> = new ApiConfig();
-        let data: any[] = []
-        try {
-            //获取loading数据图片
-            let result = fs.readdirSync(path.resolve(__dirname, '../../public/img/loadGif'))
-            result = result.sort((a: string, b: string) => {
-                return parseInt(a.split('.')[0].replace('loading', '')) - parseInt(b.split('.')[0].replace('loading', ''))
-            })
-            data = result.map((item: string) => "/public/img/loadGif/" + item)
-
-            return apiConfig.success(data)
-        } catch (e: any) {
-            return apiConfig.fail(e.message)
-        }
-    }
-
-    public async getLazyLoadGif(ctx: any): Promise<any> {
-        try {
-            const data = await systemMapper.getSystemConfig('admin');
-            const gifValue = data.filter((item: any) => item.config_key === "load_animation_gif")[0].config_value
-            const imgBuffer = fs.readFileSync(path.resolve(__dirname, '../..' + gifValue));
-            return imgBuffer
-        } catch (e) {
-            return e
         }
     }
 

@@ -34,9 +34,9 @@ export default {
         '/common/ipConfig',
         '/common/getGithubInfo',
         '/common/openai',
-        '/common/getSystemConfig',
-        '/common/getFooterInfo',
-        '/common/getLazyLoadGif',
+        '/system/getSystemConfig',
+        '/system/getFooterInfo',
+        '/system/getLazyLoadImage',
         '/aiService/getAifox',
 
     ],

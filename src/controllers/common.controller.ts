@@ -23,6 +23,7 @@ class CommonController {
     }
 
 
+
 }
 
 export default CommonController;
