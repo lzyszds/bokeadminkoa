@@ -32,6 +32,11 @@ class UserController {
         return SystemService.getNotification();
     }
 
+    @Post("/addFooterInfo")
+    public addFooterInfo(@Ctx() ctx: any) {
+        return SystemService.addFooterInfo(ctx);
+    }
+
     //获取页脚信息数据
     @Get("/getFooterInfo")
     public getFooterInfo() {
@@ -43,6 +48,22 @@ class UserController {
     public updateFooterInfo(@Ctx() ctx: any) {
         return SystemService.updateFooterInfo(ctx);
     }
+
+    //获取系统加载图片列表
+    @Get("/getSystemLoadImages")
+    public getSystemLoadImages() {
+        return SystemService.getSystemLoadImages();
+    }
+
+    //获取当前系统选择的加载图片 图片懒加载的loadGif图片
+    @Get("/getLazyLoadImage")
+    public async getLazyLoadImage(@Ctx() ctx: any) {
+        const imgBuffer = await SystemService.getLazyLoadImage(ctx);
+        ctx.set('Content-Type', 'image/jpeg');
+        ctx.body = imgBuffer;
+        return ctx;
+    }
+
 
 }
 

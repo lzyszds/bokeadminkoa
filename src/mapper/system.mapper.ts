@@ -30,6 +30,12 @@ class SystemMapper {
     return await db.query(sql, [title, way_type]);
   }
 
+  //新增系统公告
+  public async addFooterInfo(footer_type: string, footer_content: string = '', footer_url: string = '', footer_order: Number): Promise<OkPacket> {
+    const sql: string = `INSERT INTO wb_footer (footer_type, footer_content, footer_url, footer_order) VALUES (?,?,?,?)`
+    return await db.query(sql, [footer_type, footer_content, footer_url, footer_order]);
+  }
+
   //获取页脚信息
   public async getFooterInfo(): Promise<Footer[]> {
     const sql: string = `SELECT * FROM wb_footer`

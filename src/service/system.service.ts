@@ -62,6 +62,17 @@ class SystemService {
     }
   }
 
+  public async addFooterInfo(ctx: any): Promise<ApiConfig<string>> {
+    const apiConfig: ApiConfig<string> = new ApiConfig();
+    try {
+      const { footer_type, footer_content, footer_url, footer_order } = ctx.request.body;
+      const data = await SystemMapper.addFooterInfo(footer_type, footer_content, footer_url, footer_order);
+      return apiConfig.success(data.affectedRows === 1 ? '新增成功' : '新增失败')
+    } catch (e: any) {
+      return apiConfig.fail(e.message)
+    }
+  }
+
   //获取页脚信息
   public async getFooterInfo(): Promise<ApiConfig<FooterSecondary[]>> {
     const apiConfig: ApiConfig<FooterSecondary[]> = new ApiConfig();
@@ -103,6 +114,36 @@ class SystemService {
       return apiConfig.success("更新成功")
     } catch (e: any) {
       return apiConfig.fail(e.message)
+    }
+  }
+
+  //获取loadGif图片
+  public async getSystemLoadImages(): Promise<ApiConfig<any[]>> {
+    const apiConfig: ApiConfig<any[]> = new ApiConfig();
+    let data: any[] = []
+    try {
+      //获取loading数据图片
+      let result = fs.readdirSync(path.resolve(__dirname, '../../public/img/loadGif'))
+      result = result.sort((a: string, b: string) => {
+        return parseInt(a.split('.')[0].replace('loading', '')) - parseInt(b.split('.')[0].replace('loading', ''))
+      })
+      data = result.map((item: string) => "/public/img/loadGif/" + item)
+
+      return apiConfig.success(data)
+    } catch (e: any) {
+      return apiConfig.fail(e.message)
+    }
+  }
+
+  public async getLazyLoadImage(ctx: any): Promise<any> {
+    try {
+      const data = await SystemMapper.getSystemConfig('admin');
+      const gifValue = data.filter((item: any) => item.config_key === "load_animation_gif")[0].config_value
+      const imgBuffer = fs.readFileSync(path.resolve(__dirname, '../..' + gifValue));
+      console.log(path.resolve(__dirname, '../..' + gifValue));
+      return imgBuffer
+    } catch (e) {
+      return e
     }
   }
 }
