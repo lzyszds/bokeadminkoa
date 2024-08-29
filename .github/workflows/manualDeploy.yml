@@ -1,9 +1,8 @@
-name: 博客Api部署
+name: 博客Api部署 (手动部署)
 
-# 提交后的触发器
+# 手动部署
 on:
-  push:
-    branches: [master]
+  workflow_dispatch:
 
 jobs:
   deploy:
