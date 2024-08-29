@@ -28,29 +28,15 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            # 获取当前时间戳
+            timestamp=$(date +%Y%m%d_%H%M%S)
+            backup_dir="/www/bokeadminkoa/dist.bak_$timestamp"
+
             # 创建备份目录
-            mkdir -p /www/bokeadminkoa/dist.bak
+            mkdir -p "$backup_dir"
 
             # 备份旧文件
-            mv /www/bokeadminkoa/dist/* /www/bokeadminkoa/dist.bak
+            mv /www/bokeadminkoa/dist/* "$backup_dir"
 
-            # 上传新文件
-            rsync -avz --delete dist/ /www/bokeadminkoa/
-
-            # 重启服务
-            forever restart /www/bokeadminkoa/dist/src/app.js
-
-            # 检查并导入public文件夹 (如果需要)
-            if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
-              git init temp-repo
-              cd temp-repo
-              git remote add origin https://github.com/lzyszds/bokeadminkoa.git
-              git config core.sparseCheckout true
-              echo "public" >> .git/info/sparse-checkout
-              git pull origin master
-              mv public /www/bokeadminkoa/dist/
-              cd ..
-              rm -rf temp-repo
-            else
-              echo "public 文件夹已存在，跳过克隆。"
-            fi
+            # 上传新文件 (排除public文件夹)
+            rsync -avz --delete --exclude "public" dist/ /www/bokeadminkoa/
