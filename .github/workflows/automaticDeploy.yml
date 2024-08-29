@@ -52,7 +52,7 @@ jobs:
             git config core.sparseCheckout true
             echo "public" >> .git/info/sparse-checkout
             git pull origin master
-            mv public /www/bokeadminkoa/dist/public
+            mv public /www/bokeadminkoa/dist/
             cd ..
             rm -rf temp-repo
           else
