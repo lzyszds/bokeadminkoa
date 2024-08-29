@@ -28,15 +28,12 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            # 获取当前时间戳
-            timestamp=$(date +%Y%m%d_%H%M%S)
-            backup_dir="/www/bokeadminkoa/dist.bak_$timestamp"
 
             # 创建备份目录
             mkdir -p /www/bokeadminkoa/dist.bak
 
             # 备份旧文件
-            rsync -avz --delete --exclude "public" /www/bokeadminkoa/dist/ "$backup_dir"
+            rsync -avz --delete /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
 
             # 上传新文件并排除 public 文件夹
             rsync -avz --delete --exclude "public" dist/ /www/bokeadminkoa/dist/
