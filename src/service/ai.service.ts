@@ -95,7 +95,6 @@ class AiService {
                     if (line.includes("[DONE]")) continue; // 如果包含 "[DONE]" 字符串则跳过该行
 
                     const resJson: any = JSON.parse(line.replace('data: ', ''));
-                    console.log(resJson.choices[0].delta.content)
                     let str = resJson.choices[0].delta.content.replaceAll('�', '').replaceAll('\\n', '<br/>'); // 去除特殊字符
                     if (str) {
                         // 返回数据

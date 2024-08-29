@@ -62,6 +62,7 @@ class SystemService {
     }
   }
 
+  //新增页脚信息
   public async addFooterInfo(ctx: any): Promise<ApiConfig<string>> {
     const apiConfig: ApiConfig<string> = new ApiConfig();
     try {
