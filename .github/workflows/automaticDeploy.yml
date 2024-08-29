@@ -28,15 +28,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            # 安装 rsync 和 forever
-            if ! command -v rsync &> /dev/null; then
-              sudo yum install -y rsync
-            fi
-
-            if ! command -v forever &> /dev/null; then
-              sudo npm install -g forever
-            fi
-
             # 创建备份目录
             mkdir -p /www/bokeadminkoa/dist.bak
 
