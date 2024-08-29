@@ -20,22 +20,20 @@ jobs:
       - name: 项目构建打包
         run: bun run build
 
-      # - name: 进行备份
-      #   uses: appleboy/ssh-action@v0.1.7
-      #   with:
-      #     host: ${{ secrets.SERVER_HOST }}
-      #     username: ${{ secrets.SERVER_USERNAME }}
-      #     key: ${{ secrets.SERVER_SSH_KEY }}
-      #     script: |
-
-      #       # 创建备份目录
-      #       mkdir -p /www/bokeadminkoa/dist.bak
-
-      #       # 备份旧文件
-      #       rsync -avz --delete --exclude "public" /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
-
-      - name: 部署上传到服务器
+      # 删除旧的文件
+      - name: 清空旧项目文件
         uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            rm -rf /www/bokeadminkoa/dist/src/*
+            rm -rf /www/bokeadminkoa/dist/config.js
+
+      # 或者如果你只想上传构建后的文件
+      - name: 上传构建后的文件
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
@@ -44,29 +42,3 @@ jobs:
           target: "/www/bokeadminkoa/dist/"
           strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
 
-      # 重启远程服务器上的服务
-      - name: 重启服务
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-
-            # 重启服务
-            forever restart /www/bokeadminkoa/dist/src/app.js
-
-            # 检查并导入 public 文件夹 (如果需要)
-            # if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
-            #   git init temp-repo
-            #   cd temp-repo
-            #   git remote add origin https://github.com/lzyszds/bokeadminkoa.git
-            #   git config core.sparseCheckout true
-            #   echo "public" >> .git/info/sparse-checkout
-            #   git pull origin master
-            #   mv public /www/bokeadminkoa/dist/
-            #   cd ..
-            #   rm -rf temp-repo
-            # else
-            #   echo "public 文件夹已存在，跳过克隆。"
-            # fi
