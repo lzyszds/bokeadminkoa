@@ -30,7 +30,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            rm -rf /www/bokeadminkoa/dist/*
+            rm -rf /www/bokeadminkoa/dist/src/*
+            rm -rf /www/bokeadminkoa/dist/config.js
 
       # 或者如果你只想上传构建后的文件
       - name: 上传构建后的文件
@@ -42,3 +43,14 @@ jobs:
           source: "dist/"
           target: "/www/bokeadminkoa/"
           # strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
+
+      # 重启远程服务器上的服务
+      - name: 重启服务
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /www/bokeadminkoa/dist/src/
+            forever restart app.js
