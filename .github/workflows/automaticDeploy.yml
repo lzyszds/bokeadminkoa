@@ -35,8 +35,26 @@ jobs:
             # 备份旧文件
             rsync -avz --delete /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
 
+            # 打印当前工作目录
+            pwd
+
+            # 打印 dist 目录内容
+            ls -la dist
+
+            # 确保目标目录存在
+            mkdir -p /www/bokeadminkoa/dist
+
+            # 确保目标目录权限正确
+            sudo chmod -R 755 /www/bokeadminkoa/dist
+
+            # 备份旧文件
+            rsync -avz --delete /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
+
             # 上传新文件并排除 public 文件夹
-            rsync -avz --delete --exclude "public" dist/ /www/bokeadminkoa/dist/
+            rsync -avz --delete --exclude "public" dist/ /www/bokeadminkoa/dist/ --log-file=rsync.log
+
+            # 查看日志文件
+            cat rsync.log
 
             # 重启服务
             forever restart /www/bokeadminkoa/dist/src/app.js
