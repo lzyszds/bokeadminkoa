@@ -33,7 +33,7 @@ jobs:
             mkdir -p /www/bokeadminkoa/dist.bak
 
             # 备份旧文件
-            rsync -avz --delete /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
+            rsync -avz --delete --exclude "public" /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
 
       - name: 部署上传到服务器
         uses: appleboy/ssh-action@v0.1.7
@@ -56,17 +56,17 @@ jobs:
             # 重启服务
             forever restart /www/bokeadminkoa/dist/src/app.js
 
-            # 检查并导入 public 文件夹 (如果需要)
-            if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
-              git init temp-repo
-              cd temp-repo
-              git remote add origin https://github.com/lzyszds/bokeadminkoa.git
-              git config core.sparseCheckout true
-              echo "public" >> .git/info/sparse-checkout
-              git pull origin master
-              mv public /www/bokeadminkoa/dist/
-              cd ..
-              rm -rf temp-repo
-            else
-              echo "public 文件夹已存在，跳过克隆。"
-            fi
+            # # 检查并导入 public 文件夹 (如果需要)
+            # if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
+            #   git init temp-repo
+            #   cd temp-repo
+            #   git remote add origin https://github.com/lzyszds/bokeadminkoa.git
+            #   git config core.sparseCheckout true
+            #   echo "public" >> .git/info/sparse-checkout
+            #   git pull origin master
+            #   mv public /www/bokeadminkoa/dist/
+            #   cd ..
+            #   rm -rf temp-repo
+            # else
+            #   echo "public 文件夹已存在，跳过克隆。"
+            # fi
