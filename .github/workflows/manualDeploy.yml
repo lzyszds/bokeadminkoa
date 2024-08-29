@@ -43,8 +43,12 @@ jobs:
           target: "/www/bokeadminkoa/"
 
       - name: 检查并导入文件夹
-        run: |
-          if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
             git init temp-repo
             cd temp-repo
             git remote add origin https://github.com/lzyszds/bokeadminkoa.git
@@ -53,10 +57,10 @@ jobs:
             git pull origin master
             mv public /www/bokeadminkoa/dist/
             cd ..
-            rm -rf temp-repo
-          else
+            rm-rf temp-repo
+            else
             echo "public 文件夹已存在，跳过克隆。"
-          fi
+            fi
 
       # 重启远程服务器上的服务
       - name: 重启服务
