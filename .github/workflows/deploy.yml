@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            rm -rf /home/useradmin/nginx/html/admin/*
+            rm -rf /www/bokeadminkoa/dist/*
 
       # 或者如果你只想上传构建后的文件
       - name: 上传构建后的文件
