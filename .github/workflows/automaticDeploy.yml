@@ -21,6 +21,11 @@ jobs:
       - name: 项目构建打包
         run: bun run build
 
+      - name: 检查 rsync 安装
+        run: rsync --version
+      - name: 打印 PATH
+        run: echo $PATH
+
       - name: 部署到服务器
         uses: appleboy/ssh-action@v0.1.7
         with:
