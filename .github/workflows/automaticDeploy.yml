@@ -33,7 +33,7 @@ jobs:
             mkdir -p /www/bokeadminkoa/dist.bak
 
             # 备份旧文件
-            rsync -avz --delete /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
+            rsync -avz --delete --exclude "public" /www/bokeadminkoa/dist/ /www/bokeadminkoa/dist.bak/
 
       - name: 部署上传到服务器
         uses: appleboy/ssh-action@v0.1.7
