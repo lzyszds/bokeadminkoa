@@ -51,5 +51,4 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /www/bokeadminkoa/dist/src/
-            forever restart app.js
+            forever restart /www/bokeadminkoa/dist/src/app.js
