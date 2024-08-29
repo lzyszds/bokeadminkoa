@@ -28,10 +28,13 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            # 检查并安装 rsync 工具
+            # 安装 rsync 和 forever
             if ! command -v rsync &> /dev/null; then
-              sudo apt-get update
-              sudo apt-get install -y rsync
+              sudo yum install -y rsync
+            fi
+
+            if ! command -v forever &> /dev/null; then
+              sudo npm install -g forever
             fi
 
             # 创建备份目录
@@ -46,7 +49,7 @@ jobs:
             # 重启服务
             forever restart /www/bokeadminkoa/dist/src/app.js
 
-            # 检查并导入public文件夹 (如果需要)
+            # 检查并导入 public 文件夹 (如果需要)
             if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
               git init temp-repo
               cd temp-repo
