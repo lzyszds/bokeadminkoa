@@ -46,21 +46,13 @@ jobs:
 
             # 检查并导入 public 文件夹 (如果需要)
             if [ ! -d "/www/bokeadminkoa/dist/public" ]; then
-              # 创建临时目录并初始化 Git 仓库
-              git clone --no-checkout https://github.com/lzyszds/bokeadminkoa.git temp-repo
+              git init temp-repo
               cd temp-repo
-              
-              # 配置 sparse-checkout
+              git remote add origin https://github.com/lzyszds/bokeadminkoa.git
               git config core.sparseCheckout true
               echo "public" >> .git/info/sparse-checkout
-              
-              # 更新并拉取只包含 public 文件夹
-              git checkout master
-              
-              # 移动 public 文件夹到目标目录
+              git pull origin master
               mv public /www/bokeadminkoa/dist/
-              
-              # 清理临时目录
               cd ..
               rm -rf temp-repo
             else
