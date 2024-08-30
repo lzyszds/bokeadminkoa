@@ -20,6 +20,10 @@ jobs:
       - name: 项目构建打包
         run: bun run build
 
+      # 设置路径变量
+      - name: 设置路径变量
+        run: echo "DEPLOY_PATH=/root/web/bokeadminkoa" >> $GITHUB_ENV
+
       # 删除旧的文件
       - name: 清空旧项目文件
         uses: appleboy/ssh-action@v0.1.7
@@ -28,8 +32,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            rm -rf /www/bokeadminkoa/dist/src/*
-            rm -rf /www/bokeadminkoa/dist/config.js
+            rm -rf $DEPLOY_PATH/src/*
+            rm -rf $DEPLOY_PATH/config.js
 
       # 或者如果你只想上传构建后的文件
       - name: 上传构建后的文件
@@ -39,6 +43,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/"
-          target: "/www/bokeadminkoa/dist/"
+          target: "${{ env.DEPLOY_PATH }}/"
           strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
 
