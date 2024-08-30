@@ -1,5 +1,5 @@
 -- ----------------------------
--- Chat2DB export data , export time: 2024-08-30 13:22:34
+-- Chat2DB export data , export time: 2024-08-30 17:55:16
 -- ----------------------------
 SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
@@ -15,7 +15,7 @@ CREATE TABLE `wb_aiuc` (
   `ljy` int(11) DEFAULT '0',
   `yanye` int(11) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 -- ----------------------------
 -- Records of wb_aiuc
@@ -27,6 +27,7 @@ INSERT INTO `wb_aiuc` (`id`,`created_at`,`google`,`github178`,`github102`,`ljy`,
 INSERT INTO `wb_aiuc` (`id`,`created_at`,`google`,`github178`,`github102`,`ljy`,`yanye`)  VALUES ('33','2024-08-27 13:28:07','6','0','0','0','0');
 INSERT INTO `wb_aiuc` (`id`,`created_at`,`google`,`github178`,`github102`,`ljy`,`yanye`)  VALUES ('34','2024-08-28 17:05:07','1','0','0','0','0');
 INSERT INTO `wb_aiuc` (`id`,`created_at`,`google`,`github178`,`github102`,`ljy`,`yanye`)  VALUES ('35','2024-08-29 13:20:25','5','0','0','0','0');
+INSERT INTO `wb_aiuc` (`id`,`created_at`,`google`,`github178`,`github102`,`ljy`,`yanye`)  VALUES ('36','2024-08-30 17:30:02','15','0','0','0','0');
 -- ----------------------------
 -- Table structure for table wb_aiuc_keys
 -- ----------------------------
@@ -64,7 +65,7 @@ CREATE TABLE `wb_articles` (
   `partial_content` longtext,
   `access_count` int(11) DEFAULT '0',
   PRIMARY KEY (`aid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of wb_articles
@@ -184,7 +185,7 @@ Linux的终端命令其实跟window系统的终端指令是相似的，很多在
 </tr>
 </tbody>
 </table>
-','记录一下Linux常用语句，Linux和windows相比，很多管控都需要用命令来操作。windows以直观的可视化的方式操作，特别适合在桌面端PC上操作执行相应的软件。','29');
+','记录一下Linux常用语句，Linux和windows相比，很多管控都需要用命令来操作。windows以直观的可视化的方式操作，特别适合在桌面端PC上操作执行相应的软件。','31');
 INSERT INTO `wb_articles` (`aid`,`uid`,`create_date`,`title`,`content`,`modified_date`,`cover_img`,`comments_count`,`main`,`partial_content`,`access_count`)  VALUES ('15','1','2022-12-26 17:30:10','linux考试前复习记录','本文简介： 考试、考简单的Linux终端指令。我先在这里申明，本文仅是自己参考课件的个人总结，主要用于Linux内核课程考试复习。确实会有很多地方不完善。
 
 
@@ -665,7 +666,7 @@ rm <span class="token operator">-</span><span class="token keyword">r</span> <sp
           <path d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 173.3c2.2 2.2 4.7 4 7.4 5.5v1.9h4.2c3.5 1.3 7.2 2 11 2H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM350 856.2L263.9 770H350v86.2zM664 888H414V746c0-22.1-17.9-40-40-40H232V264h432v624z"></path>
         </svg>
       </i>
-    </button></div></div>','本文简介： 考试、考简单的Linux终端指令。我先在这里申明，本文仅是自己参考课件的个人总结，主要用于Linux内核课程考试复习。确实会有很多地方不完善。','126');
+    </button></div></div>','本文简介： 考试、考简单的Linux终端指令。我先在这里申明，本文仅是自己参考课件的个人总结，主要用于Linux内核课程考试复习。确实会有很多地方不完善。','130');
 INSERT INTO `wb_articles` (`aid`,`uid`,`create_date`,`title`,`content`,`modified_date`,`cover_img`,`comments_count`,`main`,`partial_content`,`access_count`)  VALUES ('16','1','2023-07-23 04:22:24','vue3+ts+vite、node+ts+webpack 打包过程、以及对打包优化的理解','本文记录了使用vue3+vite和node.ts的打包过程，为了解决路径前后打包的问题
 
 
@@ -1151,7 +1152,7 @@ onmessage = (event) => {
         </svg>
       </i>
     </button></div></div><p data-v-md-line="46">其实没想到，ts中可以直接使用js来做子进程，一开始还以为不可以，试了一下，发现没什么问题。</p>
-','网上的对ts使用worker的教程很少。所以自己研究了一下，还是写出来了。ts其实跟js的是一样的，ts中也是可以加载js的子线程worker.js进程文件的，代码如下','39');
+','网上的对ts使用worker的教程很少。所以自己研究了一下，还是写出来了。ts其实跟js的是一样的，ts中也是可以加载js的子线程worker.js进程文件的，代码如下','41');
 INSERT INTO `wb_articles` (`aid`,`uid`,`create_date`,`title`,`content`,`modified_date`,`cover_img`,`comments_count`,`main`,`partial_content`,`access_count`)  VALUES ('21','1','2023-08-12 12:32:24','Map对象学习','今天在研究图像缓存的时候，才想起Map属性可以用来处理相同的数据（避免重复，Set当然也行）。其实很早之前就想学习这两个新引用类型的，就是没什么机会去实验，所以直到现在对他们都不是很了解。今天写图像缓存总算的用到了，很不错的方法，可以借鉴。以下是代码展示
 ![点击放大](/api/public/img/articleImages/upload-image1691771049864.png)
 
@@ -1220,7 +1221,7 @@ export const imageLoader = new ImageLoader();
         </svg>
       </i>
     </button></div></div>','今天在研究图像缓存的时候，才想起Map属性可以用来处理相同的数据（避免重复，Set当然也行）。其实很早之前就想学习这两个新引用类型的，就是没什么机会去实验，所以直到现在对他们都不是很了解。今天写图像缓存总算的用到了，很不错的方法，可以借鉴。以下是代码展示<br>
-<img src="/api/public/img/articleImages/upload-image1691771049864.png" alt="点击放大">','119');
+<img src="/api/public/img/articleImages/upload-image1691771049864.png" alt="点击放大">','120');
 INSERT INTO `wb_articles` (`aid`,`uid`,`create_date`,`title`,`content`,`modified_date`,`cover_img`,`comments_count`,`main`,`partial_content`,`access_count`)  VALUES ('26','1','2024-02-06 23:09:15','Git规范（一）','为什么要对 Git 提交日志（message）的格式进行规范约束？
 1. 更方便、快捷地浏览和了解项目的历史信息。
 2. 有利于保证提交内容的独立性，避免把所有改动都放在一个提交里面。
@@ -1642,7 +1643,218 @@ Resolve #1, close #2, close #3
 <p data-v-md-line="188">命名格式为 v{semver}，semver 是遵循 <a href="https://semver.org/lang/zh-CN/" target="_blank">semantic version<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" class="v-md-svg-outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 的版本号，例如 v1.2.3。</p>
 <p data-v-md-line="190">相比于使用例如 git tag v1.2.3 这种「轻量标签」，更推荐使用如下命令生成「附注标签」：</p>
 <p data-v-md-line="192">git tag -a v1.2.3 -m “发布经销商管理模块”</p>
-','为什么要对 Git 提交日志（message）的格式进行规范约束？','709');
+','为什么要对 Git 提交日志（message）的格式进行规范约束？','718');
+INSERT INTO `wb_articles` (`aid`,`uid`,`create_date`,`title`,`content`,`modified_date`,`cover_img`,`comments_count`,`main`,`partial_content`,`access_count`)  VALUES ('28','1','2024-08-30 17:43:15','GitHub Actions CI/CD持续集成部署实现过程','# 目标
+1. 通过 GitHub 仓库实现项目的自动化构建和部署到私人服务器
+2. 在每次 git push 时自动更新服务器上的项目
+3. 使用 GitHub Actions 工作流（workflows）简化操作流程
+4. 介绍如何将 GitHub 项目构建产物推送至私人服务器
+5. 实现跨源代码仓库外运行构建的工作流
+6. 提供从头到尾的 GitHub Actions 配置和使用指南
+
+# 流程
+1. 项目根目录 添加workflows.yml配置文件
+2. 前往github项目中配置Repository secrets 私有变量
+3. 服务器安装git并获取其服务器的ssh key，存放入个人github账号中
+4. 完成构建，在线项目在git push时会自动更新
+
+## 配置 GitHub Actions 工作流
+
+### 创建工作流配置文件
+1. 在项目根目录创建 .github/workflows 文件夹
+2. 在该文件夹中创建 deploy.yml 文件
+
+### 编写工作流配置
+``` yaml
+name: 博客后台部署 (自动触发)
+
+# 提交后的触发器（两个都可以）           # 手动触发器
+on:                                     #on:
+  push:                                   #workflow_dispatch:
+     branches: [master]                     
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 设置Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 安装依赖
+        run: bun install
+
+      - name: 项目构建打包
+        run: bun run build
+
+        # 设置路径变量
+      - name: 设置路径变量
+        run: echo "DEPLOY_PATH=/www/server/nginx/html/admin" >> $GITHUB_ENV
+
+      # 删除旧的文件
+      - name: 清空旧项目文件
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            rm -rf $DEPLOY_PATH/*
+
+      # 或者如果你只想上传构建后的文件
+      - name: 上传构建后的文件
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "dist/"
+          target: "${{ env.DEPLOY_PATH }}/admin"
+          strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
+```
+
+## 配置 GitHub Secrets
+
+1. 进入 GitHub 仓库设置
+2. 点击 "Secrets and variables" > "Actions"
+3. 添加以下 secrets:
+> SERVER_HOST: 您的服务器 IP 或域名
+SERVER_USER: SSH 用户名
+SERVER_SSH_KEY: 服务器的 SSH 私钥
+
+![点击放大](/api/public/img/articleImages/11eba250-312c-4cec-8eec-0a4a85c8f6ad.png)
+## 服务器配置 Linux环境下
+
+1. 安装 Git：==sudo apt-get install git=={.black}
+
+
+
+2. 生成 SSH 密钥对：==ssh-keygen -t rsa -b 4096 -C "your_email@example.com"=={.black} 一直回车即可
+3. 查看公钥： ==cd ~/.ssh ; cat id_rsa.pub=={.black}
+![点击放大](/api/public/img/articleImages/66b51469-fc7c-4ddf-a7ba-a13e1f0fd841.png)
+
+
+4. 将上一步以ssh-rsa开头的公钥添加到 GitHub 账户
+5. 完成配置
+
+## 结束
+通过遵循本指南，您应该能够成功设置 GitHub Actions 工作流，实现项目的自动化构建和部署。这不仅提高了开发效率，还确保了部署过程的一致性和可靠性。
+','2024-08-30 17:54:14','/img/coverRomImg/_____14_VI_2560_1600.jpg','0','<h1 data-v-md-heading="目标" data-v-md-line="1">目标</h1>
+<ol data-v-md-line="2">
+<li>通过 GitHub 仓库实现项目的自动化构建和部署到私人服务器</li>
+<li>在每次 git push 时自动更新服务器上的项目</li>
+<li>使用 GitHub Actions 工作流（workflows）简化操作流程</li>
+<li>介绍如何将 GitHub 项目构建产物推送至私人服务器</li>
+<li>实现跨源代码仓库外运行构建的工作流</li>
+<li>提供从头到尾的 GitHub Actions 配置和使用指南</li>
+</ol>
+<h1 data-v-md-heading="流程" data-v-md-line="9">流程</h1>
+<ol data-v-md-line="10">
+<li>项目根目录 添加workflows.yml配置文件</li>
+<li>前往github项目中配置Repository secrets 私有变量</li>
+<li>服务器安装git并获取其服务器的ssh key，存放入个人github账号中</li>
+<li>完成构建，在线项目在git push时会自动更新</li>
+</ol>
+<h2 data-v-md-heading="配置-github-actions-工作流" id="toc-head-14" data-v-md-line="15">配置 GitHub Actions 工作流</h2>
+<h3 data-v-md-heading="创建工作流配置文件" id="toc-head-16" data-v-md-line="17">创建工作流配置文件</h3>
+<ol data-v-md-line="18">
+<li>在项目根目录创建 .github/workflows 文件夹</li>
+<li>在该文件夹中创建 deploy.yml 文件</li>
+</ol>
+<h3 data-v-md-heading="编写工作流配置" id="toc-head-20" data-v-md-line="21">编写工作流配置</h3>
+<div data-v-md-line="22"><div class="v-md-pre-wrapper copy-code-mode v-md-pre-wrapper-yaml line-numbers-mode"><pre class="v-md-prism-yaml"><code>name: 博客后台部署 (自动触发)
+
+# 提交后的触发器（两个都可以）           # 手动触发器
+on:                                     #on:
+  push:                                   #workflow_dispatch:
+     branches: [master]                     
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 设置Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 安装依赖
+        run: bun install
+
+      - name: 项目构建打包
+        run: bun run build
+
+        # 设置路径变量
+      - name: 设置路径变量
+        run: echo "DEPLOY_PATH=/www/server/nginx/html/admin" &gt;&gt; $GITHUB_ENV
+
+      # 删除旧的文件
+      - name: 清空旧项目文件
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            rm -rf $DEPLOY_PATH/*
+
+      # 或者如果你只想上传构建后的文件
+      - name: 上传构建后的文件
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "dist/"
+          target: "${{ env.DEPLOY_PATH }}/admin"
+          strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
+</code></pre>
+<div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br></div>
+    <button class="v-md-copy-code-btn" type="button">
+      <i>
+        <svg viewBox="64 64 896 896" data-icon="copy" width="1em" height="1em" fill="currentColor">
+          <path d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 173.3c2.2 2.2 4.7 4 7.4 5.5v1.9h4.2c3.5 1.3 7.2 2 11 2H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM350 856.2L263.9 770H350v86.2zM664 888H414V746c0-22.1-17.9-40-40-40H232V264h432v624z"></path>
+        </svg>
+      </i>
+    </button></div></div><h2 data-v-md-heading="配置-github-secrets" id="toc-head-72" data-v-md-line="73">配置 GitHub Secrets</h2>
+<ol data-v-md-line="75">
+<li>进入 GitHub 仓库设置</li>
+<li>点击 “Secrets and variables” &gt; “Actions”</li>
+<li>添加以下 secrets:</li>
+</ol>
+<blockquote data-v-md-line="78">
+<p data-v-md-line="78">SERVER_HOST: 您的服务器 IP 或域名<br>
+SERVER_USER: SSH 用户名<br>
+SERVER_SSH_KEY: 服务器的 SSH 私钥</p>
+</blockquote>
+<p data-v-md-line="82"><img src="/api/public/img/articleImages/11eba250-312c-4cec-8eec-0a4a85c8f6ad.png" alt="点击放大"></p>
+<h2 data-v-md-heading="服务器配置-linux环境下" id="toc-head-82" data-v-md-line="83">服务器配置 Linux环境下</h2>
+<ol data-v-md-line="85">
+<li>
+<p data-v-md-line="85">安装 Git：<mark class="black">sudo apt-get install git</mark></p>
+</li>
+<li>
+<p data-v-md-line="89">生成 SSH 密钥对：<mark class="black">ssh-keygen -t rsa -b 4096 -C “your_email@example.com”</mark> 一直回车即可</p>
+</li>
+<li>
+<p data-v-md-line="90">查看公钥： <mark class="black">cd ~/.ssh ; cat id_rsa.pub</mark><br>
+<img src="/api/public/img/articleImages/66b51469-fc7c-4ddf-a7ba-a13e1f0fd841.png" alt="点击放大"></p>
+</li>
+<li>
+<p data-v-md-line="94">将上一步以ssh-rsa开头的公钥添加到 GitHub 账户</p>
+</li>
+<li>
+<p data-v-md-line="95">完成配置</p>
+</li>
+</ol>
+<h2 data-v-md-heading="结束" id="toc-head-96" data-v-md-line="97">结束</h2>
+<p data-v-md-line="98">通过遵循本指南，您应该能够成功设置 GitHub Actions 工作流，实现项目的自动化构建和部署。这不仅提高了开发效率，还确保了部署过程的一致性和可靠性。</p>
+','目标','22');
 -- ----------------------------
 -- Table structure for table wb_articles_types
 -- ----------------------------
@@ -1675,8 +1887,12 @@ INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('19','27');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('21','1');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('21','22');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('26','30');
+INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('27','22');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('27','23');
+INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('28','1');
+INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('28','22');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('28','23');
+INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('28','26');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('29','22');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('29','30');
 INSERT INTO `wb_articles_types` (`aid`,`type_id`)  VALUES ('30','22');
@@ -5052,7 +5268,7 @@ CREATE TABLE `wb_users` (
 -- ----------------------------
 -- Records of wb_users
 -- ----------------------------
-INSERT INTO `wb_users` (`uid`,`uname`,`username`,`password`,`power`,`create_date`,`last_login_date`,`head_img`,`whether_use`,`signature`,`activation_key`,`create_ip`,`last_login_ip`)  VALUES ('1','黎智勇','admin','$2a$10$z0Key6vKUiqVIzJWC5sQR..GYO52Oz3UUD4yKLvRmhLLEpU1wKdO.',0,'2024-01-18 18:59:02','2024-08-23 15:37:49','/img/lzy.webp',1,'了解的越多越觉得自己菜，拼命学习不敢装逼，啥都不知道的，天天吹牛逼','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTcwNTU3NTU0MiwiZXhwIjoxNzA1NTc5MTQyfQ.Wzrps6z-IA326_aWXbUihzabSrcDCskB0rYLqiyk9eo','192.168.3.63',NULL);
+INSERT INTO `wb_users` (`uid`,`uname`,`username`,`password`,`power`,`create_date`,`last_login_date`,`head_img`,`whether_use`,`signature`,`activation_key`,`create_ip`,`last_login_ip`)  VALUES ('1','黎智勇','admin','$2a$10$z0Key6vKUiqVIzJWC5sQR..GYO52Oz3UUD4yKLvRmhLLEpU1wKdO.',0,'2024-01-18 18:59:02','2024-08-30 14:29:43','/img/lzy.webp',1,'了解的越多越觉得自己菜，拼命学习不敢装逼，啥都不知道的，天天吹牛逼','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTcwNTU3NTU0MiwiZXhwIjoxNzA1NTc5MTQyfQ.Wzrps6z-IA326_aWXbUihzabSrcDCskB0rYLqiyk9eo','192.168.3.63',NULL);
 INSERT INTO `wb_users` (`uid`,`uname`,`username`,`password`,`power`,`create_date`,`last_login_date`,`head_img`,`whether_use`,`signature`,`activation_key`,`create_ip`,`last_login_ip`)  VALUES ('3','test','test','$2a$10$rh2.mMqEY.R8zG3yMvGynO2QDCDk.NnKRCLD19eWYTs5OUto2pTGy',1,'2024-01-19 22:06:01',NULL,'/img/updateImg/put4.webp',1,'什么都不留吗?','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6InRlc3QiLCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE3MDU2NzMxNjEsImV4cCI6MTcwNTY3Njc2MX0.DE7QSuL8u8oigJ5fxp39gSeZSlOaCYzHh-Mvl6p3m84','::1',NULL);
 INSERT INTO `wb_users` (`uid`,`uname`,`username`,`password`,`power`,`create_date`,`last_login_date`,`head_img`,`whether_use`,`signature`,`activation_key`,`create_ip`,`last_login_ip`)  VALUES ('4','lzy','lzy','$2a$10$3bAdOnQeEVjwjSUngKz7A.pDWjfUem4sQUEigrNbm0A9ohyAD.MM.',1,'2024-01-19 22:10:39',NULL,'/img/updateImg/put5.webp',1,'什么都不留吗?','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6Imx6eSIsInVzZXJuYW1lIjoibHp5IiwiaWF0IjoxNzA1NjczNDM5LCJleHAiOjE3MDU2NzcwMzl9.SKLpYb3mdWcA-pUPFbKWIc8sIBaJ5qTRK4g4MpZyJCs','::1',NULL);
 INSERT INTO `wb_users` (`uid`,`uname`,`username`,`password`,`power`,`create_date`,`last_login_date`,`head_img`,`whether_use`,`signature`,`activation_key`,`create_ip`,`last_login_ip`)  VALUES ('5','ljy','ljy','$2a$10$6863xvFc3H.qPGS42Pew7upb/RSDKFwo9mz7Yvm4.TmW5bSLNqkQW',1,'2024-01-19 22:12:24',NULL,'/img/updateImg/put6.webp',1,'什么都不留吗?','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6ImxqeSIsInVzZXJuYW1lIjoibGp5IiwiaWF0IjoxNzA1NjczNTQ0LCJleHAiOjE3MDU2NzcxNDR9.ksfBNyygqH6mRspKCTilyE4slK3a_SUfQNNDL9Bvx-4','::1',NULL);
