@@ -10,6 +10,7 @@ import fetch from "node-fetch";
 import Config from "../../config";
 import { WeatherDataType, WeatherDataTypeResponse } from "../domain/CommonType";
 import dayjs from "dayjs";
+import axios from "axios";
 
 class CommonService {
     public async getWeather(ctx: any): Promise<ApiConfig<WeatherDataType>> {
@@ -51,8 +52,9 @@ class CommonService {
             //根据地区获取当前城市编码
             const { adcode } = await CommonMapper.getCityCodeByIp(res?.city!)
             //根据城市编码获取天气预报
-            const weatherData: WeatherDataTypeResponse = await fetch(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${Config.weatherKey}`)
-                .then((res: any) => res.json())
+            const { data } = await axios(`https://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${Config.weatherKey}`)
+            const weatherData: WeatherDataTypeResponse = data
+
             weatherData.lives[0].ip = ipAddress
             // weatherData.lives[0].ip = ipAddress
             return apiConfig.success(weatherData.lives[0])
@@ -97,6 +99,23 @@ class CommonService {
             return apiConfig.success(JSON.parse(data).data)
         } catch (e: any) {
             console.log(e)
+            return apiConfig.fail(e.message)
+        }
+    }
+    //诗词内容获取代理接口
+    public async getPoetry(): Promise<ApiConfig<string>> {
+        const apiConfig: ApiConfig<any> = new ApiConfig<any>();
+        let data: any = ''
+        try {
+            data = await axios({
+                url: 'https://v2.jinrishici.com/sentence',
+                method: 'get',
+                headers: {
+                    "Cookie": "X-User-Token=8DP8J3/ZLjgyKhasLBO602i+Si43oUIw"
+                }
+            })
+            return apiConfig.success(data.data.data)
+        } catch (e: any) {
             return apiConfig.fail(e.message)
         }
     }

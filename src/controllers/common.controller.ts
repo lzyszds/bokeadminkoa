@@ -22,7 +22,11 @@ class CommonController {
         return CommonService.getGithubInfo();
     }
 
-
+    //诗词内容获取代理接口
+    @Get("/getPoetry")
+    public getPoetry() {
+        return CommonService.getPoetry();
+    }
 
 }
 

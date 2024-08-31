@@ -34,6 +34,7 @@ export default {
         '/common/ipConfig',
         '/common/getGithubInfo',
         '/common/openai',
+        '/common/getPoetry',
         '/system/getSystemConfig',
         '/system/getFooterInfo',
         '/system/getLazyLoadImage',

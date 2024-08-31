@@ -52,8 +52,6 @@
     "@types/multer": "^1.4.11",
     "@types/mysql": "^2.15.25",
     "@types/nodemailer": "^6.4.14",
-    "@types/uuid": "^9.0.8",
-    "rsync": "^latest",
-    "forever": "^latest"
+    "@types/uuid": "^9.0.8"
   }
 }
