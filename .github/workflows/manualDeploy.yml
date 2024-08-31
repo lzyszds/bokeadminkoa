@@ -50,5 +50,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            npm install -g forever
             cd /www/server/nodejs/bokeadminkoa/src
             forever restart app.js

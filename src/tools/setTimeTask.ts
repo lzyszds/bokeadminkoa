@@ -5,8 +5,9 @@ import Config from "../../config";
 import AiMapper from "../mapper/ai.mapper";
 import dayjs from "dayjs";
 import emailTools from './emailTools'
+import axios from 'axios';
 
-const {token1, token2, token3, name} = Config.githubUserConfig
+const { token1, token2, token3, name } = Config.githubUserConfig
 
 const body = {
     "query": `query {
@@ -49,7 +50,7 @@ export default () => {
     */
     schedule.scheduleJob('0 0 0 * * *', addGithubOrAiUc)  //新增 每日github贡献图数据库 和 每日ai摘要key的使用次数记录表
     schedule.scheduleJob('0 0 12 * * *', getGithubInfo)  //获取github数据 用于获取github贡献图 12点获取
-    schedule.scheduleJob('0 0 18 * * *', getGithubInfo)  //获取github数据 用于获取github贡献图 18点获取
+    schedule.scheduleJob('0 05 18 * * *', getGithubInfo)  //获取github数据 用于获取github贡献图 18点获取
     schedule.scheduleJob('0 55 22 * * *', sendEmailWarn)  //发送邮件提醒 用于提醒每日是否有在github上提交代码
 
 }
@@ -58,7 +59,7 @@ const jsonDir = path.resolve(__dirname, '../../public/json');
 //打包路径
 // const jsonDir = path.resolve(__dirname, './public/json');
 if (!fs.existsSync(jsonDir)) {
-    fs.mkdirSync(jsonDir, {recursive: true});
+    fs.mkdirSync(jsonDir, { recursive: true });
 }
 
 //新增 每日github贡献图数据库 和 每日ai摘要key的使用次数记录表
@@ -117,18 +118,21 @@ async function getGithubInfo() {
          */
         const url: string = "https://api.github.com/graphql";
         // 使用提供的token和请求体发送POST请求到GitHub GraphQL API
-        const response = await fetch(url, {
+        const response = await axios({
+            url,
             method: "POST",
             headers: {
                 // 在请求头中加入Authorization信息
                 "Authorization": `bearer ${token1}${token2}${token3}`,
             },
-            body: JSON.stringify(body),
-        }).then(res => res.text()); // 将响应内容转换为文本格式
+            data: JSON.stringify(body),
+            //返回类型
+            responseType: 'text',
+        })  // 将响应内容转换为文本格式
         // 解析出getGithubInfo.json文件的完整路径
         const filePath = path.resolve(jsonDir, 'getGithubInfo.json');
         // 将获取到的数据写入到本地文件中
-        fs.writeFileSync(filePath, response);
+        fs.writeFileSync(filePath, response.data);
 
         console.log('github数据获取成功');
     } catch (e) {
