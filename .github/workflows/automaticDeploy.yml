@@ -40,7 +40,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/"
-          target: "/www/server/nodejs/bokeadminkoa"
+          target: "/www/server/nodejs/bokeadminkoa/"
+          strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
 
       #上传完执行运行forever start app.js
       - name: 启动应用
