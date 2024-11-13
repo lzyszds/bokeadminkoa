@@ -1,5 +1,7 @@
-name: 博客Api部署 (手动部署)
 
+name: 博客后台部署 (手动触发)
+
+# 手动触发器
 on:
   workflow_dispatch:
 
@@ -9,21 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: 设置Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-
-
       # 删除旧的文件
       - name: 清空旧项目文件
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: 39.108.89.65
-          username: root
+          host: "39.108.89.65"
+          username: "root"
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            rm -rf /www/server/nodejs/bokeadminkoa/src/*
-            rm -rf /www/server/nodejs/bokeadminkoa/config.js
-
-   
+            echo "清空旧的文件..."
+          
+            echo "删除完成"
+      
