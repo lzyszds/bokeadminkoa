@@ -17,7 +17,9 @@ jobs:
         with:
           host: "39.108.89.65"
           username: "root"
-          key: " {{ secrets.SERVER_SSH_KEY }}"
+          password: Aa395878870
+          use_insecure_cipher: true
+
           script: |
             echo "清空旧的文件..."
           
