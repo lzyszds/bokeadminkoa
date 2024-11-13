@@ -14,11 +14,6 @@ jobs:
         with:
           bun-version: latest
 
-      - name: 安装依赖
-        run: bun install
-
-      - name: 项目构建打包
-        run: bun run build
 
       # 删除旧的文件
       - name: 清空旧项目文件
@@ -31,25 +26,4 @@ jobs:
             rm -rf /www/server/nodejs/bokeadminkoa/src/*
             rm -rf /www/server/nodejs/bokeadminkoa/config.js
 
-      # 或者如果你只想上传构建后的文件
-      - name: 上传构建后的文件
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "dist/"
-          target: "/www/server/nodejs/bokeadminkoa/"
-          strip_components: 1 #这样在上传时会删除源路径中的第一个目录（即 dist 目录），直接将 dist 目录中的文件上传到目标目录。
-
-      #上传完执行运行forever start app.js
-      - name: 启动应用
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            npm install -g forever
-            cd /www/server/nodejs/bokeadminkoa/src
-            forever restart app.js
+   
